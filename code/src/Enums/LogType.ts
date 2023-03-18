@@ -2,7 +2,7 @@ export enum LogType {
     OnboardingCreate = 'Onboarding Create',
     OnboardingPlacer = 'Onboarding Placer',
     OnboardingDiplomatStart = 'Onboarding Diplomat Start',
-    OnboardingDiplomatFinish = 'Onboarding Diplomat Finish',
+    OnboardingDiplomat = 'Onboarding Diplomat',
     OnboardingObserver = 'Onboarding Observer',
     OnboardingDevelopment = 'Onboarding Development',
     ValidateArt = 'ValidateArt',
@@ -17,6 +17,6 @@ export enum LogType {
     SuggestionVote = 'Suggestion Vote',
     DiplomacyClaim = 'Diplomacy Claim',
     DiplomacyReportStart = 'Diplomacy Report Start',
-    DiplomacyReportFinish = 'Diplomacy Report Finish',
+    DiplomacyReport = 'Diplomacy Report',
     DiplomacyInvite = 'Diplomacy Invite',
 }

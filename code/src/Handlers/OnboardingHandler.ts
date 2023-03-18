@@ -99,8 +99,6 @@ export default class OnboardingHandler {
             LogService.Error(LogType.OnboardingDiplomatStart, messageInfo.user.id);
             return;
         }
-
-        LogService.Log(LogType.OnboardingDiplomatStart, messageInfo.user.id);
     }
 
     public static async OnFinishDiplomacyOnboarding(messageInfo: IMessageInfo) {
@@ -163,10 +161,10 @@ export default class OnboardingHandler {
                 embeds: [DiplomacyEmbeds.GetDispatchEmbed(name, size, description, thread.url)],
                 components: [actionRow]
             });
-            LogService.Log(LogType.OnboardingDiplomatFinish, messageInfo.user.id, 'Thread', thread.id);
+            LogService.Log(LogType.OnboardingDiplomat, messageInfo.user.id, 'Thread', thread.id);
         } catch (error) {
             console.error(error);
-            LogService.Error(LogType.OnboardingDiplomatFinish, messageInfo.user.id);
+            LogService.Error(LogType.OnboardingDiplomat, messageInfo.user.id);
         }
     }
 

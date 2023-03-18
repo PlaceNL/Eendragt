@@ -104,7 +104,6 @@ export default class DiplomacyHandler {
             modal.addComponents(row);
 
             (messageInfo.interaction as ButtonInteraction).showModal(modal);
-            LogService.Log(LogType.DiplomacyReportStart, messageInfo.user.id, 'Thread', messageInfo.channel.id);
         } catch (error) {
             console.error(error);
             LogService.Error(LogType.DiplomacyReportStart, messageInfo.user.id, 'Thread', messageInfo.channel.id);
@@ -123,10 +122,10 @@ export default class DiplomacyHandler {
                 embeds: [DiplomacyEmbeds.GetReportEmbed((<ThreadChannel>messageInfo.channel).name, messageInfo.member.displayName, description, messageInfo.channel.url)]
             });
 
-            LogService.Log(LogType.DiplomacyReportFinish, messageInfo.user.id, 'Thread', messageInfo.channel.id);
+            LogService.Log(LogType.DiplomacyReport, messageInfo.user.id, 'Thread', messageInfo.channel.id);
         } catch (error) {
             console.error(error);
-            LogService.Error(LogType.DiplomacyReportFinish, messageInfo.user.id, 'Thread', messageInfo.channel.id);
+            LogService.Error(LogType.DiplomacyReport, messageInfo.user.id, 'Thread', messageInfo.channel.id);
         }
     }
 }
