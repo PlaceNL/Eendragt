@@ -1,0 +1,9 @@
+node_modules
+lib
+backups
+data
+docs
+images
+logs
+.env
+package-lock.json

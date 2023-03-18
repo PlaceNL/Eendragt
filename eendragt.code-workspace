@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "docs"
+		},
+		{
+			"path": "code"
+		}
+	],
+	"settings": {
+		"search.exclude": {
+			"*lib": true,
+			"node_modules": true,
+			"analytics": true
+		},
+	}
+}
