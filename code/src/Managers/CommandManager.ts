@@ -9,12 +9,14 @@ export default class CommandManager {
         const data = [
             new SlashCommandBuilder()
                 .setName('validate')
+                .setDMPermission(false)
                 .setDescription('Check if your pixel art is valid for the canvas')
                 .addAttachmentOption(option => option
                     .setName('art')
                     .setDescription('Your pixel art')
                     .setRequired(true)),
             new SlashCommandBuilder()
+                .setDMPermission(false)
                 .setName('onboarding')
                 .setDescription('Plaats de onboarding berichten in dit kanaal.')
                 .setDefaultMemberPermissions(adminFlag)
