@@ -130,7 +130,7 @@ export default class OnboardingHandler {
             let formattedTime: string = null;
             const timeParts = time.split(':');
             const hours = parseInt(timeParts[0]);
-            if (hours > 0 && hours < 8) {
+            if (hours >= SettingsConstants.TIME.NIGHT_START && hours < SettingsConstants.TIME.NIGHT_END) {
                 formattedTime = `${timeParts[0]}:${timeParts[1]} AM`;
             }
 

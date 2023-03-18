@@ -7,11 +7,14 @@ import ThreadHandler from '../Handlers/ThreadHandler';
 import ReactionHandler from '../Handlers/ReactionHandler';
 import OnboardingHandler from '../Handlers/OnboardingHandler';
 import DiplomacyHandler from '../Handlers/DiplomacyHandler';
+import NightsWatchManager from './NightsWatchManager';
+import NightsWatchHandler from '../Handlers/NightsWatchHandler';
 
 export default class BotManager {
 
     public static OnReady() {
         console.log('Eendragt: Connected');
+        NightsWatchManager.CreateNightCheckInterval();
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
@@ -48,6 +51,8 @@ export default class BotManager {
         } else if (interaction.customId.startsWith('diplomacy_claim')) {
             const id = interaction.customId.split('_')[2];
             DiplomacyHandler.OnClaim(messageInfo, id);
+        } else if (interaction.customId.startsWith('nightswatch')) {
+            NightsWatchHandler.OnButton(messageInfo);
         }
     }
 

@@ -12,6 +12,7 @@ export default class SettingsConstants {
         DIPLOMACY_DISPATCH_ID: process.env.DIPLOMACY_DISPATCH_CHANNEL_ID || '',
         DIPLOMACY_REPORTS_ID: process.env.DIPLOMACY_REPORTS_CHANNEL_ID || '',
         BOT_SUPPORT_ID: process.env.BOT_SUPPORT_CHANNEL_ID || '',
+        NIGHTS_WATCH_ID: process.env.NIGHTS_WATCH_CHANNEL_ID || '',
     };
 
     public static readonly ROLES = {
@@ -20,6 +21,7 @@ export default class SettingsConstants {
         OBSERVER_ID: process.env.OBSERVER_ROLE_ID || '',
         DEVELOPMENT_ID: process.env.DEVELOPMENT_ROLE_ID || '',
         ARTIST_ID: process.env.ARTIST_ROLE_ID || '',
+        NIGHTS_WATCH_ID: process.env.NIGHTS_WATCH_ROlE_ID || '',
     };
 
     public static readonly EMOJI = {
@@ -42,14 +44,17 @@ export default class SettingsConstants {
     public static readonly SUPPORT_SERVER_INVITE_URL = process.env.SUPPORT_SERVER_INVITE_URL || '';
 
     public static readonly COLORS: { [key: string]: ColorResolvable } = {
+        DEFAULT: '#ffa800',
         BAD: '#ff0000',
         GOOD: '#00ff00',
-        DEFAULT: '#ffa800',
+        NIGHT: '#000032',
     };
 
     public static readonly DEFAULT_PREFIX = '/';
 
     public static readonly BOT_NAME = 'Eendragt';
+
+    public static readonly SUGGESTION_THREAD_BASE_URL = `https://discord.com/channels/${SettingsConstants.SERVER_ID}/`;
 
     public static readonly VALID_COLORS = [
         '#ff4500',
@@ -81,5 +86,8 @@ export default class SettingsConstants {
         SIMILAR: .4,
     };
 
-    public static readonly SUGGESTION_THREAD_BASE_URL = `https://discord.com/channels/${SettingsConstants.SERVER_ID}/`;
+    public static readonly TIME = {
+        NIGHT_START: 1,
+        NIGHT_END: 6
+    };
 }

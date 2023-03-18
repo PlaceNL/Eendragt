@@ -149,6 +149,10 @@ export default class Discord {
     }
 
     private static EventInteractionCreate(interaction: Interaction) {
+        if (!interaction.inCachedGuild()) {
+            return;
+        }
+
         if (interaction.isCommand()) {
             if (this.eventInteractionCommandCallback == null) {
                 return;
