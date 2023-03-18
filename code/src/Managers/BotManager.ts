@@ -1,11 +1,9 @@
 import CommandHandler from '../Handlers/CommandHandler';
 import IMessageInfo from '../Interfaces/IMessageInfo';
-import { Message, ButtonInteraction, ChannelType, ModalSubmitInteraction, ChatInputCommandInteraction, ThreadChannel, MessageReaction, User, SelectMenuInteraction } from 'discord.js';
+import { ButtonInteraction, ModalSubmitInteraction, ChatInputCommandInteraction, ThreadChannel, MessageReaction, User, SelectMenuInteraction } from 'discord.js';
 import DiscordUtils from '../Utils/DiscordUtils';
-import SettingsConstants from '../Constants/SettingsConstants';
 import MessageService from '../Services/MessageService';
-import MessageHandler from '../Handlers/MessageHandler';
-import CommandManager from './CommandManager';
+import ThreadHandler from '../Handlers/ThreadHandler';
 import ReactionHandler from '../Handlers/ReactionHandler';
 import OnboardingHandler from '../Handlers/OnboardingHandler';
 import DiplomacyHandler from '../Handlers/DiplomacyHandler';
@@ -16,36 +14,13 @@ export default class BotManager {
         console.log('Eendragt: Connected');
     }
 
-    public static OnMessageCreate(message: Message) {
-        const messageInfo: IMessageInfo = DiscordUtils.ParseMessageToInfo(message, message.author);
-
-        if (messageInfo.channel.type == ChannelType.DM) {
-            if (messageInfo.user.id == SettingsConstants.MASTER_ID) {
-                if (messageInfo.message.content == '>update-slash-commands') {
-                    CommandManager.UpdateSlashCommands();
-                    MessageService.ReplyMessage(messageInfo, 'Done!');
-                }
-            }
-            return;
-        }
-
-        const content = message.content.trim();
-
-        if (!content.startsWith(SettingsConstants.DEFAULT_PREFIX)) {
-            MessageHandler.OnMessage(messageInfo);
-            return;
-        }
-
-        CommandHandler.OnCommand(messageInfo, content);
-    }
-
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
     public static OnReactionAdd(reaction: MessageReaction, user: User) {
         ReactionHandler.OnReaction(reaction);
     }
 
     public static OnThreadCreate(thread: ThreadChannel) {
-        MessageHandler.OnThread(thread);
+        ThreadHandler.OnThread(thread);
     }
 
     public static async OnInteractionCommand(interaction: ChatInputCommandInteraction) {
