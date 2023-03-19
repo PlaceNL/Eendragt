@@ -89,7 +89,7 @@ export default class ArtHandler {
             ctx.drawImage(imageObject, x, y);
 
             interaction.followUp({
-                content: 'Alsjeblieft :)',
+                content: `Alsjeblieft :)\n\`x=${x}, y=${y}\``,
                 files: [{ attachment: canvas.toBuffer(), name: `template_${image.name}`}]
             });
 
