@@ -5,4 +5,6 @@ export enum VariableKey {
     Identical = 'identical',
     Similar = 'similar',
     ValidColors = 'valid_colors',
+    CanvasWidth = 'canvas_width',
+    CanvasHeight = 'canvas_height',
 }

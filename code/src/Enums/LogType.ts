@@ -30,4 +30,5 @@ export enum LogType {
     NominationDelay = 'Nomation Delay',
     NominationVoteStart = 'Nomation Vote Start',
     NominationVote = 'Nomation Vote',
+    TemplateCreate = 'Template Create',
 }

@@ -26,7 +26,15 @@ export default class VariableConstants {
         },
         valid_colors: {
             type: 'array',
-            default: SettingsConstants.VALID_COLORS
+            default: SettingsConstants.CANVAS.VALID_COLORS
+        },
+        canvas_width: {
+            type: 'number',
+            default: SettingsConstants.CANVAS.WIDTH
+        },
+        canvas_height: {
+            type: 'number',
+            default: SettingsConstants.CANVAS.HEIGHT
         },
     };
 }

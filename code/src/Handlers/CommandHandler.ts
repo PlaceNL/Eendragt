@@ -6,6 +6,7 @@ import OnboardingHandler from './OnboardingHandler';
 import ArtHandler from './ArtHandler';
 import VariableHandler from './VariableHandler';
 import NominationHandler from './NominationHandler';
+import TemplateHandler from './TemplateHandler';
 
 export default class CommandHandler {
 
@@ -33,6 +34,10 @@ export default class CommandHandler {
         }
 
         if (NominationHandler.OnCommand(messageInfo)) {
+            return;
+        }
+
+        if (TemplateHandler.OnCommand(messageInfo)) {
             return;
         }
     }
