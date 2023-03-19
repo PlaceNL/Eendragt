@@ -11,7 +11,10 @@ export default class LogService {
     public static async Log(logType: LogType, userId?: string, idName?: string, id?: string) {
         await this.LoadLogChannel();
 
-        await this.logChannel.send(this.GetString(logType, userId, idName, id));
+        await this.logChannel.send({
+            content: this.GetString(logType, userId, idName, id),
+            allowedMentions: { users: []}
+        });
     }
 
     public static async Error(logType: LogType, userId?: string, idName?: string, id?: string) {
@@ -32,7 +35,7 @@ export default class LogService {
         const date = Utils.GetNowString();
         let str = `${date} - ${logType}`;
         if (userId != null) {
-            str += ` | User: ${userId}`;
+            str += ` | User: ${userId} (<@${userId}>)`;
         }
 
         if (idName != null && id != null) {
