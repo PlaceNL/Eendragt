@@ -13,6 +13,7 @@ import LogService from '../Services/LogService';
 import { LogType } from '../Enums/LogType';
 import VariableManager from '../Managers/VariableManager';
 import { VariableKey } from '../Enums/VariableKey';
+const { createCanvas, loadImage } = require('canvas');
 
 const fetch = require('cross-fetch');
 
@@ -24,6 +25,9 @@ export default class ArtHandler {
         switch (messageInfo.commandInfo.command) {
             case commands.VALIDATE:
                 this.OnValidate(messageInfo);
+                break;
+            case commands.TEMPLATE:
+                this.OnTemplate(messageInfo);
                 break;
             default: return false;
         }
@@ -59,6 +63,40 @@ export default class ArtHandler {
         } catch (error) {
             console.error(error);
             LogService.Error(LogType.ValidateArt, messageInfo.member.id, 'Channel', messageInfo.channel.id);
+        }
+    }
+
+    private static async OnTemplate(messageInfo: IMessageInfo) {
+        try {
+            const interaction = messageInfo.interaction as ChatInputCommandInteraction;
+            const image = interaction.options.get('image')?.attachment;
+            const x = interaction.options.getNumber('x');
+            const y = interaction.options.getNumber('y');
+
+            const resultInfo = await this.IsLegitArt(image);
+            if (!resultInfo.result) {
+                MessageService.ReplyEmbed(messageInfo, ArtEmbeds.GetInvalidArtEmbed(resultInfo.reason), null, null, null, true);
+                LogService.Log(LogType.ValidateArtBad, messageInfo.member.id, 'Channel', messageInfo.channel.id);
+                return;
+            }
+
+            await interaction.deferReply();
+
+            const imageObject = await loadImage(image.url);
+
+            const canvas = createCanvas(VariableManager.Get(VariableKey.CanvasWidth), VariableManager.Get(VariableKey.CanvasHeight));
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(imageObject, x, y);
+
+            interaction.followUp({
+                content: 'Alsjeblieft :)',
+                files: [{ attachment: canvas.toBuffer(), name: `template_${image.name}`}]
+            });
+
+            LogService.Log(LogType.TemplateCreate, messageInfo.member.id, 'Channel', messageInfo.channel.id);
+        } catch (error) {
+            console.error(error);
+            LogService.Error(LogType.TemplateCreate, messageInfo.member.id, 'Channel', messageInfo.channel.id);
         }
     }
 
