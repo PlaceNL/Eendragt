@@ -14,11 +14,13 @@ import TagConstants from '../Constants/TagConstants';
 import ArtEmbeds from '../Embeds/ArtEmbeds';
 import LogService from '../Services/LogService';
 import { LogType } from '../Enums/LogType';
+import VariableManager from '../Managers/VariableManager';
+import { VariableKey } from '../Enums/VariableKey';
 const stringSimilarity = require('string-similarity');
 
 export default class SuggestionHandler {
 
-    private static readonly threadsKey: string = `${RedisConstants.REDIS_KEY}${RedisConstants.SUGGESTION_KEY}${RedisConstants.THREADS_KEY}`;
+    private static readonly threadsKey: string = `${RedisConstants.KEYS.PLACENL}${RedisConstants.KEYS.SUGGESTION}${RedisConstants.KEYS.THREADS}`;
 
     public static OnReaction(reaction: MessageReaction, channel: Channel) {
         if (reaction.emoji.name == EmojiConstants.STATUS.GOOD || reaction.emoji.name == EmojiConstants.STATUS.BAD) {
@@ -155,8 +157,8 @@ export default class SuggestionHandler {
             const badReactionCount = goodReaction.count;
             const ratio = goodReactionCount / (goodReactionCount + badReactionCount);
 
-            if (goodReaction.count >= SettingsConstants.SUGGESTION_APPRECIATION_CRITERIA.GOOD_AMOUNT) {
-                if (ratio > SettingsConstants.SUGGESTION_APPRECIATION_CRITERIA.RATIO) {
+            if (goodReaction.count >= VariableManager.Get(VariableKey.GoodAmount)) {
+                if (ratio > VariableManager.Get(VariableKey.Ratio)) {
                     appliedTags.push(SettingsConstants.TAGS.APPRECIATED_ID);
                     await channel.setAppliedTags(appliedTags);
                     const messageInfo: IMessageInfo = {
@@ -169,8 +171,8 @@ export default class SuggestionHandler {
                 }
             }
 
-            if (badReaction.count >= SettingsConstants.SUGGESTION_APPRECIATION_CRITERIA.BAD_AMOUNT) {
-                if (ratio < (1 - SettingsConstants.SUGGESTION_APPRECIATION_CRITERIA.RATIO)) {
+            if (badReaction.count >= VariableManager.Get(VariableKey.BadAmount)) {
+                if (ratio < (1 - VariableManager.Get(VariableKey.Ratio))) {
                     appliedTags.push(SettingsConstants.TAGS.DISLIKED_ID);
                     await channel.setAppliedTags(appliedTags);
                     const messageInfo: IMessageInfo = {
@@ -280,14 +282,14 @@ export default class SuggestionHandler {
         const titles = Object.values(threads);
 
         const similarities = stringSimilarity.findBestMatch(thread.name, titles);
-        if (similarities.bestMatch.rating < SettingsConstants.SUGGESTION_SIMILARITY_CRITERIA.SIMILAR) {
+        if (similarities.bestMatch.rating < VariableManager.Get(VariableKey.Similar)) {
             return resultInfo;
         }
 
         resultInfo.result = true;
         resultInfo.data = {};
 
-        if (!ignoreDuplicate && similarities.bestMatch.rating >= SettingsConstants.SUGGESTION_SIMILARITY_CRITERIA.IDENTICAL) {
+        if (!ignoreDuplicate && similarities.bestMatch.rating >= VariableManager.Get(VariableKey.Identical)) {
             resultInfo.data.identical = true;
             for (const [key, value] of Object.entries(threads)) {
                 if (value == similarities.bestMatch.target) {
@@ -304,7 +306,7 @@ export default class SuggestionHandler {
         const list = [];
 
         for (const rating of similarities.ratings) {
-            if (rating.rating >= SettingsConstants.SUGGESTION_SIMILARITY_CRITERIA.SIMILAR) {
+            if (rating.rating >= VariableManager.Get(VariableKey.Similar)) {
                 for (const [key, value] of Object.entries(threads)) {
                     if (value == rating.target) {
                         list.push({

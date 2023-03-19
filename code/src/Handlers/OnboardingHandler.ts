@@ -15,7 +15,7 @@ export default class OnboardingHandler {
     public static OnCommand(messageInfo: IMessageInfo) {
         const commands = CommandConstants.COMMANDS;
 
-        switch (messageInfo.commandInfo.commands) {
+        switch (messageInfo.commandInfo.command) {
             case commands.ONBOARDING:
                 this.OnOnboarding(messageInfo);
                 break;

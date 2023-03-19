@@ -29,7 +29,6 @@ export default class CommandUtils {
 
         const info: ICommandInfo = {
             command: command,
-            commands: [],
             args: words,
             content: content,
         };
@@ -40,7 +39,6 @@ export default class CommandUtils {
     public static ParseInteractionToCommand(interaction: ChatInputCommandInteraction) {
         const info: ICommandInfo = {
             command: interaction.commandName,
-            commands: [],
             args: [],
             options: interaction.options,
             content: '',

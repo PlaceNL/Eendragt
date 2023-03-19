@@ -1,10 +1,10 @@
 import IMessageInfo from '../Interfaces/IMessageInfo';
 import SettingsConstants from '../Constants/SettingsConstants';
-import CommandConstants from '../Constants/CommandConstants';
 import CommandUtils from '../Utils/CommandUtils';
 import { ChatInputCommandInteraction } from 'discord.js';
 import OnboardingHandler from './OnboardingHandler';
 import ArtHandler from './ArtHandler';
+import VariableHandler from './VariableHandler';
 
 export default class CommandHandler {
 
@@ -19,34 +19,16 @@ export default class CommandHandler {
 
         messageInfo.commandInfo = commandInfo;
 
-        const command = this.GetCommand(commandInfo.command);
-
-        if (command == null) {
-            return;
-        }
-
-        commandInfo.command = command[0];
-        commandInfo.commands = command;
-
         if (OnboardingHandler.OnCommand(messageInfo)) {
             return;
-        } else if (ArtHandler.OnCommand(messageInfo)) {
+        }
+
+        if (ArtHandler.OnCommand(messageInfo)) {
             return;
         }
-    }
 
-    public static GetCommand(command: string) {
-        const commandConstants = <{ [key: string]: any }>CommandConstants;
-
-        for (const commandConstantKey in commandConstants) {
-            const commandGroup = <{ [key: string]: Array<string> }>commandConstants[commandConstantKey];
-            for (const commandGroupKey in commandGroup) {
-                if (commandGroup[commandGroupKey].includes(command)) {
-                    return commandGroup[commandGroupKey];
-                }
-            }
+        if (VariableHandler.OnCommand(messageInfo)) {
+            return;
         }
-
-        return null;
     }
 }

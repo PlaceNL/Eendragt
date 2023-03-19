@@ -11,6 +11,8 @@ import SuggestionHandler from './SuggestionHandler';
 import DiplomacyHandler from './DiplomacyHandler';
 import LogService from '../Services/LogService';
 import { LogType } from '../Enums/LogType';
+import VariableManager from '../Managers/VariableManager';
+import { VariableKey } from '../Enums/VariableKey';
 
 const fetch = require('cross-fetch');
 
@@ -19,7 +21,7 @@ export default class ArtHandler {
     public static OnCommand(messageInfo: IMessageInfo) {
         const commands = CommandConstants.COMMANDS;
 
-        switch (messageInfo.commandInfo.commands) {
+        switch (messageInfo.commandInfo.command) {
             case commands.VALIDATE:
                 this.OnValidate(messageInfo);
                 break;
@@ -89,7 +91,7 @@ export default class ArtHandler {
 
                 const hex = Utils.RGBAToHex(r, g,b);
 
-                if (!SettingsConstants.VALID_COLORS.includes(hex)) {
+                if (!VariableManager.Get(VariableKey.ValidColors).includes(hex)) {
                     resultInfo.reason = english
                         ? `The color ${hex} at position (${x}, ${y}) is not allowed.`
                         : `De kleur ${hex} op positie (${x}, ${y}) is niet toegestaan.`;

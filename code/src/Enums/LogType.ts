@@ -1,4 +1,6 @@
 export enum LogType {
+    CommandsUpdate = 'Commands Update',
+    VariableUpdate = 'Variable Update',
     OnboardingCreate = 'Onboarding Create',
     OnboardingPlacer = 'Onboarding Placer',
     OnboardingDiplomatStart = 'Onboarding Diplomat Start',

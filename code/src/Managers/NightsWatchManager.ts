@@ -8,7 +8,7 @@ import { Utils } from '../Utils/Utils';
 
 export default class NightsWatchManager {
 
-    private static readonly nightsWatchKey: string = `${RedisConstants.REDIS_KEY}${RedisConstants.NIGHTS_WATCH_KEY}`;
+    private static readonly nightsWatchKey: string = `${RedisConstants.KEYS.PLACENL}${RedisConstants.KEYS.NIGHTS_WATCH}`;
 
     public static CreateNightCheckInterval() {
         setInterval(() => {

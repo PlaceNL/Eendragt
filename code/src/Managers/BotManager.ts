@@ -9,11 +9,17 @@ import OnboardingHandler from '../Handlers/OnboardingHandler';
 import DiplomacyHandler from '../Handlers/DiplomacyHandler';
 import NightsWatchManager from './NightsWatchManager';
 import NightsWatchHandler from '../Handlers/NightsWatchHandler';
+import VariableManager from './VariableManager';
+import CommandManager from './CommandManager';
+import LogService from '../Services/LogService';
+import { LogType } from '../Enums/LogType';
 
 export default class BotManager {
 
-    public static OnReady() {
+    public static async OnReady() {
         console.log('Eendragt: Connected');
+        await VariableManager.InitializeVariables();
+        CommandManager.UpdateSlashCommands();
         NightsWatchManager.CreateNightCheckInterval();
     }
 
@@ -28,6 +34,17 @@ export default class BotManager {
 
     public static async OnInteractionCommand(interaction: ChatInputCommandInteraction) {
         const messageInfo: IMessageInfo = await DiscordUtils.ParseInteractionToInfo(interaction);
+
+        if (interaction.commandName == 'update') {
+            CommandManager.UpdateSlashCommands();
+            interaction.reply({
+                content: 'Done!',
+                ephemeral: true
+            });
+
+            LogService.Log(LogType.CommandsUpdate, messageInfo.user.id);
+            return;
+        }
 
         if (messageInfo.channel == null) {
             MessageService.ReplyMessage(messageInfo, 'Oeps, dat ging fout.');

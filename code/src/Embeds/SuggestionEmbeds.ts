@@ -20,8 +20,8 @@ Een hoog aantal stemmen, met een goede upvote/downvote ratio.
 **${TagConstants.TAGS.ART}**
 Valide pixelart van \`PNG\` formaat met alleen de juiste kleuren, 1:1 scaling, en een transparante achtergrond.
 
-${lookingForArtist ? `De artist die je suggestie tekent moet het commando ${CommandService.GetCommandString(CommandConstants.COMMANDS.VALIDATE[0])} gebruiken om hun art te valideren en de ${TagConstants.TAGS.ART} tag aan deze post te geven.`
-        : `Gebruik het commando ${CommandService.GetCommandString(CommandConstants.COMMANDS.VALIDATE[0])} om je art te valideren en de ${TagConstants.TAGS.ART} tag te ontvangen.
+${lookingForArtist ? `De artist die je suggestie tekent moet het commando ${CommandService.GetCommandString(CommandConstants.COMMANDS.VALIDATE)} gebruiken om hun art te valideren en de ${TagConstants.TAGS.ART} tag aan deze post te geven.`
+        : `Gebruik het commando ${CommandService.GetCommandString(CommandConstants.COMMANDS.VALIDATE)} om je art te valideren en de ${TagConstants.TAGS.ART} tag te ontvangen.
 
 Heb je zelf geen art? Geef je post dan de ${TagConstants.TAGS.ARTIST} tag om een pixel-artist te vinden die je kan helpen.`}
 

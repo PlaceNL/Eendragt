@@ -13,7 +13,7 @@ export default class DiplomacyEmbeds {
 
 Note that it's currently ${time} in the Netherlands, and therefore it might take a while before one of our diplomats are available to help you.`}
 
-In the mean time, you can use this thread to further describe what you would like to discuss, and provide images if necessary. If you have pixel art, please validate it using the command ${CommandService.GetCommandString(CommandConstants.COMMANDS.VALIDATE[0])}.
+In the mean time, you can use this thread to further describe what you would like to discuss, and provide images if necessary. If you have pixel art, please validate it using the command ${CommandService.GetCommandString(CommandConstants.COMMANDS.VALIDATE)}.
 
 You can use the dropdown below to add up to two people from your community to this thread. __Do not abuse this__ by adding people who are not part of your community, as it can result in a ban. You can do this __one time only__, so make sure you add both at once (if needed).
 

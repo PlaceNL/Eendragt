@@ -1,6 +1,8 @@
 export default class CommandConstants {
     public static readonly COMMANDS = {
-        VALIDATE: ['validate'],
-        ONBOARDING: ['onboarding'],
+        UDPATE: 'update',
+        VALIDATE: 'validate',
+        ONBOARDING: 'onboarding',
+        VARIABLE: 'variable',
     };
 }

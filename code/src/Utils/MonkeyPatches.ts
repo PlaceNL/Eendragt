@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-unused-vars */
 interface Function {
@@ -5,26 +6,18 @@ interface Function {
 }
 
 interface String {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     toTitleCase(keep?: boolean): string;
-    // eslint-disable-next-line @typescript-eslint/naming-convention
+    toCamelCase(): string;
     replaceAll(search: string, replacement: string): string;
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     isFilled(): boolean;
 }
 
 interface Array<T> {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     randomChoice(): T;
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     shuffle(): T;
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     equals(array: Array<T>): boolean;
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     filter(test: Array<T>): boolean;
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     asyncFilter(filterFn: any): Promise<Array<T>>
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     asyncFind(filterFn: any): Promise<T>
 }
 
@@ -33,6 +26,10 @@ String.prototype.toTitleCase = function (keep?: boolean) {
         return this.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase(); });
     }
     return this.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
+};
+
+String.prototype.toCamelCase = function () {
+    return this.replace(/(_\w)/g, (m: string) => m[1].toUpperCase());
 };
 
 String.prototype.replaceAll = function (search: string, replacement: string) {
