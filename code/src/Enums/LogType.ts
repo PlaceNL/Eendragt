@@ -21,4 +21,5 @@ export enum LogType {
     DiplomacyReportStart = 'Diplomacy Report Start',
     DiplomacyReport = 'Diplomacy Report',
     DiplomacyInvite = 'Diplomacy Invite',
+    NightsWatchRole = 'NightsWatch Role',
 }
