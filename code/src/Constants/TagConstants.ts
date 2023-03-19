@@ -1,7 +1,7 @@
 export default class TagConstants {
 
     public static readonly TAGS = {
-        APPRECIATED: '💖 Hoog gewaardeerd',
+        APPRECIATED: '💖 Hoge waardering',
         ART: '🖼️ Valide art',
         ARTIST: '🧑‍🎨 Artist gezocht',
         DENIED: '❌ Afgekeurd',

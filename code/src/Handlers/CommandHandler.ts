@@ -5,6 +5,7 @@ import { ChatInputCommandInteraction } from 'discord.js';
 import OnboardingHandler from './OnboardingHandler';
 import ArtHandler from './ArtHandler';
 import VariableHandler from './VariableHandler';
+import NominationHandler from './NominationHandler';
 
 export default class CommandHandler {
 
@@ -28,6 +29,10 @@ export default class CommandHandler {
         }
 
         if (VariableHandler.OnCommand(messageInfo)) {
+            return;
+        }
+
+        if (NominationHandler.OnCommand(messageInfo)) {
             return;
         }
     }

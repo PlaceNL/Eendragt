@@ -8,6 +8,7 @@ export default class SettingsConstants {
     public static readonly CHANNELS = {
         LOG_ID: process.env.LOG_CHANNEL_ID || '',
         SUGGESTIONS_ID: process.env.SUGGESTIONS_CHANNEL_ID || '',
+        NOMINATION_ID: process.env.NOMINATION_CHANNEL_ID || '',
         DIPLOMACY_THREADS_ID: process.env.DIPLOMACY_THREADS_CHANNEL_ID || '',
         DIPLOMACY_DISPATCH_ID: process.env.DIPLOMACY_DISPATCH_CHANNEL_ID || '',
         DIPLOMACY_REPORTS_ID: process.env.DIPLOMACY_REPORTS_CHANNEL_ID || '',
@@ -30,6 +31,7 @@ export default class SettingsConstants {
     };
 
     public static readonly TAGS = {
+        NOMINATED_ID: process.env.NOMINATED_TAG_ID || '',
         VALID_ART_ID: process.env.VALID_ART_TAG_ID || '',
         ARTIST_SEARCH_ID: process.env.ARTIST_SEARCH_TAG_ID || '',
         APPRECIATED_ID: process.env.APPRECIATED_TAG_ID || '',
@@ -47,6 +49,8 @@ export default class SettingsConstants {
         DEFAULT: '#ffa800',
         BAD: '#ff0000',
         GOOD: '#00ff00',
+        BLUE: '#85c0ea',
+        GRAY: '#91a1ac',
         NIGHT: '#000032',
     };
 

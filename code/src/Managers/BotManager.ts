@@ -2,7 +2,6 @@ import CommandHandler from '../Handlers/CommandHandler';
 import IMessageInfo from '../Interfaces/IMessageInfo';
 import { ButtonInteraction, ModalSubmitInteraction, ChatInputCommandInteraction, ThreadChannel, MessageReaction, User, SelectMenuInteraction } from 'discord.js';
 import DiscordUtils from '../Utils/DiscordUtils';
-import MessageService from '../Services/MessageService';
 import ThreadHandler from '../Handlers/ThreadHandler';
 import ReactionHandler from '../Handlers/ReactionHandler';
 import OnboardingHandler from '../Handlers/OnboardingHandler';
@@ -13,6 +12,8 @@ import VariableManager from './VariableManager';
 import CommandManager from './CommandManager';
 import LogService from '../Services/LogService';
 import { LogType } from '../Enums/LogType';
+import NominationHandler from '../Handlers/NominationHandler';
+import { NominationAction } from '../Enums/NominationAction';
 
 export default class BotManager {
 
@@ -31,7 +32,7 @@ export default class BotManager {
         ThreadHandler.OnThread(thread);
     }
 
-    public static async OnInteractionCommand(interaction: ChatInputCommandInteraction) {
+    public static async OnInteractionSlashCommand(interaction: ChatInputCommandInteraction) {
         const messageInfo: IMessageInfo = await DiscordUtils.ParseInteractionToInfo(interaction);
 
         if (interaction.commandName == 'update') {
@@ -45,10 +46,6 @@ export default class BotManager {
             return;
         }
 
-        if (messageInfo.channel == null) {
-            MessageService.ReplyMessage(messageInfo, 'Oeps, dat ging fout.');
-            return;
-        }
         CommandHandler.OnCommand(messageInfo, '');
     }
 
@@ -78,6 +75,9 @@ export default class BotManager {
             OnboardingHandler.OnFinishDiplomacyOnboarding(messageInfo);
         } else if (interaction.customId == 'diplomacy_report') {
             DiplomacyHandler.OnFinishReport(messageInfo);
+        } else if (interaction.customId.startsWith('nomination')) {
+            const parts = interaction.customId.split('_');
+            NominationHandler.OnModal(messageInfo, parts[1] as NominationAction, parts[2]);
         }
     }
 
@@ -86,5 +86,10 @@ export default class BotManager {
         if (interaction.customId == 'diplomacy_invite') {
             DiplomacyHandler.OnInvite(messageInfo);
         }
+    }
+
+    public static async OnInteractionContextMenuCommand(interaction: SelectMenuInteraction) {
+        const messageInfo: IMessageInfo = await DiscordUtils.ParseInteractionToInfo(interaction);
+        CommandHandler.OnCommand(messageInfo, '');
     }
 }

@@ -11,10 +11,11 @@ export default class Discord {
     public static eventThreadCreateCallback: Function;
     public static eventMessageCreateCallback: Function;
     public static eventReactionAddCallback: Function;
-    public static eventInteractionCommandCallback: Function;
+    public static eventInteractionSlashCommandCallback: Function;
     public static eventInteractionButtonCallback: Function;
     public static eventInteractionModalCallback: Function;
     public static eventInteractionSelectMenuCallback: Function;
+    public static eventInteractionContextMenuCommandCallback: Function;
 
     public static SetEventReadyCallback(callback: Function) {
         this.eventReadyCallback = callback;
@@ -40,8 +41,8 @@ export default class Discord {
         this.eventReactionAddCallback = callback;
     }
 
-    public static SetEventInteractionCommandCallback(callback: Function) {
-        this.eventInteractionCommandCallback = callback;
+    public static SetEventInteractionSlashCommandCallback(callback: Function) {
+        this.eventInteractionSlashCommandCallback = callback;
     }
 
     public static SetEventInteractionButtonCallback(callback: Function) {
@@ -54,6 +55,10 @@ export default class Discord {
 
     public static SetEventInteractionSelectMenuCallback(callback: Function) {
         this.eventInteractionSelectMenuCallback = callback;
+    }
+
+    public static SetEventInteractionContextMenuCommandCallback(callback: Function) {
+        this.eventInteractionContextMenuCommandCallback = callback;
     }
 
     public static async Init() {
@@ -154,11 +159,11 @@ export default class Discord {
         }
 
         if (interaction.isCommand()) {
-            if (this.eventInteractionCommandCallback == null) {
+            if (this.eventInteractionSlashCommandCallback == null) {
                 return;
             }
 
-            this.eventInteractionCommandCallback(interaction);
+            this.eventInteractionSlashCommandCallback(interaction);
         } else if (interaction.isButton()) {
             if (this.eventInteractionButtonCallback == null) {
                 return;
@@ -172,6 +177,12 @@ export default class Discord {
 
             this.eventInteractionModalCallback(interaction);
         } else if (interaction.isAnySelectMenu()) {
+            if (this.eventInteractionSelectMenuCallback== null) {
+                return;
+            }
+
+            this.eventInteractionSelectMenuCallback(interaction);
+        } else if (interaction.isContextMenuCommand()) {
             if (this.eventInteractionSelectMenuCallback== null) {
                 return;
             }

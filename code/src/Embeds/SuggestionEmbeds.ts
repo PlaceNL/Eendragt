@@ -20,8 +20,8 @@ Een hoog aantal stemmen, met een goede upvote/downvote ratio.
 **${TagConstants.TAGS.ART}**
 Valide pixelart van \`PNG\` formaat met alleen de juiste kleuren, 1:1 scaling, en een transparante achtergrond.
 
-${lookingForArtist ? `De artist die je suggestie tekent moet het commando ${CommandService.GetCommandString(CommandConstants.COMMANDS.VALIDATE)} gebruiken om hun art te valideren en de ${TagConstants.TAGS.ART} tag aan deze post te geven.`
-        : `Gebruik het commando ${CommandService.GetCommandString(CommandConstants.COMMANDS.VALIDATE)} om je art te valideren en de ${TagConstants.TAGS.ART} tag te ontvangen.
+${lookingForArtist ? `De artist die je suggestie tekent moet het commando ${CommandService.GetCommandString(CommandConstants.SLASH.VALIDATE)} gebruiken om hun art te valideren en de ${TagConstants.TAGS.ART} tag aan deze post te geven.`
+        : `Gebruik het commando ${CommandService.GetCommandString(CommandConstants.SLASH.VALIDATE)} om je art te valideren en de ${TagConstants.TAGS.ART} tag te ontvangen.
 
 Heb je zelf geen art? Geef je post dan de ${TagConstants.TAGS.ARTIST} tag om een pixel-artist te vinden die je kan helpen.`}
 
@@ -54,7 +54,7 @@ Deze post wordt om die reden gesloten. Neem contact op met een moderator als dit
         const embed = new EmbedBuilder()
             .setColor(SettingsConstants.COLORS.GOOD)
             .setTitle(TagConstants.TAGS.APPRECIATED);
-        embed.setDescription(`Deze suggestie heeft veel ${EmojiConstants.STATUS.GOOD} stemmen ontvangen, en is nu een stap dichterbij om naar de officiële stemmingen te gaan.`);
+        embed.setDescription(`Deze suggestie heeft veel ${EmojiConstants.STATUS.GOOD} stemmen ontvangen, maar heeft nog valide art nodig om genomineerd te worden.`);
 
         return embed;
     }
@@ -77,6 +77,17 @@ Deze post wordt om die reden gesloten. Neem contact op met een moderator als dit
         if (first) {
             embed.setDescription(`Deze post heeft nu de ${TagConstants.TAGS.ART} tag gekregen.`);
         }
+
+        return embed;
+    }
+
+    public static GetNominatedEmbed(url: string, art: boolean) {
+        const embed = new EmbedBuilder()
+            .setColor(SettingsConstants.COLORS.GOOD)
+            .setTitle('Genomineerd!')
+            .setDescription(`Deze suggestie is naar de <#${SettingsConstants.CHANNELS.NOMINATION_ID}> gestuurd. Deze wordt zo snel mogelijk afgehandeld.
+        ${art ? '\nTot die tijd kan je nog steeds nieuwe art uploaden. Als er meerdere art is geupload, maar er is nog geen duidelijke favoriete versie, dan zal een moderator een keuze maken.' : ''}
+\n[Link naar de nominatie](${url})`);
 
         return embed;
     }

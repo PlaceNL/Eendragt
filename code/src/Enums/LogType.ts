@@ -22,4 +22,12 @@ export enum LogType {
     DiplomacyReport = 'Diplomacy Report',
     DiplomacyInvite = 'Diplomacy Invite',
     NightsWatchRole = 'NightsWatch Role',
+    NominationApproveStart = 'Nomation Approve Start',
+    NominationApprove = 'Nomation Approve',
+    NominationDeclineStart = 'Nomation Decline Start',
+    NominationDecline = 'Nomation Decline',
+    NominationDelayStart = 'Nomation Delay Start',
+    NominationDelay = 'Nomation Delay',
+    NominationVoteStart = 'Nomation Vote Start',
+    NominationVote = 'Nomation Vote',
 }

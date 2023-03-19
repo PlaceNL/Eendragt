@@ -13,7 +13,7 @@ import { Utils } from '../Utils/Utils';
 export default class OnboardingHandler {
 
     public static OnCommand(messageInfo: IMessageInfo) {
-        const commands = CommandConstants.COMMANDS;
+        const commands = CommandConstants.SLASH;
 
         switch (messageInfo.commandInfo.command) {
             case commands.ONBOARDING:

@@ -9,7 +9,7 @@ import LogService from '../Services/LogService';
 export default class VariableHandler {
 
     public static OnCommand(messageInfo: IMessageInfo) {
-        const commands = CommandConstants.COMMANDS;
+        const commands = CommandConstants.SLASH;
 
         switch (messageInfo.commandInfo.command) {
             case commands.VARIABLE:

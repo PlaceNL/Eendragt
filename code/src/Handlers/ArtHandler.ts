@@ -19,7 +19,7 @@ const fetch = require('cross-fetch');
 export default class ArtHandler {
 
     public static OnCommand(messageInfo: IMessageInfo) {
-        const commands = CommandConstants.COMMANDS;
+        const commands = CommandConstants.SLASH;
 
         switch (messageInfo.commandInfo.command) {
             case commands.VALIDATE:

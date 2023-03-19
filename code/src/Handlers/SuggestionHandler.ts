@@ -1,4 +1,4 @@
-import { Attachment, Channel, ChannelType, GuildMember, Message, MessageReaction, ThreadChannel } from 'discord.js';
+import { Attachment, Channel, ChannelType, GuildMember, Message, MessageReaction, PublicThreadChannel, ThreadChannel } from 'discord.js';
 import SettingsConstants from '../Constants/SettingsConstants';
 import IMessageInfo from '../Interfaces/IMessageInfo';
 import DiscordService from '../Services/DiscordService';
@@ -16,6 +16,7 @@ import LogService from '../Services/LogService';
 import { LogType } from '../Enums/LogType';
 import VariableManager from '../Managers/VariableManager';
 import { VariableKey } from '../Enums/VariableKey';
+import NominationManager from '../Managers/NominationManager';
 const stringSimilarity = require('string-similarity');
 
 export default class SuggestionHandler {
@@ -37,11 +38,7 @@ export default class SuggestionHandler {
 
             if (tags.data == null) {
                 MessageService.ReplyMessage(DiscordUtils.ParseMessageToInfo(message, message.author),
-                    `Zorg dat je exact één van de volgende tags toevoegt aan je post:
-    ${TagConstants.TAGS.NEW_ART}
-    ${TagConstants.TAGS.UPGRADE_ART}
-    ${TagConstants.TAGS.LAYOUT}
-    ${TagConstants.TAGS.OTHER}`);
+                    tags.reason);
 
                 thread.setLocked(true);
                 LogService.Log(LogType.SuggestionNoTags, message.author.id, 'Thread', thread.id);
@@ -119,9 +116,15 @@ export default class SuggestionHandler {
 
                 const message = await MessageService.ReplyEmbed(messageInfo, SuggestionEmbeds.GetValidArtEmbed(first, attachment.url));
                 message.pin();
+                LogService.Log(LogType.ValidateArtGood, messageInfo.user.id, 'Thread', messageInfo.interaction.channelId);
+
+                if (this.CanBeNominated(appliedTags)) {
+                    await Utils.Sleep(1);
+                    this.Nominate(appliedTags, messageInfo.interaction.channel);
+                }
             }
 
-            LogService.Log(LogType.ValidateArtGood, messageInfo.user.id, 'Thread', messageInfo.interaction.channelId);
+            LogService.Log(LogType.ValidateArtGood, messageInfo.user.id, 'Channel', messageInfo.interaction.channelId);
         } catch (error) {
             console.error(error);
             LogService.Error(LogType.ValidateArt, messageInfo.user.id, 'Thread', messageInfo.interaction.channelId);
@@ -160,14 +163,20 @@ export default class SuggestionHandler {
             if (goodReaction.count >= VariableManager.Get(VariableKey.GoodAmount)) {
                 if (ratio > VariableManager.Get(VariableKey.Ratio)) {
                     appliedTags.push(SettingsConstants.TAGS.APPRECIATED_ID);
-                    await channel.setAppliedTags(appliedTags);
-                    const messageInfo: IMessageInfo = {
-                        channel: channel,
-                        user: reaction.message.author,
-                    };
 
-                    MessageService.ReplyEmbed(messageInfo, SuggestionEmbeds.GetAppreciatedTagEmbed());
-                    LogService.Log(LogType.SuggestionAppreciated, reaction.message.author.id, 'Thread', channel.id);
+                    if (this.CanBeNominated(appliedTags)) {
+                        this.Nominate(appliedTags, channel);
+                    } else {
+                        const messageInfo: IMessageInfo = {
+                            channel: channel,
+                            user: reaction.message.author,
+                        };
+
+                        await channel.setAppliedTags(appliedTags);
+
+                        MessageService.ReplyEmbed(messageInfo, SuggestionEmbeds.GetAppreciatedTagEmbed());
+                        LogService.Log(LogType.SuggestionAppreciated, reaction.message.author.id, 'Thread', channel.id);
+                    }
                 }
             }
 
@@ -320,6 +329,62 @@ export default class SuggestionHandler {
 
         resultInfo.data.list = list;
         return resultInfo;
+    }
 
+    private static async Nominate(appliedTags: Array<string>, channel: PublicThreadChannel) {
+        if (!this.CanBeNominated(appliedTags)) {
+            return;
+        }
+
+        appliedTags.push(SettingsConstants.TAGS.NOMINATED_ID);
+        await channel.setAppliedTags(appliedTags);
+
+        const message = await NominationManager.Nominate(channel, this.GetSuggestionCategory(appliedTags));
+        channel.send({
+            embeds: [SuggestionEmbeds.GetNominatedEmbed(message.url, this.IsArtSuggestion(appliedTags))]
+        });
+    }
+
+    private static IsArtSuggestion(appliedTags: Array<string>) {
+        return appliedTags.includes(SettingsConstants.TAGS.NEW_ART_ID)
+        ||  appliedTags.includes(SettingsConstants.TAGS.UPGRADE_ART_ID);
+    }
+
+    private static CanBeNominated(appliedTags: Array<string>) {
+        if (appliedTags.includes(SettingsConstants.TAGS.NOMINATED_ID)) {
+            return false;
+        }
+
+        if (!appliedTags.includes(SettingsConstants.TAGS.APPRECIATED_ID)) {
+            return false;
+        }
+
+        if (this.IsArtSuggestion(appliedTags)) {
+            if (!appliedTags.includes(SettingsConstants.TAGS.VALID_ART_ID)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static GetSuggestionCategory(appliedTags: Array<string>) {
+        if (appliedTags.includes(SettingsConstants.TAGS.NEW_ART_ID)) {
+            return TagConstants.TAGS.NEW_ART;
+        }
+
+        if (appliedTags.includes(SettingsConstants.TAGS.UPGRADE_ART_ID)) {
+            return TagConstants.TAGS.UPGRADE_ART;
+        }
+
+        if (appliedTags.includes(SettingsConstants.TAGS.LAYOUT_ID)) {
+            return TagConstants.TAGS.LAYOUT;
+        }
+
+        if (appliedTags.includes(SettingsConstants.TAGS.OTHER_ID)) {
+            return TagConstants.TAGS.OTHER;
+        }
+
+        return null;
     }
 }

@@ -10,10 +10,11 @@ class Main {
         Discord.SetEventReadyCallback(BotManager.OnReady);
         Discord.SetEventReactionAddCallback(BotManager.OnReactionAdd);
         Discord.SetEventThreadCreateCallback(BotManager.OnThreadCreate);
-        Discord.SetEventInteractionCommandCallback(BotManager.OnInteractionCommand);
+        Discord.SetEventInteractionSlashCommandCallback(BotManager.OnInteractionSlashCommand);
         Discord.SetEventInteractionButtonCallback(BotManager.OnInteractionButton);
         Discord.SetEventInteractionModalCallback(BotManager.OnInteractionModal);
         Discord.SetEventInteractionSelectMenuCallback(BotManager.OnInteractionSelectMenu);
+        Discord.SetEventInteractionContextMenuCommandCallback(BotManager.OnInteractionContextMenuCommand);
         Discord.Init();
     }
 }
