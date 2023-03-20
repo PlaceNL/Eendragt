@@ -1,9 +1,11 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, ChannelType, ChatInputCommandInteraction, ModalBuilder, ModalSubmitInteraction, TextChannel, TextInputBuilder, TextInputStyle, UserSelectMenuBuilder } from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, ChannelType, ChatInputCommandInteraction, ModalBuilder, ModalSubmitInteraction, StringSelectMenuBuilder, StringSelectMenuInteraction, StringSelectMenuOptionBuilder, TextChannel, TextInputBuilder, TextInputStyle, UserSelectMenuBuilder } from 'discord.js';
 import CommandConstants from '../Constants/CommandConstants';
+import PronounsConstants from '../Constants/PronounsConstants';
 import SettingsConstants from '../Constants/SettingsConstants';
 import DiplomacyEmbeds from '../Embeds/DiplomacyEmbeds';
 import OnboardingEmbeds from '../Embeds/OnboardingEmbeds';
 import { LogType } from '../Enums/LogType';
+import { PronounsType } from '../Enums/PronounsType';
 import IMessageInfo from '../Interfaces/IMessageInfo';
 import DiscordService from '../Services/DiscordService';
 import LogService from '../Services/LogService';
@@ -17,7 +19,7 @@ export default class OnboardingHandler {
 
         switch (messageInfo.commandInfo.command) {
             case commands.ONBOARDING:
-                this.OnOnboarding(messageInfo);
+                this.OnCreateOnboarding(messageInfo);
                 break;
             default: return false;
         }
@@ -168,9 +170,48 @@ export default class OnboardingHandler {
         }
     }
 
-    private static OnOnboarding(messageInfo: IMessageInfo) {
+    public static OnPronouns(messageInfo: IMessageInfo) {
+        const interaction = <StringSelectMenuInteraction>messageInfo.interaction;
+
         try {
-            const actionRow = new ActionRowBuilder()
+            if (!interaction.inCachedGuild()) {
+                return;
+            }
+
+            const member = interaction.member;
+            const pronouns = interaction.values[0] as PronounsType;
+
+            for (const role of Object.values(PronounsConstants.ROLES)) {
+                if (member.roles.cache.has(role)) {
+                    if (PronounsConstants.ROLES[pronouns] == role) {
+                        interaction.reply({
+                            content: 'Deze rol heb je al.\nYou already had this role.',
+                            ephemeral: true
+                        });
+                        return;
+                    }
+
+                    member.roles.remove(role);
+                }
+            }
+
+            interaction.member.roles.add(PronounsConstants.ROLES[pronouns]);
+            interaction.reply({
+                content: `Je hebt nu de pronouns-rol ${PronounsConstants.DESCRIPTION[pronouns]}.
+    You now have the pronouns role ${PronounsConstants.DESCRIPTION[pronouns]}.`,
+                ephemeral: true
+            });
+
+            LogService.Log(LogType.OnboardingPronouns, messageInfo.user.id, 'Role', PronounsConstants.ROLES[pronouns]);
+        } catch (error) {
+            console.error(error);
+            LogService.Error(LogType.OnboardingPronouns, messageInfo.user.id, 'Role', PronounsConstants.ROLES[interaction.values[0] as PronounsType]);
+        }
+    }
+
+    private static OnCreateOnboarding(messageInfo: IMessageInfo) {
+        try {
+            const actionRowButtons = new ActionRowBuilder()
                 .addComponents(
                     new ButtonBuilder()
                         .setCustomId('onboarding_help')
@@ -190,7 +231,32 @@ export default class OnboardingHandler {
                         .setStyle(ButtonStyle.Secondary)
                 );
 
-            MessageService.ReplyEmbed(messageInfo, OnboardingEmbeds.GetWelcomeEmbed(), null, [actionRow]);
+            const actionRowSelect = new ActionRowBuilder()
+                .addComponents(
+                    new StringSelectMenuBuilder()
+                        .setCustomId('onboarding_pronouns')
+                        .setPlaceholder('Voornaamwoorden - Pronouns')
+                        .setMaxValues(1)
+                        .addOptions(
+                            new StringSelectMenuOptionBuilder()
+                                .setLabel(PronounsConstants.DESCRIPTION[PronounsType.Hij])
+                                .setValue(PronounsType.Hij),
+                            new StringSelectMenuOptionBuilder()
+                                .setLabel(PronounsConstants.DESCRIPTION[PronounsType.Zij])
+                                .setValue(PronounsType.Zij),
+                            new StringSelectMenuOptionBuilder()
+                                .setLabel(PronounsConstants.DESCRIPTION[PronounsType.Hen])
+                                .setValue(PronounsType.Hen),
+                            new StringSelectMenuOptionBuilder()
+                                .setLabel(PronounsConstants.DESCRIPTION[PronounsType.Die])
+                                .setValue(PronounsType.Die),
+                            new StringSelectMenuOptionBuilder()
+                                .setLabel(PronounsConstants.DESCRIPTION[PronounsType.Ask])
+                                .setValue(PronounsType.Ask),
+                        )
+                );
+
+            MessageService.ReplyEmbed(messageInfo, OnboardingEmbeds.GetWelcomeEmbed(), null, [actionRowButtons, actionRowSelect]);
         } catch (error) {
             console.error(error);
             LogService.Error(LogType.OnboardingCreate, messageInfo.user.id);
