@@ -50,7 +50,8 @@ ${description}
             .setTitle('Diplomat arrived')
             .setDescription(`${username} arrived as your personal diplomat.
             
-If at any point you feel like your diplomat is not doing their job properly, or they have stopped responding for more than an hour without notice, you can use the button below to contact the moderators to help you out.
+If at any point you feel like your diplomat is not doing their job properly, or they have stopped responding for more than\
+an hour without notice, you can use the button below to contact the moderators to help you out.
 
 __Do not abuse this.__ The diplomat disagreeing with you is not reason enough to contact the moderators.`);
 
