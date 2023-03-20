@@ -49,19 +49,33 @@ export default class CommandManager {
                 .setDescription('Plaats het onboarding bericht in dit kanaal.')
                 .setDefaultMemberPermissions(this.adminFlag),
             new SlashCommandBuilder()
-                .setName(CommandConstants.SLASH.VARIABLE)
+                .setName(CommandConstants.SLASH.VARIABLE.COMMAND)
+                .setDescription('Variabeles')
                 .setDMPermission(false)
-                .setDescription('Verander de waarde van een variabele. Splits arrays met een komma.')
                 .setDefaultMemberPermissions(this.adminFlag)
-                .addStringOption(option => option
-                    .setName('naam')
-                    .setDescription('De naam van de variabele')
-                    .setRequired(true)
-                    .addChoices(...VariableManager.GetChoices()))
-                .addStringOption(option => option
-                    .setName('waarde')
-                    .setDescription('De waarde van de variabele')
-                    .setRequired(true)),
+                .addSubcommand(subcommand => subcommand
+                    .setName(CommandConstants.SLASH.VARIABLE.SET)
+                    .setDescription('Verander de waarde van een variabele. Splits arrays met een komma.')
+                    .addStringOption(option => option
+                        .setName('naam')
+                        .setDescription('De naam van de variabele')
+                        .setRequired(true)
+                        .addChoices(...VariableManager.GetChoices()))
+                    .addStringOption(option => option
+                        .setName('waarde')
+                        .setDescription('De waarde van de variabele')
+                        .setRequired(true)))
+                .addSubcommand(subcommand => subcommand
+                    .setName(CommandConstants.SLASH.VARIABLE.GET)
+                    .setDescription('Krijg de waarde van een variabele')
+                    .addStringOption(option => option
+                        .setName('naam')
+                        .setDescription('De naam van de variabele')
+                        .setRequired(true)
+                        .addChoices(...VariableManager.GetChoices())))
+                .addSubcommand(subcommand => subcommand
+                    .setName(CommandConstants.SLASH.VARIABLE.GETALL)
+                    .setDescription('Krijg een lijst van de waardes van alle variabelen')),
             new ContextMenuCommandBuilder()
                 .setName(CommandConstants.MENU.VOTE)
                 .setType(ApplicationCommandType.Message)

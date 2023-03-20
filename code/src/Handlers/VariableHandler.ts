@@ -12,7 +12,7 @@ export default class VariableHandler {
         const commands = CommandConstants.SLASH;
 
         switch (messageInfo.commandInfo.command) {
-            case commands.VARIABLE:
+            case commands.VARIABLE.COMMAND:
                 this.OnVariable(messageInfo);
                 break;
             default: return false;
@@ -21,7 +21,27 @@ export default class VariableHandler {
         return true;
     }
 
-    private static async OnVariable(messageInfo: IMessageInfo) {
+    private static OnVariable(messageInfo: IMessageInfo) {
+        const interaction = <ChatInputCommandInteraction> messageInfo.interaction;
+        const subCommand = interaction.options.getSubcommand();
+
+        const commands = CommandConstants.SLASH.VARIABLE;
+
+        switch (subCommand) {
+            case commands.SET:
+                this.OnSet(messageInfo);
+                break;
+            case commands.GET:
+                this.OnGet(messageInfo);
+                break;
+            case commands.GETALL:
+                this.OnGetAll(messageInfo);
+                break;
+            default: return false;
+        }
+    }
+
+    private static async OnSet(messageInfo: IMessageInfo) {
         try {
             const interaction = <ChatInputCommandInteraction> messageInfo.interaction;
             const name = interaction.options.getString('naam');
@@ -30,7 +50,7 @@ export default class VariableHandler {
             const resultInfo = await VariableManager.Set(name as VariableKey, value);
 
             if (resultInfo.result) {
-                await interaction.reply(`${name} is nu ${value}`);
+                await interaction.reply(`\`${name}\` is nu \`${value}\``);
             } else {
                 await interaction.reply({
                     content: resultInfo.reason,
@@ -38,10 +58,46 @@ export default class VariableHandler {
                 });
             }
 
-            LogService.Log(LogType.VariableUpdate, messageInfo.user.id);
+            LogService.Log(LogType.VariableSet, messageInfo.user.id);
         } catch (error) {
             console.error(error);
-            LogService.Error(LogType.VariableUpdate, messageInfo.user.id);
+            LogService.Error(LogType.VariableSet, messageInfo.user.id);
+        }
+    }
+
+    private static async OnGet(messageInfo: IMessageInfo) {
+        try {
+            const interaction = <ChatInputCommandInteraction> messageInfo.interaction;
+            const name = interaction.options.getString('naam');
+
+            const value = await VariableManager.Get(name as VariableKey);
+
+            await interaction.reply(`De waarde van \`${name}\` is \`${value}\``);
+
+            LogService.Log(LogType.VariableSet, messageInfo.user.id);
+        } catch (error) {
+            console.error(error);
+            LogService.Error(LogType.VariableSet, messageInfo.user.id);
+        }
+    }
+
+    private static async OnGetAll(messageInfo: IMessageInfo) {
+        try {
+            const interaction = <ChatInputCommandInteraction> messageInfo.interaction;
+
+            const values = VariableManager.GetAll();
+
+            let message = '';
+            for (const [key, value] of Object.entries(values)) {
+                message += `\`${key}\`: \`${value.value}\`\n`;
+            }
+
+            await interaction.reply(message);
+
+            LogService.Log(LogType.VariableGetAll, messageInfo.user.id);
+        } catch (error) {
+            console.error(error);
+            LogService.Error(LogType.VariableGetAll, messageInfo.user.id);
         }
     }
 }

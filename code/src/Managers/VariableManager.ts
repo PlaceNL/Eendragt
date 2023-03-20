@@ -27,6 +27,10 @@ export default class VariableManager {
         return VariableConstants.VARIABLES[key].value;
     }
 
+    public static GetAll() {
+        return VariableConstants.VARIABLES;
+    }
+
     public static async Set(key: VariableKey, value: string) {
 
         const variable = VariableConstants.VARIABLES[key];

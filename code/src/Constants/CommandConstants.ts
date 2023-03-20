@@ -4,7 +4,12 @@ export default class CommandConstants {
         VALIDATE: 'validate',
         TEMPLATE: 'template',
         ONBOARDING: 'onboarding',
-        VARIABLE: 'variable',
+        VARIABLE: {
+            COMMAND: 'variable',
+            SET: 'set',
+            GET: 'get',
+            GETALL: 'getall',
+        }
     };
 
     public static readonly MENU = {
