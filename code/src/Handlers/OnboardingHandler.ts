@@ -9,7 +9,6 @@ import { PronounsType } from '../Enums/PronounsType';
 import IMessageInfo from '../Interfaces/IMessageInfo';
 import DiscordService from '../Services/DiscordService';
 import LogService from '../Services/LogService';
-import MessageService from '../Services/MessageService';
 import { Utils } from '../Utils/Utils';
 
 export default class OnboardingHandler {
@@ -209,9 +208,9 @@ export default class OnboardingHandler {
         }
     }
 
-    private static OnCreateOnboarding(messageInfo: IMessageInfo) {
+    private static async OnCreateOnboarding(messageInfo: IMessageInfo) {
         try {
-            const actionRowButtons = new ActionRowBuilder()
+            const actionRowButtons = new ActionRowBuilder<ButtonBuilder>()
                 .addComponents(
                     new ButtonBuilder()
                         .setCustomId('onboarding_help')
@@ -231,7 +230,7 @@ export default class OnboardingHandler {
                         .setStyle(ButtonStyle.Secondary)
                 );
 
-            const actionRowSelect = new ActionRowBuilder()
+            const actionRowSelect = new ActionRowBuilder<StringSelectMenuBuilder>()
                 .addComponents(
                     new StringSelectMenuBuilder()
                         .setCustomId('onboarding_pronouns')
@@ -256,7 +255,17 @@ export default class OnboardingHandler {
                         )
                 );
 
-            MessageService.ReplyEmbed(messageInfo, OnboardingEmbeds.GetWelcomeEmbed(), null, [actionRowButtons, actionRowSelect]);
+            const interaction = messageInfo.interaction as ChatInputCommandInteraction;
+
+            await interaction.channel.send({
+                embeds: [OnboardingEmbeds.GetWelcomeEmbed()],
+                components: [actionRowButtons, actionRowSelect]
+            });
+
+            interaction.reply({
+                content: 'Done!',
+                ephemeral: true
+            });
         } catch (error) {
             console.error(error);
             LogService.Error(LogType.OnboardingCreate, messageInfo.user.id);
