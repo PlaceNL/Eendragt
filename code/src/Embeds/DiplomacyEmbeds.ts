@@ -13,7 +13,7 @@ export default class DiplomacyEmbeds {
 
 Note that it's currently ${time} in the Netherlands, and therefore it might take a while before one of our diplomats are available to help you.`}
 
-In the mean time, you can use this thread to further describe what you would like to discuss, and provide images if necessary.\
+In the mean time, you can use this thread to further describe what you would like to discuss, and provide images if necessary. \
 If you have pixel art, please validate it using the command ${CommandService.GetCommandString(CommandConstants.SLASH.VALIDATE)}.
 
 **Community size**
@@ -23,8 +23,8 @@ ${size}
 ${description}
 
 **Invite associates**
-You can use the dropdown below to add up to two people from your community to this thread. __Do not abuse this__\
-by adding people who are not part of your community, as it can result in a ban. You can do this __one time only__,\
+You can use the dropdown below to add up to two people from your community to this thread. __Do not abuse this__ \
+by adding people who are not part of your community, as it can result in a ban. You can do this __one time only__, \
 so make sure you add both at once (if needed). If you don't have any associates, you can ignore this.`);
         return embed;
     }
@@ -50,7 +50,7 @@ ${description}
             .setTitle('Diplomat arrived')
             .setDescription(`${username} arrived as your personal diplomat.
             
-If at any point you feel like your diplomat is not doing their job properly, or they have stopped responding for more than\
+If at any point you feel like your diplomat is not doing their job properly, or they have stopped responding for more than \
 an hour without notice, you can use the button below to contact the moderators to help you out.
 
 __Do not abuse this.__ The diplomat disagreeing with you is not reason enough to contact the moderators.`);
