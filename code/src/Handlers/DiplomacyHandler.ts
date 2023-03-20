@@ -1,15 +1,19 @@
 import { ActionRowBuilder, Attachment, ButtonBuilder, ButtonInteraction, ButtonStyle, ModalBuilder, ModalSubmitInteraction, TextChannel, TextInputBuilder, TextInputStyle, ThreadChannel, UserSelectMenuInteraction } from 'discord.js';
+import RedisConstants from '../Constants/RedisConstants';
 import SettingsConstants from '../Constants/SettingsConstants';
 import ArtEmbeds from '../Embeds/ArtEmbeds';
 import DiplomacyEmbeds from '../Embeds/DiplomacyEmbeds';
 import { LogType } from '../Enums/LogType';
 import IMessageInfo from '../Interfaces/IMessageInfo';
 import IResultInfo from '../Interfaces/IResultInfo';
+import { Redis } from '../Providers/Redis';
 import DiscordService from '../Services/DiscordService';
 import LogService from '../Services/LogService';
 import MessageService from '../Services/MessageService';
 
 export default class DiplomacyHandler {
+
+    private static readonly reportKey: string = `${RedisConstants.KEYS.PLACENL}${RedisConstants.KEYS.DIPLOMACY}${RedisConstants.KEYS.REPORT}`;
 
     public static async OnInvite(messageInfo: IMessageInfo) {
         try {
@@ -85,8 +89,18 @@ export default class DiplomacyHandler {
         }
     }
 
-    public static OnStartReport(messageInfo: IMessageInfo) {
+    public static async OnStartReport(messageInfo: IMessageInfo) {
         try {
+            const cooldown = await Redis.get(`${this.reportKey}${messageInfo.channel.id}`);
+            if (cooldown != null) {
+                (<ButtonInteraction>messageInfo.interaction).reply({
+                    content: 'Please wait at least an hour before reporting again.',
+                    ephemeral: true
+                });
+
+                return;
+            }
+
             const modal = new ModalBuilder()
                 .setCustomId('diplomacy_report')
                 .setTitle('Report');
@@ -112,8 +126,14 @@ export default class DiplomacyHandler {
 
     public static async OnFinishReport(messageInfo: IMessageInfo) {
         try {
+            Redis.set(`${this.reportKey}${messageInfo.channel.id}`, '1', 'EX', 3600);
+
             const interaction = <ModalSubmitInteraction>messageInfo.interaction;
-            interaction.deferUpdate();
+            interaction.reply({
+                content: 'Your report has been sent to the moderators.',
+                ephemeral: true
+            });
+
             const description = interaction.fields.getTextInputValue('description');
 
             const reportChannel = <TextChannel> await DiscordService.FindChannelById(SettingsConstants.CHANNELS.DIPLOMACY_REPORTS_ID);
