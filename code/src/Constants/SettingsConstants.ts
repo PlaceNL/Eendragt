@@ -61,9 +61,9 @@ export default class SettingsConstants {
     public static readonly SUGGESTION_THREAD_BASE_URL = `https://discord.com/channels/${SettingsConstants.SERVER_ID}/`;
 
     public static readonly SUGGESTION_APPRECIATION_CRITERIA = {
-        GOOD_AMOUNT: 30,
+        GOOD_AMOUNT: 20,
         BAD_AMOUNT: 10,
-        RATIO: .6667,
+        RATIO: .75,
     };
 
     public static readonly SUGGESTION_SIMILARITY_CRITERIA = {
