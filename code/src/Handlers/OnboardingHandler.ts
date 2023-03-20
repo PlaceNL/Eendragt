@@ -197,7 +197,7 @@ export default class OnboardingHandler {
             interaction.member.roles.add(PronounsConstants.ROLES[pronouns]);
             interaction.reply({
                 content: `Je hebt nu de pronouns-rol ${PronounsConstants.DESCRIPTION[pronouns]}.
-    You now have the pronouns role ${PronounsConstants.DESCRIPTION[pronouns]}.`,
+You now have the pronouns role ${PronounsConstants.DESCRIPTION[pronouns]}.`,
                 ephemeral: true
             });
 
