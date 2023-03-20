@@ -35,7 +35,7 @@ export default class NightsWatchManager {
             return;
         }
 
-        await Redis.set(this.nightsWatchKey, 0);
+        await Redis.del(this.nightsWatchKey);
 
         const channel = <TextChannel> await DiscordService.FindChannelById(SettingsConstants.CHANNELS.NIGHTS_WATCH_ID);
 
