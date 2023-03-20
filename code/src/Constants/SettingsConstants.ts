@@ -58,6 +58,7 @@ export default class SettingsConstants {
 
     public static readonly BOT_NAME = 'Eendragt';
 
+    public static readonly NIGHTS_WATCH_IMAGE_URL = 'https://cdn.discordapp.com/attachments/817036396790939718/1087339335348650084/image.png';
     public static readonly SUGGESTION_THREAD_BASE_URL = `https://discord.com/channels/${SettingsConstants.SERVER_ID}/`;
 
     public static readonly SUGGESTION_APPRECIATION_CRITERIA = {
