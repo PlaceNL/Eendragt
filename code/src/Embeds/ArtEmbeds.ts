@@ -1,5 +1,5 @@
 
-import { EmbedBuilder } from 'discord.js';
+import { EmbedBuilder, HexColorString } from 'discord.js';
 import SettingsConstants from '../Constants/SettingsConstants';
 
 export default class ArtEmbeds {
@@ -39,6 +39,30 @@ Your art must meet the following requirements:
             .setColor(SettingsConstants.COLORS.GOOD)
             .setTitle(english ? 'Valid art' : 'Valide art')
             .setImage(url);
+        return embed;
+    }
+
+    public static GetCoordinateEmbed(url: string, x: number, y: number, time?: string) {
+        const embed = new EmbedBuilder()
+            .setColor(SettingsConstants.COLORS.DEFAULT)
+            .setAuthor({name: `(${x}, ${y})`})
+            .setTitle('Gecoördineerd pixels plaatsen')
+            .setDescription(`Klik op de knop hieronder om een pixel te claimen voor deze afbeelding.
+
+${time == null ? 'Deze mag je __direct__ plaatsen!' : `__Wacht__ tot **${time}** met het plaatsen van je pixel!`}`)
+            .setImage(url);
+        return embed;
+    }
+
+    public static GetClaimPixelEmbed(x: number, y: number, color: HexColorString, colorImageUrl: string, time?: string) {
+        const embed = new EmbedBuilder()
+            .setColor(color)
+            .setTitle('Pixel')
+            .setDescription(`**x=${x}, y=${y}**${ time == null
+                ? '\nJe mag deze pixel __direct__ plaatsen'
+                : `\nWacht tot __${time}__ met het plaatsen van deze pixel.`
+            }`)
+            .setImage(colorImageUrl);
         return embed;
     }
 }

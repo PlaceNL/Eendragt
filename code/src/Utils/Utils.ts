@@ -176,6 +176,25 @@ export module Utils {
         }
     }
 
+    export function HHMMToEpoch(hhmm: string) {
+        const [hours, minutes] = hhmm.split(':');
+        const now = new Date();
+        const target = new Date();
+        target.setHours(parseInt(hours));
+        target.setMinutes(parseInt(minutes));
+        target.setSeconds(0);
+        target.setMilliseconds(0);
+
+        if (target <= now) {
+            target.setDate(target.getDate() + 1);
+        }
+
+        const utcTime = Date.UTC(target.getUTCFullYear(), target.getUTCMonth(),
+            target.getUTCDate(), target.getUTCHours(), target.getUTCMinutes());
+
+        return utcTime;
+    }
+
     export async function Sleep(seconds: number) {
         return new Promise(resolve => setTimeout(resolve, seconds * 1000));
     }

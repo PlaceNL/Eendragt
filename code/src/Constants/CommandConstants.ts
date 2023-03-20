@@ -4,6 +4,7 @@ export default class CommandConstants {
         VALIDATE: 'validate',
         TEMPLATE: 'template',
         ONBOARDING: 'onboarding',
+        COORDINATE: 'coordinate',
         VARIABLE: {
             COMMAND: 'variable',
             SET: 'set',

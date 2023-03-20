@@ -47,6 +47,7 @@ export default class OnboardingHandler {
     }
 
     public static OnDevelopment(messageInfo: IMessageInfo) {
+        // TODO: You already had this role
         messageInfo.member.roles.add(SettingsConstants.ROLES.DEVELOPMENT_ID);
         (<ChatInputCommandInteraction>messageInfo.interaction).reply({
             content: `<#${SettingsConstants.CHANNELS.BOT_SUPPORT_ID}>`,

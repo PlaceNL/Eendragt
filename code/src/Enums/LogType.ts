@@ -14,6 +14,9 @@ export enum LogType {
     ValidateArtGood = 'ValidateArt Good',
     ValidateArtBad = 'ValidateArt Bad',
     ValidateArtIllegitimate = 'ValidateArt Illegitimate',
+    CoordinateCreate = 'Coordinate Create',
+    CoordinateClaim = 'Coordinate Claim',
+    TemplateCreate = 'Template Create',
     SuggestionCreated = 'Suggestion Created',
     SuggestionNoTags = 'Suggestion NoTags',
     SuggestionDuplicate = 'Suggestion Duplicate',
@@ -33,5 +36,4 @@ export enum LogType {
     NominationDelay = 'Nomation Delay',
     NominationVoteStart = 'Nomation Vote Start',
     NominationVote = 'Nomation Vote',
-    TemplateCreate = 'Template Create',
 }

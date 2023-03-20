@@ -14,6 +14,7 @@ import LogService from '../Services/LogService';
 import { LogType } from '../Enums/LogType';
 import NominationHandler from '../Handlers/NominationHandler';
 import { NominationAction } from '../Enums/NominationAction';
+import ArtHandler from '../Handlers/ArtHandler';
 
 export default class BotManager {
 
@@ -64,8 +65,10 @@ export default class BotManager {
         } else if (interaction.customId.startsWith('diplomacy_claim')) {
             const id = interaction.customId.split('_')[2];
             DiplomacyHandler.OnClaim(messageInfo, id);
-        } else if (interaction.customId.startsWith('nightswatch')) {
+        } else if (interaction.customId == 'nightswatch') {
             NightsWatchHandler.OnButton(messageInfo);
+        } else if (interaction.customId.startsWith('coordinate_claim')) {
+            ArtHandler.OnClaimPixel(messageInfo, interaction.customId.split('_')[2]);
         }
     }
 

@@ -5,6 +5,10 @@ export default class RedisConstants {
         REPORT: 'report:',
         SUGGESTION: 'suggestion:',
         THREADS: 'threads',
+        ART: 'art:',
+        COORDINATE: 'coordinate:',
+        COOLDOWN: 'cooldown:',
+        DATA: 'data:',
         NIGHTS_WATCH: 'nightswatch',
     };
 }
