@@ -323,6 +323,7 @@ export default class ArtHandler {
             resultInfo.reason = english
                 ? `The image is too large.\nMax width: ${SettingsConstants.MAX_IMAGE_SIZE}, max height: ${SettingsConstants.MAX_IMAGE_SIZE}`
                 : `De afbeelding is te groot.\nMax breedte: ${SettingsConstants.MAX_IMAGE_SIZE}, max hoogte: ${SettingsConstants.MAX_IMAGE_SIZE}`;
+            return resultInfo;
         }
 
         for (let x = 0; x < pixels.shape[0]; x++) {
