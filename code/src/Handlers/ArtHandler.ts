@@ -24,7 +24,8 @@ export default class ArtHandler {
     private static readonly coordinatePixelsKey: string = `${RedisConstants.KEYS.PLACENL}${RedisConstants.KEYS.ART}${RedisConstants.KEYS.COORDINATE}`;
     private static readonly coordinateDataKey: string = `${RedisConstants.KEYS.PLACENL}${RedisConstants.KEYS.ART}${RedisConstants.KEYS.COORDINATE}${RedisConstants.KEYS.DATA}`;
     private static readonly claimCooldownKey: string = `${RedisConstants.KEYS.PLACENL}${RedisConstants.KEYS.ART}${RedisConstants.KEYS.COOLDOWN}`;
-    private static readonly pixelCache: any = {};
+    private static readonly pixelImageCache: any = {};
+    private static readonly pixelDataCache: any = {};
 
     public static OnCommand(messageInfo: IMessageInfo) {
         const commands = CommandConstants.SLASH;
@@ -64,8 +65,25 @@ export default class ArtHandler {
 
             const coordinateKey = `${this.coordinatePixelsKey}${id}`;
             const dataKey = `${this.coordinateDataKey}${id}`;
+
+            let keys: Array<string>;
+            let fromCache = false;
+
             const pixels = await Redis.hgetall(coordinateKey);
-            const keys = Object.keys(pixels);
+            if (pixels == null) {
+                keys = this.pixelDataCache[id];
+                if (keys == null) {
+                    (<ButtonInteraction> messageInfo.interaction).reply({
+                        content: 'Er zijn momenteel pixels meer beschikbaar. Probeer het later nog eens.',
+                        ephemeral: true,
+                    });
+                    return;
+                }
+                fromCache = true;
+            } else {
+                keys = Object.keys(pixels);
+            }
+
             const pixelString = keys[Math.floor(Math.random() * keys.length)];
             const pixelData = JSON.parse(pixelString);
 
@@ -83,17 +101,20 @@ export default class ArtHandler {
                 if (now > time) {
                     timePassed = true;
                 } else {
-                    diff = Math.floor((time - now) / 1000 / 60);
+                    diff = Math.floor((time - now) / 1000); // calculate difference in seconds
+                    diff = Math.ceil(diff / 60); // convert to minutes, rounding up
                 }
             }
 
-            setTimeout(() => {
-                Redis.hset(coordinateKey, pixelString, 1);
-            }, Utils.GetMinutesInMiliSeconds(timePassed ? 5 : diff));
+            if (!fromCache) {
+                setTimeout(() => {
+                    Redis.hset(coordinateKey, pixelString, 1);
+                }, Utils.GetMinutesInMiliSeconds(timePassed ? 5 : diff));
+            }
 
             Redis.set(`${this.claimCooldownKey}${messageInfo.member.id}`, 1, 'EX', Utils.GetMinutesInSeconds(timePassed ? 5 : diff));
 
-            let url = this.pixelCache[pixelData.color];
+            let url = this.pixelImageCache[pixelData.color];
             let file;
             if (url == null) {
                 const canvas = createCanvas(100, 100);
@@ -124,7 +145,7 @@ export default class ArtHandler {
             const message = await reply.fetch();
 
             if (file != null) {
-                this.pixelCache[pixelData.color] = message.embeds[0].image.url;
+                this.pixelImageCache[pixelData.color] = message.embeds[0].image.url;
             }
 
             LogService.Log(LogType.CoordinateClaim, messageInfo.member.id, 'Art', id);
@@ -249,6 +270,7 @@ export default class ArtHandler {
         const keyPixels = `${this.coordinatePixelsKey}${art.id}`;
         const keyData = `${this.coordinateDataKey}${art.id}`;
 
+        this.pixelDataCache[art.id] = pixelData;
         await Redis.hmset(keyPixels, pixelData);
         const expire = Utils.GetHoursInSeconds(24);
         await Redis.expire(keyPixels, expire);
