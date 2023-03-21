@@ -86,9 +86,7 @@ export default class BotManager {
 
     public static async OnInteractionSelectMenu(interaction: SelectMenuInteraction) {
         const messageInfo: IMessageInfo = await DiscordUtils.ParseInteractionToInfo(interaction);
-        if (interaction.customId == 'onboarding_pronouns') {
-            OnboardingHandler.OnPronouns(messageInfo);
-        } else if (interaction.customId == 'diplomacy_invite') {
+        if (interaction.customId == 'diplomacy_invite') {
             DiplomacyHandler.OnInvite(messageInfo);
         }
     }
