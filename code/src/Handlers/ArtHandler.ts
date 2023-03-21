@@ -316,6 +316,14 @@ export default class ArtHandler {
 
         const pixels = await getPixels(bytesIn, 'image/png');
         let transparent = false;
+        let colors = false;
+
+        if (pixels.shape[0] > SettingsConstants.MAX_IMAGE_SIZE
+            || pixels.shape[1] > SettingsConstants.MAX_IMAGE_SIZE) {
+            resultInfo.reason = english
+                ? `The image is too large.\nMax width: ${SettingsConstants.MAX_IMAGE_SIZE}, max height: ${SettingsConstants.MAX_IMAGE_SIZE}`
+                : `De afbeelding is te groot.\nMax breedte: ${SettingsConstants.MAX_IMAGE_SIZE}, max hoogte: ${SettingsConstants.MAX_IMAGE_SIZE}`;
+        }
 
         for (let x = 0; x < pixels.shape[0]; x++) {
             for (let y = 0; y < pixels.shape[1]; y++) {
@@ -325,6 +333,8 @@ export default class ArtHandler {
                 const a = pixels.get(x, y, 3);
                 if (a == 0) {
                     transparent = true;
+                } else {
+                    colors = true;
                 }
 
                 const hex = Utils.RGBAToHex(r, g, b);
@@ -342,6 +352,13 @@ export default class ArtHandler {
             resultInfo.reason = english
                 ? 'You don\'t have a transparent background. Is your art square? Give it a transparent border around it.'
                 : 'Je hebt geen transparante achtergrond. Is je art vierkant? Geef deze dan een transparante rand eromheen.';
+            return resultInfo;
+        }
+
+        if (!colors) {
+            resultInfo.reason = english
+                ? 'This image is completely transparent.'
+                : 'Deze afbeelding is volledig transparant.';
             return resultInfo;
         }
 

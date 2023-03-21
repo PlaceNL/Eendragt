@@ -72,6 +72,8 @@ export default class SettingsConstants {
         SIMILAR: .4,
     };
 
+    public static readonly MAX_IMAGE_SIZE = 300;
+
     public static readonly TIME = {
         NIGHT_START: 1,
         NIGHT_END: 6
