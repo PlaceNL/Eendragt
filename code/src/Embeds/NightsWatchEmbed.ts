@@ -16,7 +16,7 @@ leven en eer aan de Nachtwacht, voor deze nacht en alle komende nachten.`)
             .addFields({
                 name: 'Welkom',
                 value: `Dit kanaal is alleen open tussen 0${SettingsConstants.TIME.NIGHT_START}:00 en 0${SettingsConstants.TIME.NIGHT_END}:00, \
-bedoeld voor hen met ~~een slecht slaapritme~~ de passie om ons land te beschermen tot in de nacht. Klik op de knop hieronder om lid te worden \
+bedoeld voor hen met ~~een slecht slaapritme~~ de passie om ons land te beschermen in de nacht. Klik op de knop hieronder om lid te worden \
 van de Nachtwacht, en daarmee ook overdag dit kanaal te kunnen lezen.`,
             });
         return embed;
