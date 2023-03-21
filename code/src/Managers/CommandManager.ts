@@ -24,6 +24,10 @@ export default class CommandManager {
                     .setDescription('Your pixel art')
                     .setRequired(true)),
             new SlashCommandBuilder()
+                .setName(CommandConstants.SLASH.VOICE)
+                .setDMPermission(false)
+                .setDescription('Create a temporary voice channel for diplomacy'),
+            new SlashCommandBuilder()
                 .setName(CommandConstants.SLASH.COORDINATE)
                 .setDMPermission(false)
                 .setDescription('Start een gecoördineerde plaatsing van pixel art op het canvas')

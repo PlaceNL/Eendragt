@@ -15,6 +15,7 @@ class Main {
         Discord.SetEventInteractionModalCallback(BotManager.OnInteractionModal);
         Discord.SetEventInteractionSelectMenuCallback(BotManager.OnInteractionSelectMenu);
         Discord.SetEventInteractionContextMenuCommandCallback(BotManager.OnInteractionContextMenuCommand);
+        Discord.SetEventVoiceStateUpdateCallback(BotManager.OnVoiceStateUpdate);
         Discord.Init();
     }
 }

@@ -1,4 +1,5 @@
-import { ActionRowBuilder, Attachment, ButtonBuilder, ButtonInteraction, ButtonStyle, ModalBuilder, ModalSubmitInteraction, TextChannel, TextInputBuilder, TextInputStyle, ThreadChannel, UserSelectMenuInteraction } from 'discord.js';
+import { ActionRowBuilder, Attachment, ButtonBuilder, ButtonInteraction, ButtonStyle, ChannelType, ChatInputCommandInteraction, ModalBuilder, ModalSubmitInteraction, OverwriteType, PermissionFlagsBits, TextChannel, TextInputBuilder, TextInputStyle, ThreadChannel, UserSelectMenuInteraction, VoiceState } from 'discord.js';
+import CommandConstants from '../Constants/CommandConstants';
 import RedisConstants from '../Constants/RedisConstants';
 import SettingsConstants from '../Constants/SettingsConstants';
 import ArtEmbeds from '../Embeds/ArtEmbeds';
@@ -14,6 +15,113 @@ import MessageService from '../Services/MessageService';
 export default class DiplomacyHandler {
 
     private static readonly reportKey: string = `${RedisConstants.KEYS.PLACENL}${RedisConstants.KEYS.DIPLOMACY}${RedisConstants.KEYS.REPORT}`;
+
+    public static OnCommand(messageInfo: IMessageInfo) {
+        const commands = CommandConstants.SLASH;
+
+        switch (messageInfo.commandInfo.command) {
+            case commands.VOICE:
+                this.OnVoiceCommand(messageInfo);
+                break;
+            default: return false;
+        }
+
+        return true;
+    }
+
+    public static async OnVoiceCommand(messageInfo: IMessageInfo) {
+        const interaction = <ChatInputCommandInteraction>messageInfo.interaction;
+        if (!interaction.inCachedGuild()) {
+            return;
+        }
+
+        try {
+            if (!interaction.member.roles.cache.has(SettingsConstants.ROLES.DIPLOMOD_ID)) {
+                interaction.reply({
+                    content: 'Je hebt geen toegang tot dit commando.',
+                    ephemeral: true
+                });
+                return;
+            }
+
+            const thread = interaction.channel;
+            if (!thread.isThread()!) {
+                interaction.reply({
+                    content: 'Je kan dit commando alleen in de diplomatieke threads gebruiken.',
+                    ephemeral: true
+                });
+                return;
+            }
+
+            if (interaction.channel.parentId != SettingsConstants.CHANNELS.DIPLOMACY_THREADS_ID) {
+                interaction.reply({
+                    content: 'Je kan dit commando alleen in de diplomatieke threads gebruiken.',
+                    ephemeral: true
+                });
+                return;
+            }
+
+            const category = interaction.channel.parent.parent;
+            const guild = interaction.guild;
+
+            const permissionOverwrites = [
+                {
+                    id: guild.roles.everyone.id,
+                    deny: [PermissionFlagsBits.ViewChannel],
+                    type: OverwriteType.Role
+                },
+                {
+                    id: SettingsConstants.ROLES.DIPLOMOD_ID,
+                    allow: [PermissionFlagsBits.ViewChannel],
+                    type: OverwriteType.Role
+                },
+            ];
+
+            const members = (await thread.members.fetch()).values();
+
+            for (const member of members) {
+                permissionOverwrites.push({
+                    id: member.id,
+                    allow: [PermissionFlagsBits.ViewChannel],
+                    type: OverwriteType.Member
+                });
+            }
+
+            const channel = await guild.channels.create({
+                name: `${interaction.channel.name}`,
+                type: ChannelType.GuildVoice,
+                parent: category,
+                permissionOverwrites
+            });
+
+            interaction.reply({
+                content: `I created a temporary voicechannel: ${channel}\nAfter someone has joined it will automatically be deleted when it's empty.`,
+            });
+
+            LogService.Log(LogType.DiplomacyVoiceCreate, messageInfo.user.id, 'Thread', messageInfo.channel.id);
+        } catch (error) {
+            console.error(error);
+            LogService.Error(LogType.DiplomacyVoiceCreate, messageInfo.user.id, 'Thread', messageInfo.channel.id);
+        }
+    }
+
+    // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+    public static OnVoiceUpdate(oldState: VoiceState, newState: VoiceState) {
+        if (oldState.channel?.parentId != SettingsConstants.CATEGORIES.DIPLOMACY_ID) {
+            return;
+        }
+
+        try {
+            if (oldState.channel.members.size == 0) {
+                oldState.channel.delete();
+            }
+
+            LogService.Log(LogType.DiplomacyVoiceDelete, oldState.member.id, 'Channel', oldState.channel.id);
+        } catch (error) {
+            console.error(error);
+            LogService.Error(LogType.DiplomacyVoiceDelete, oldState.member.id, 'Channel', oldState.channel.id);
+        }
+    }
 
     public static async OnInvite(messageInfo: IMessageInfo) {
         try {

@@ -16,8 +16,13 @@ export default class SettingsConstants {
         NIGHTS_WATCH_ID: process.env.NIGHTS_WATCH_CHANNEL_ID || '',
     };
 
+    public static readonly CATEGORIES = {
+        DIPLOMACY_ID: process.env.DIPLOMACY_CATEGORY_ID || '',
+    };
+
     public static readonly ROLES = {
         PLACER_ID: process.env.PLACER_ROLE_ID || '',
+        DIPLOMOD_ID: process.env.DIPLOMOD_ROLE_ID || '',
         DIPLOMAT_ID: process.env.DIPLOMAT_ROLE_ID || '',
         OBSERVER_ID: process.env.OBSERVER_ROLE_ID || '',
         DEVELOPMENT_ID: process.env.DEVELOPMENT_ROLE_ID || '',

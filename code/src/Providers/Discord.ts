@@ -1,4 +1,4 @@
-import { Client, GatewayIntentBits, Guild, Interaction, Message, MessageReaction, PartialMessageReaction, Partials, PartialUser, ThreadChannel, User } from 'discord.js';
+import { Client, GatewayIntentBits, Guild, Interaction, Message, MessageReaction, PartialMessageReaction, Partials, PartialUser, ThreadChannel, User, VoiceState } from 'discord.js';
 import DiscordService from '../Services/DiscordService';
 
 export default class Discord {
@@ -16,6 +16,7 @@ export default class Discord {
     public static eventInteractionModalCallback: Function;
     public static eventInteractionSelectMenuCallback: Function;
     public static eventInteractionContextMenuCommandCallback: Function;
+    public static eventVoiceStateUpdateCallback: Function;
 
     public static SetEventReadyCallback(callback: Function) {
         this.eventReadyCallback = callback;
@@ -61,6 +62,10 @@ export default class Discord {
         this.eventInteractionContextMenuCommandCallback = callback;
     }
 
+    public static SetEventVoiceStateUpdateCallback(callback: Function) {
+        this.eventVoiceStateUpdateCallback = callback;
+    }
+
     public static async Init() {
         this.client = new Client({
             partials: [Partials.Channel],
@@ -68,7 +73,8 @@ export default class Discord {
                 GatewayIntentBits.Guilds,
                 GatewayIntentBits.GuildMessageReactions,
                 GatewayIntentBits.DirectMessages,
-                GatewayIntentBits.MessageContent
+                GatewayIntentBits.MessageContent,
+                GatewayIntentBits.GuildVoiceStates
             ]
         });
 
@@ -82,6 +88,7 @@ export default class Discord {
         this.client.on('messageCreate', (message) => { Discord.EventMessageCreate(message); });
         this.client.on('messageReactionAdd', (reaction, user) => { Discord.EventReactionAdd(reaction, user); });
         this.client.on('interactionCreate', (interaction) => { Discord.EventInteractionCreate(interaction); });
+        this.client.on('voiceStateUpdate', (oldState, newState) => { Discord.VoiceStateUpdate(oldState, newState); });
         await this.client.login(process.env.TOKEN);
     }
 
@@ -189,5 +196,13 @@ export default class Discord {
 
             this.eventInteractionSelectMenuCallback(interaction);
         }
+    }
+
+    private static VoiceStateUpdate(oldState: VoiceState, newState: VoiceState) {
+        if (this.eventVoiceStateUpdateCallback == null) {
+            return;
+        }
+
+        this.eventVoiceStateUpdateCallback(oldState, newState);
     }
 }

@@ -1,6 +1,6 @@
 import CommandHandler from '../Handlers/CommandHandler';
 import IMessageInfo from '../Interfaces/IMessageInfo';
-import { ButtonInteraction, ModalSubmitInteraction, ChatInputCommandInteraction, ThreadChannel, MessageReaction, User, SelectMenuInteraction } from 'discord.js';
+import { ButtonInteraction, ModalSubmitInteraction, ChatInputCommandInteraction, ThreadChannel, MessageReaction, User, SelectMenuInteraction, VoiceState } from 'discord.js';
 import DiscordUtils from '../Utils/DiscordUtils';
 import ThreadHandler from '../Handlers/ThreadHandler';
 import ReactionHandler from '../Handlers/ReactionHandler';
@@ -96,5 +96,9 @@ export default class BotManager {
     public static async OnInteractionContextMenuCommand(interaction: SelectMenuInteraction) {
         const messageInfo: IMessageInfo = await DiscordUtils.ParseInteractionToInfo(interaction);
         CommandHandler.OnCommand(messageInfo, '');
+    }
+
+    public static OnVoiceStateUpdate(oldState: VoiceState, newState: VoiceState) {
+        DiplomacyHandler.OnVoiceUpdate(oldState, newState);
     }
 }

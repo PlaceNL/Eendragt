@@ -27,6 +27,8 @@ export enum LogType {
     DiplomacyReportStart = 'Diplomacy Report Start',
     DiplomacyReport = 'Diplomacy Report',
     DiplomacyInvite = 'Diplomacy Invite',
+    DiplomacyVoiceCreate = 'Diplomacy Voice Create',
+    DiplomacyVoiceDelete = 'Diplomacy Voice Delete',
     NightsWatchRole = 'NightsWatch Role',
     NominationApproveStart = 'Nomation Approve Start',
     NominationApprove = 'Nomation Approve',
@@ -36,4 +38,5 @@ export enum LogType {
     NominationDelay = 'Nomation Delay',
     NominationVoteStart = 'Nomation Vote Start',
     NominationVote = 'Nomation Vote',
+
 }
