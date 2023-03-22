@@ -42,25 +42,25 @@ Your art must meet the following requirements:
         return embed;
     }
 
-    public static GetCoordinateEmbed(url: string, x: number, y: number, time?: string) {
+    public static GetCoordinateEmbed(url: string, x: number, y: number, time: number) {
         const embed = new EmbedBuilder()
             .setColor(SettingsConstants.COLORS.DEFAULT)
             .setAuthor({name: `(${x}, ${y})`})
             .setTitle('Gecoördineerd pixels plaatsen')
             .setDescription(`Klik op de knop hieronder om een pixel te claimen voor deze afbeelding.
 
-${time == null ? 'Deze mag je __direct__ plaatsen!' : `__Wacht__ tot **${time}** met het plaatsen van je pixel!`}`)
+${time == 0 ? 'Deze mag je __direct__ plaatsen!' : `__Wacht__ tot **<t:${time}:t>** (<t:${time}:R>) met het plaatsen van je pixel!`}`)
             .setImage(url);
         return embed;
     }
 
-    public static GetClaimPixelEmbed(x: number, y: number, color: HexColorString, colorImageUrl: string, time?: string) {
+    public static GetClaimPixelEmbed(x: number, y: number, color: HexColorString, colorImageUrl: string, time?: number) {
         const embed = new EmbedBuilder()
             .setColor(color)
             .setTitle('Pixel')
-            .setDescription(`**x=${x}, y=${y}**${ time == null
+            .setDescription(`**x=${x}, y=${y}**${ time == 0
                 ? '\nJe mag deze pixel __direct__ plaatsen'
-                : `\nWacht tot __${time}__ met het plaatsen van deze pixel.`
+                : `\nWacht tot __<t:${time}:t>__ (<t:${time}:R>) met het plaatsen van deze pixel.`
             }`)
             .setImage(colorImageUrl);
         return embed;

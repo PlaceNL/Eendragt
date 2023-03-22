@@ -8,7 +8,7 @@ export default class RedisConstants {
         ART: 'art:',
         COORDINATE: 'coordinate:',
         COOLDOWN: 'cooldown:',
-        DATA: 'data:',
+        TIME: 'data:',
         NIGHTS_WATCH: 'nightswatch',
     };
 }

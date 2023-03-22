@@ -22,7 +22,7 @@ const fetch = require('cross-fetch');
 export default class ArtHandler {
 
     private static readonly coordinatePixelsKey: string = `${RedisConstants.KEYS.PLACENL}${RedisConstants.KEYS.ART}${RedisConstants.KEYS.COORDINATE}`;
-    private static readonly coordinateDataKey: string = `${RedisConstants.KEYS.PLACENL}${RedisConstants.KEYS.ART}${RedisConstants.KEYS.COORDINATE}${RedisConstants.KEYS.DATA}`;
+    private static readonly coordinateTime: string = `${RedisConstants.KEYS.PLACENL}${RedisConstants.KEYS.ART}${RedisConstants.KEYS.COORDINATE}${RedisConstants.KEYS.TIME}`;
     private static readonly claimCooldownKey: string = `${RedisConstants.KEYS.PLACENL}${RedisConstants.KEYS.ART}${RedisConstants.KEYS.COOLDOWN}`;
     private static readonly pixelImageCache: any = {};
     private static readonly pixelDataCache: any = {};
@@ -63,13 +63,13 @@ export default class ArtHandler {
                 return;
             }
 
-            const coordinateKey = `${this.coordinatePixelsKey}${id}`;
-            const dataKey = `${this.coordinateDataKey}${id}`;
+            const keyPixels = `${this.coordinatePixelsKey}${id}`;
+            const keyTime = `${this.coordinateTime}${id}`;
 
             let keys: Array<string>;
             let fromCache = false;
 
-            const pixels = await Redis.hgetall(coordinateKey);
+            const pixels = await Redis.hgetall(keyPixels);
             if (pixels == null) {
                 keys = this.pixelDataCache[id];
                 if (keys == null) {
@@ -87,17 +87,15 @@ export default class ArtHandler {
             const pixelString = keys[Math.floor(Math.random() * keys.length)];
             const pixelData = JSON.parse(pixelString);
 
-            Redis.hdel(coordinateKey, pixelString);
+            Redis.hdel(keyPixels, pixelString);
 
-            const data = await Redis.hgetall(dataKey);
-            const timeString = data.text;
-            const epoch = data.epoch;
-            let timePassed = timeString == 'now';
+            const epoch = parseInt((await Redis.get(keyTime)) || '0');
+            let timePassed = epoch == 0;
             let diff = 0;
 
-            if (epoch != null) {
+            if (epoch != 0) {
                 const now = new Date().getTime();
-                const time = parseInt(epoch);
+                const time = epoch;
                 if (now > time) {
                     timePassed = true;
                 } else {
@@ -108,7 +106,7 @@ export default class ArtHandler {
 
             if (!fromCache) {
                 setTimeout(() => {
-                    Redis.hset(coordinateKey, pixelString, 1);
+                    Redis.hset(keyPixels, pixelString, 1);
                 }, Utils.GetMinutesInMiliSeconds(timePassed ? 5 : diff));
             }
 
@@ -130,7 +128,7 @@ export default class ArtHandler {
                 url = `attachment://${name}`;
             }
 
-            const embed = ArtEmbeds.GetClaimPixelEmbed(pixelData.x, pixelData.y, pixelData.color, url, timePassed ? null : timeString);
+            const embed = ArtEmbeds.GetClaimPixelEmbed(pixelData.x, pixelData.y, pixelData.color, url, epoch / 1000);
 
             const replyOptions: any = {
                 embeds: [embed],
@@ -268,21 +266,20 @@ export default class ArtHandler {
         }
 
         const keyPixels = `${this.coordinatePixelsKey}${art.id}`;
-        const keyData = `${this.coordinateDataKey}${art.id}`;
+        const keyTime = `${this.coordinateTime}${art.id}`;
 
         this.pixelDataCache[art.id] = pixelData;
         await Redis.hmset(keyPixels, pixelData);
         const expire = Utils.GetHoursInSeconds(24);
         await Redis.expire(keyPixels, expire);
 
+        let epoch = 0;
+
         if (time != null) {
-            const epoch = Utils.HHMMToEpoch(time);
-            await Redis.hmset(keyData, 'epoch', epoch, 'text', time);
-        } else {
-            await Redis.hmset(keyData, 'text', 'now');
+            epoch = Utils.HHMMToEpoch(time);
         }
 
-        await Redis.expire(keyData, expire);
+        await Redis.set(keyTime, epoch, 'EX', expire);
 
         const actionRow = new ActionRowBuilder<ButtonBuilder>()
             .addComponents(
@@ -293,7 +290,7 @@ export default class ArtHandler {
             );
 
         await interaction.reply({
-            embeds: [ArtEmbeds.GetCoordinateEmbed(art.url, xCanvas, yCanvas, time)],
+            embeds: [ArtEmbeds.GetCoordinateEmbed(art.url, xCanvas, yCanvas, epoch / 1000)],
             components: [actionRow]
         });
 
