@@ -20,7 +20,11 @@ export default class LogService {
     public static async Error(logType: LogType, userId?: string, idName?: string, id?: string) {
         await this.LoadLogChannel();
 
-        await this.logChannel.send(`${this.GetString(logType, userId, idName, id)} | ERROR! <@${SettingsConstants.MASTER_ID}>`);
+        await this.logChannel.send(
+            {
+                content: `${this.GetString(logType, userId, idName, id)} | ERROR! <@${SettingsConstants.MASTER_ID}>`,
+                allowedMentions: { users: [SettingsConstants.MASTER_ID]}
+            });
     }
 
     private static async LoadLogChannel() {
