@@ -56,7 +56,26 @@ export default class OnboardingHandler {
     }
 
     public static OnStartDiplomacyOnboarding(messageInfo: IMessageInfo) {
+        const interaction = <ButtonInteraction> messageInfo.interaction;
+        if (!interaction.inCachedGuild()) {
+            return;
+        }
+
         try {
+            const interaction = <ButtonInteraction> messageInfo.interaction;
+            if (!interaction.inCachedGuild()) {
+                return;
+            }
+
+            if (interaction.member.roles.cache.has(SettingsConstants.ROLES.DIPLOMAT_ID)) {
+                interaction.reply({
+                    content: 'You already have a diplomacy thread here.',
+                    ephemeral: true,
+                });
+
+                return;
+            }
+
             const modal = new ModalBuilder()
                 .setCustomId('onboarding_diplomacy')
                 .setTitle('Diplomacy');
@@ -93,7 +112,7 @@ export default class OnboardingHandler {
 
             modal.addComponents(...components);
 
-            (messageInfo.interaction as ButtonInteraction).showModal(modal);
+            interaction.showModal(modal);
         } catch (error) {
             console.error(error);
             LogService.Error(LogType.OnboardingDiplomatStart, messageInfo.user.id);
