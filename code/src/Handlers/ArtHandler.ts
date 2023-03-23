@@ -74,7 +74,7 @@ export default class ArtHandler {
                 keys = this.pixelDataCache[id];
                 if (keys == null) {
                     (<ButtonInteraction> messageInfo.interaction).reply({
-                        content: 'Er zijn momenteel pixels meer beschikbaar. Probeer het later nog eens.',
+                        content: 'Er zijn momenteel geen pixels meer beschikbaar. Probeer het later nog eens.',
                         ephemeral: true,
                     });
                     return;
@@ -273,6 +273,8 @@ export default class ArtHandler {
         const expire = Utils.GetHoursInSeconds(24);
         await Redis.expire(keyPixels, expire);
 
+        const total = pixelData.length / 2;
+
         let epoch = 0;
 
         if (time != null) {
@@ -289,10 +291,42 @@ export default class ArtHandler {
                     .setStyle(ButtonStyle.Primary),
             );
 
-        await interaction.reply({
-            embeds: [ArtEmbeds.GetCoordinateEmbed(art.url, xCanvas, yCanvas, epoch / 1000)],
+        const reply = await interaction.reply({
+            embeds: [ArtEmbeds.GetCoordinateEmbed(art.url, xCanvas, yCanvas, epoch / 1000, time != null ? total : null, 0)],
             components: [actionRow]
         });
+
+        const message = await reply.fetch();
+
+        if (time != null) {
+            const f: any = async () => {
+                const now = new Date().getTime();
+                const time = epoch;
+                if (now > time) {
+                    message.embeds[0].fields.pop();
+                    message.edit({
+                        embeds: [message.embeds[0]],
+                    });
+                    clearInterval(f);
+                    return;
+                }
+
+                const data = await Redis.hgetall(keyPixels);
+
+                if (data == null) {
+                    clearInterval(f);
+                    return;
+                }
+
+                message.embeds[0].fields[0].value = `${total - Object.keys(data).length} / ${total}`;
+                message.edit({
+                    embeds: [message.embeds[0]],
+                });
+
+            };
+
+            setInterval(f, 10000);
+        }
 
         LogService.Log(LogType.CoordinateCreate, messageInfo.member.id, 'Channel', messageInfo.channel.id);
     }

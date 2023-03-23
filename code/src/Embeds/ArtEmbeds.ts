@@ -42,7 +42,7 @@ Your art must meet the following requirements:
         return embed;
     }
 
-    public static GetCoordinateEmbed(url: string, x: number, y: number, time: number) {
+    public static GetCoordinateEmbed(url: string, x: number, y: number, time: number, total?: number, claimed?: number) {
         const embed = new EmbedBuilder()
             .setColor(SettingsConstants.COLORS.DEFAULT)
             .setAuthor({name: `(${x}, ${y})`})
@@ -51,6 +51,13 @@ Your art must meet the following requirements:
 
 ${time == 0 ? 'Deze mag je __direct__ plaatsen!' : `__Wacht__ tot **<t:${time}:t>** (<t:${time}:R>) met het plaatsen van je pixel!`}`)
             .setImage(url);
+
+        if (total != null) {
+            embed.addFields({
+                name: 'Aantal geclaimde pixels',
+                value: `${claimed}/${total}`,
+            });
+        }
         return embed;
     }
 
