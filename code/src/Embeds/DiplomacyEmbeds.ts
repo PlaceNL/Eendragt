@@ -14,7 +14,9 @@ export default class DiplomacyEmbeds {
 Note that it's currently ${time} in the Netherlands, and therefore it might take a while before one of our diplomats are available to help you.`}
 
 In the mean time, you can use this thread to further describe what you would like to discuss, and provide images if necessary. \
-If you have pixel art, please validate it using the command ${CommandService.GetCommandString(CommandConstants.SLASH.VALIDATE)}.
+If you have pixel art for us to help build, please validate it using the command ${CommandService.GetCommandString(CommandConstants.SLASH.VALIDATE)}.
+
+Please __provide proof__ that you are an __official diplomat__ by sending an invite link of your community's Discord server. Alternatively, send a screenshot of your roles that server. If it is not possible for you to provide these things, please explain why.
 
 **Community size**
 ${size}
