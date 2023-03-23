@@ -283,7 +283,7 @@ export default class DiplomacyHandler {
                 return;
             }
 
-            await interaction.deferReply();
+            await interaction.deferReply({ ephemeral: true });
 
             const type = interaction.options.getString('type');
             const duration = interaction.options.getString('hoelang') || 'the duration of r/Place 2023';
