@@ -1,6 +1,7 @@
 import { EmbedBuilder } from 'discord.js';
 import CommandConstants from '../Constants/CommandConstants';
 import SettingsConstants from '../Constants/SettingsConstants';
+import IResultInfo from '../Interfaces/IResultInfo';
 import CommandService from '../Services/CommandService';
 
 export default class DiplomacyEmbeds {
@@ -31,7 +32,7 @@ so make sure you add both at once (if needed). If you don't have any associates,
         return embed;
     }
 
-    public static GetDispatchEmbed(communityName: string, size: string, description: string, threadUrl: string) {
+    public static GetDispatchEmbed(communityName: string, size: string, description: string, threadUrl: string, similarities: IResultInfo) {
         const embed = new EmbedBuilder()
             .setColor(SettingsConstants.COLORS.DEFAULT)
             .setTitle(communityName)
@@ -42,7 +43,10 @@ ${size}
 **Bericht**
 ${description}
 
-[Link naar de thread](${threadUrl})`);
+[Link naar de thread](${threadUrl})
+
+${similarities.result ? this.GetSimilaritiesString(similarities.data.list) : ''}`);
+
         return embed;
     }
 
@@ -70,5 +74,15 @@ __Do not abuse this.__ The diplomat disagreeing with you is not reason enough to
 [Link naar de thread](${threadUrl})`);
 
         return embed;
+    }
+
+    private static GetSimilaritiesString(similarities: Array<any>) {
+        let str = `**⚠️ Vergelijkbare ${similarities.length > 1 ? 'diplomaten' : 'diplomaat'}**\n`;
+
+        for (const similarity of similarities) {
+            str += `[${similarity.name}](${similarity.url})\n`;
+        }
+
+        return str;
     }
 }

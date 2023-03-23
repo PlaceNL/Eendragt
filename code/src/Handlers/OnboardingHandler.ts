@@ -1,13 +1,11 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, ChannelType, ChatInputCommandInteraction, ModalBuilder, ModalSubmitInteraction, TextChannel, TextInputBuilder, TextInputStyle, UserSelectMenuBuilder } from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, ChatInputCommandInteraction, ModalBuilder, TextInputBuilder, TextInputStyle } from 'discord.js';
 import CommandConstants from '../Constants/CommandConstants';
 import SettingsConstants from '../Constants/SettingsConstants';
-import DiplomacyEmbeds from '../Embeds/DiplomacyEmbeds';
 import OnboardingEmbeds from '../Embeds/OnboardingEmbeds';
 import { LogType } from '../Enums/LogType';
 import IMessageInfo from '../Interfaces/IMessageInfo';
-import DiscordService from '../Services/DiscordService';
 import LogService from '../Services/LogService';
-import { Utils } from '../Utils/Utils';
+import DiplomacyHandler from './DiplomacyHandler';
 
 export default class OnboardingHandler {
 
@@ -120,71 +118,8 @@ export default class OnboardingHandler {
         }
     }
 
-    public static async OnFinishDiplomacyOnboarding(messageInfo: IMessageInfo) {
-        try {
-            const interaction = <ModalSubmitInteraction>messageInfo.interaction;
-            interaction.deferUpdate();
-            const name = interaction.fields.getTextInputValue('name');
-            const size = interaction.fields.getTextInputValue('size');
-            const description = interaction.fields.getTextInputValue('description');
-
-            if (!interaction.inCachedGuild()) {
-                return;
-            }
-
-            await interaction.member.roles.add(SettingsConstants.ROLES.DIPLOMAT_ID);
-
-            await Utils.Sleep(.25);
-
-            const diplomacyThreadsChannel = (await DiscordService.FindChannelById(SettingsConstants.CHANNELS.DIPLOMACY_THREADS_ID)) as TextChannel;
-            const thread = await diplomacyThreadsChannel.threads.create({
-                name: name,
-                autoArchiveDuration: Utils.GetHoursInMinutes(24),
-                type: ChannelType.PrivateThread,
-                invitable: false
-            });
-
-            const time = new Date().toLocaleTimeString('nl-NL', { timeZone: 'Europe/Amsterdam' });
-
-            let formattedTime: string = null;
-            const timeParts = time.split(':');
-            const hours = parseInt(timeParts[0]);
-            if (hours >= SettingsConstants.TIME.NIGHT_START && hours < SettingsConstants.TIME.NIGHT_END) {
-                formattedTime = `${timeParts[0]}:${timeParts[1]} AM`;
-            }
-
-            const components = new ActionRowBuilder<UserSelectMenuBuilder>()
-                .addComponents(new UserSelectMenuBuilder()
-                    .setCustomId('diplomacy_invite')
-                    .setMaxValues(2));
-
-            const message = await thread.send({
-                content: `${messageInfo.user}!`,
-                allowedMentions: { users: [messageInfo.user.id] },
-                embeds: [DiplomacyEmbeds.GetWelcomeEmbed(messageInfo.user.username, name, size, description, formattedTime)],
-                components: [components]
-            });
-
-            message.pin();
-
-            const actionRow = new ActionRowBuilder<ButtonBuilder>()
-                .addComponents(
-                    new ButtonBuilder()
-                        .setCustomId(`diplomacy_claim_${thread.id}`)
-                        .setLabel('Ik pak dit op!')
-                        .setStyle(ButtonStyle.Primary),
-                );
-
-            const diplomacyDispatchChannel = (await DiscordService.FindChannelById(SettingsConstants.CHANNELS.DIPLOMACY_DISPATCH_ID)) as TextChannel;
-            await diplomacyDispatchChannel.send({
-                embeds: [DiplomacyEmbeds.GetDispatchEmbed(name, size, description, thread.url)],
-                components: [actionRow]
-            });
-            LogService.Log(LogType.OnboardingDiplomat, messageInfo.user.id, 'Thread', thread.id);
-        } catch (error) {
-            console.error(error);
-            LogService.Error(LogType.OnboardingDiplomat, messageInfo.user.id);
-        }
+    public static OnFinishDiplomacyOnboarding(messageInfo: IMessageInfo) {
+        DiplomacyHandler.OnStartDiplomacy(messageInfo);
     }
 
     private static async OnCreateOnboarding(messageInfo: IMessageInfo) {

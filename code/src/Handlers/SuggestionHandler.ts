@@ -17,7 +17,7 @@ import { LogType } from '../Enums/LogType';
 import VariableManager from '../Managers/VariableManager';
 import { VariableKey } from '../Enums/VariableKey';
 import NominationManager from '../Managers/NominationManager';
-const stringSimilarity = require('string-similarity');
+import SimilarityService from '../Services/SimilarityService';
 
 export default class SuggestionHandler {
 
@@ -45,7 +45,7 @@ export default class SuggestionHandler {
                 return;
             }
 
-            const similarities = await this.FindSimiliarThreads(thread, tags.data.tag == SettingsConstants.TAGS.UPGRADE_ART_ID);
+            const similarities = await SimilarityService.FindSimiliarThreads(thread, this.threadsKey, tags.data.tag == SettingsConstants.TAGS.UPGRADE_ART_ID);
 
             if (similarities.result && similarities.data.identical) {
                 await MessageService.ReplyEmbed(DiscordUtils.ParseMessageToInfo(message, message.author), SuggestionEmbeds.GetSuggestionDuplicateEmbed(similarities.data.thread));
@@ -275,59 +275,6 @@ export default class SuggestionHandler {
             resultInfo.data.multiple = true;
         }
 
-        return resultInfo;
-    }
-
-    private static async FindSimiliarThreads(thread: ThreadChannel, ignoreDuplicate: boolean) {
-        const resultInfo: IResultInfo = {
-            result: false
-        };
-
-        const threads = await Redis.hgetall(this.threadsKey);
-        if (threads == null) {
-            return resultInfo;
-        }
-
-        const titles = Object.values(threads);
-
-        const similarities = stringSimilarity.findBestMatch(thread.name, titles);
-        if (similarities.bestMatch.rating < VariableManager.Get(VariableKey.Similar)) {
-            return resultInfo;
-        }
-
-        resultInfo.result = true;
-        resultInfo.data = {};
-
-        if (!ignoreDuplicate && similarities.bestMatch.rating >= VariableManager.Get(VariableKey.Identical)) {
-            resultInfo.data.identical = true;
-            for (const [key, value] of Object.entries(threads)) {
-                if (value == similarities.bestMatch.target) {
-                    resultInfo.data.thread = {
-                        name: value,
-                        url: `${SettingsConstants.SUGGESTION_THREAD_BASE_URL}${key}`
-                    };
-
-                    return resultInfo;
-                }
-            }
-        }
-
-        const list = [];
-
-        for (const rating of similarities.ratings) {
-            if (rating.rating >= VariableManager.Get(VariableKey.Similar)) {
-                for (const [key, value] of Object.entries(threads)) {
-                    if (value == rating.target) {
-                        list.push({
-                            name: value,
-                            url: `${SettingsConstants.SUGGESTION_THREAD_BASE_URL}${key}`
-                        });
-                    }
-                }
-            }
-        }
-
-        resultInfo.data.list = list;
         return resultInfo;
     }
 
