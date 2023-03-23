@@ -290,13 +290,13 @@ export default class DiplomacyHandler {
 
             const image = await loadImage(`assets/treaty_of_${type}.png`);
 
-            const canvas = createCanvas(image.width, image.height);
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(image, 0, 0);
-
             const font = SettingsConstants.TREATY_FONT_NAME;
 
             registerFont(`assets/${font}.ttf`, { family: font });
+
+            const canvas = createCanvas(image.width, image.height);
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(image, 0, 0);
 
             ctx.font = `24px ${font}`;
 
