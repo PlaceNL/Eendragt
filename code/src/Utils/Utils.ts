@@ -202,4 +202,55 @@ export module Utils {
     export function RGBAToHex(r: number, g: number, b: number) {
         return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
     }
+
+    export function WrapText(context: any, text: string, x: number, y: number, maxWidth: number, maxHeight: number, font: string, lineHeight: number) {
+        let fontSize = 50;
+        context.font = fontSize + 'px ' + font;
+
+        while (GetTextHeight(context, text, maxWidth, fontSize, lineHeight) > maxHeight) {
+            fontSize--;
+            context.font = fontSize + 'px ' + font;
+        }
+
+        const words = text.split(' ');
+        let line = '';
+
+        for (let n = 0; n < words.length; n++) {
+            const testLine = line + words[n] + ' ';
+            const metrics = context.measureText(testLine);
+            const testWidth = metrics.width;
+
+            if (testWidth > maxWidth) {
+                context.fillText(line, x, y);
+                line = words[n] + ' ';
+                y += fontSize + lineHeight;
+            } else if (n === words.length - 1) {
+                context.fillText(line + words[n], x, y);
+            } else {
+                line = testLine;
+            }
+        }
+    }
+
+    function GetTextHeight(context: any, text: string, maxWidth: number, fontSize: number, lineHeight: number) {
+        const words = text.split(' ');
+        let line = '';
+        let y = 0;
+
+        for (let n = 0; n < words.length; n++) {
+            const testLine = line + words[n] + ' ';
+            const metrics = context.measureText(testLine);
+            const testWidth = metrics.width;
+
+            if (testWidth > maxWidth && n > 0) {
+                line = words[n] + ' ';
+                y += fontSize + lineHeight;
+            } else {
+                line = testLine;
+            }
+        }
+
+        y += fontSize;
+        return y;
+    }
 }

@@ -26,7 +26,34 @@ export default class CommandManager {
             new SlashCommandBuilder()
                 .setName(CommandConstants.SLASH.VOICE)
                 .setDMPermission(false)
-                .setDescription('Create a temporary voice channel for diplomacy'),
+                .setDescription('Diplomaten: Maak een tijdelijk voicekanaal aan'),
+            new SlashCommandBuilder()
+                .setName(CommandConstants.SLASH.TREATY)
+                .setDMPermission(false)
+                .setDescription('Maak een verdrag dat beide partijen moeten ondertekenen')
+                .addStringOption(option => option
+                    .setName('type')
+                    .setDescription('Het type verdrag')
+                    .setRequired(true)
+                    .addChoices(
+                        {
+                            name: 'Partnership',
+                            value: 'partnership',
+                        },
+                        {
+                            name: 'Harmony',
+                            value: 'harmony',
+                        },
+                        {
+                            name: 'Acquisition',
+                            value: 'acquisition',
+                        }
+                    )
+                )
+                .addStringOption(option => option
+                    .setName('hoelang')
+                    .setRequired(false)
+                    .setDescription('Optioneel: Hoelang het verdrag geldig is, in het Engels (bijv: 3 hours, 1 day, etc.)')),
             new SlashCommandBuilder()
                 .setName(CommandConstants.SLASH.COORDINATE)
                 .setDMPermission(false)

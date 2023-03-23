@@ -6,6 +6,7 @@ export default class CommandConstants {
         ONBOARDING: 'onboarding',
         COORDINATE: 'coordinate',
         VOICE: 'voice',
+        TREATY: 'treaty',
         VARIABLE: {
             COMMAND: 'variable',
             SET: 'set',

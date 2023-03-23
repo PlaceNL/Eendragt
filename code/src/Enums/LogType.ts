@@ -28,6 +28,7 @@ export enum LogType {
     DiplomacyInvite = 'Diplomacy Invite',
     DiplomacyVoiceCreate = 'Diplomacy Voice Create',
     DiplomacyVoiceDelete = 'Diplomacy Voice Delete',
+    DiplomacyTreaty = 'Diplomacy Treaty',
     NightsWatchRole = 'NightsWatch Role',
     NominationApproveStart = 'Nomation Approve Start',
     NominationApprove = 'Nomation Approve',

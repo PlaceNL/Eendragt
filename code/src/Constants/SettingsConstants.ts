@@ -23,6 +23,7 @@ export default class SettingsConstants {
     public static readonly ROLES = {
         PLACER_ID: process.env.PLACER_ROLE_ID || '',
         DIPLOMOD_ID: process.env.DIPLOMOD_ROLE_ID || '',
+        DIPLONL_ID: process.env.DIPLONL_ROLE_ID || '',
         DIPLOMAT_ID: process.env.DIPLOMAT_ROLE_ID || '',
         OBSERVER_ID: process.env.OBSERVER_ROLE_ID || '',
         DEVELOPMENT_ID: process.env.DEVELOPMENT_ROLE_ID || '',
@@ -83,6 +84,8 @@ export default class SettingsConstants {
         NIGHT_START: 1,
         NIGHT_END: 6
     };
+
+    public static readonly TREATY_FONT_NAME = 'Gabrielle';
 
     public static readonly CANVAS = {
         WIDTH: 1000,
