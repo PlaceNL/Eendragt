@@ -70,7 +70,7 @@ export default class NominationHandler {
     private static OnApprove(messageInfo: IMessageInfo) {
         try {
             const interaction = messageInfo.interaction as ContextMenuCommandInteraction;
-            const modal = this.CreateModal(interaction.targetId, NominationAction.Approve, false);
+            const modal = this.CreateModal(interaction.targetId, NominationAction.Approve, true);
             interaction.showModal(modal);
         } catch (error) {
             console.error(error);
@@ -82,7 +82,7 @@ export default class NominationHandler {
     private static OnDecline(messageInfo: IMessageInfo) {
         try {
             const interaction = messageInfo.interaction as ContextMenuCommandInteraction;
-            const modal = this.CreateModal(interaction.targetId, NominationAction.Decline, true);
+            const modal = this.CreateModal(interaction.targetId, NominationAction.Decline, false);
             interaction.showModal(modal);
         } catch (error) {
             console.error(error);
@@ -94,7 +94,7 @@ export default class NominationHandler {
     private static OnDelay(messageInfo: IMessageInfo) {
         try {
             const interaction = messageInfo.interaction as ContextMenuCommandInteraction;
-            const modal = this.CreateModal(interaction.targetId, NominationAction.Delay, true);
+            const modal = this.CreateModal(interaction.targetId, NominationAction.Delay, false);
             interaction.showModal(modal);
         } catch (error) {
             console.error(error);
@@ -106,7 +106,7 @@ export default class NominationHandler {
     private static OnVote(messageInfo: IMessageInfo) {
         try {
             const interaction = messageInfo.interaction as ContextMenuCommandInteraction;
-            const modal = this.CreateModal(interaction.targetId, NominationAction.Vote, false);
+            const modal = this.CreateModal(interaction.targetId, NominationAction.Vote, true);
             interaction.showModal(modal);
         } catch (error) {
             console.error(error);
