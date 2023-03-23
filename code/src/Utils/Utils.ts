@@ -220,37 +220,37 @@ export module Utils {
             const metrics = context.measureText(testLine);
             const testWidth = metrics.width;
 
-            if (testWidth > maxWidth) {
+            if (testWidth > maxWidth && n > 0) {
                 context.fillText(line, x, y);
                 line = words[n] + ' ';
                 y += fontSize + lineHeight;
-            } else if (n === words.length - 1) {
-                context.fillText(line + words[n], x, y);
-            } else {
-                line = testLine;
-            }
-        }
-    }
-
-    function GetTextHeight(context: any, text: string, maxWidth: number, fontSize: number, lineHeight: number) {
-        const words = text.split(' ');
-        let line = '';
-        let y = 0;
-
-        for (let n = 0; n < words.length; n++) {
-            const testLine = line + words[n] + ' ';
-            const metrics = context.measureText(testLine);
-            const testWidth = metrics.width;
-
-            if (testWidth > maxWidth && n > 0) {
-                line = words[n] + ' ';
-                y += fontSize + lineHeight;
             } else {
                 line = testLine;
             }
         }
 
-        y += fontSize;
-        return y;
+        context.fillText(line, x, y);
     }
+
+      function GetTextHeight(context: any, text: string, maxWidth: number, fontSize: number, lineHeight: number) {
+          const words = text.split(' ');
+          let line = '';
+          let y = 0;
+
+          for (let n = 0; n < words.length; n++) {
+              const testLine = line + words[n] + ' ';
+              const metrics = context.measureText(testLine);
+              const testWidth = metrics.width;
+
+              if (testWidth > maxWidth && n > 0) {
+                  line = words[n] + ' ';
+                  y += fontSize + lineHeight;
+              } else {
+                  line = testLine;
+              }
+          }
+
+          y += fontSize;
+          return y;
+      }
 }
