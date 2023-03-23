@@ -56,7 +56,8 @@ export default class ArtHandler {
                 const seconds = expire - minutes * 60;
 
                 await (<ButtonInteraction> messageInfo.interaction).reply({
-                    content: `Je moet ${minutes <= 0 ? '' : `${minutes} minuten`}` + `${minutes <= 0 || seconds <= 0 ? '' : ' en '}` + `${seconds <= 0 ? '' : `${seconds} seconden`} wachten voordat je weer een pixel kan claimen.`,
+                    content: `Je moet ${minutes <= 0 ? '' : `${minutes} minuten`}` + `${minutes <= 0 || seconds <= 0 ? '' : ' en '}`
+                    + `${seconds <= 0 ? '' : `${seconds} seconden`} wachten voordat je weer een pixel kan claimen.`,
                     ephemeral: true,
                 });
 
@@ -219,116 +220,132 @@ export default class ArtHandler {
     }
 
     private static async OnCoordinate(messageInfo: IMessageInfo) {
-        const interaction = messageInfo.interaction as ChatInputCommandInteraction;
-        const art = interaction.options.get('art')?.attachment;
-        const xCanvas = interaction.options.getNumber('x');
-        const yCanvas = interaction.options.getNumber('y');
-        const time = interaction.options.getString('tijd', false);
+        try {
+            const interaction = messageInfo.interaction as ChatInputCommandInteraction;
+            const art = interaction.options.get('art')?.attachment;
+            const xCanvas = interaction.options.getNumber('x');
+            const yCanvas = interaction.options.getNumber('y');
+            const time = interaction.options.getString('tijd', false);
 
-        const resultInfo = await this.IsLegitArt(art);
-        if (!resultInfo.result) {
-            MessageService.ReplyEmbed(messageInfo, ArtEmbeds.GetInvalidArtEmbed(resultInfo.reason), null, null, null, true);
-            LogService.Log(LogType.ValidateArtBad, messageInfo.member.id, 'Channel', messageInfo.channel.id);
-            return;
-        }
+            // Check if time is of the format HH:MM
+            if (time != null && !time.match(/^[0-9]{2}:[0-9]{2}$/)) {
+                interaction.reply({
+                    content: 'De tijd moet in het formaat `HH:MM` zijn.',
+                    ephemeral: true,
+                });
 
-        const bytesIn = await fetch(art.url)
-            .then((res: any) => res.arrayBuffer())
-            .then((arrayBuffer: any) => new Uint8Array(arrayBuffer));
+                return;
+            }
 
-        const pixels = await getPixels(bytesIn, 'image/png');
+            const resultInfo = await this.IsLegitArt(art);
+            if (!resultInfo.result) {
+                MessageService.ReplyEmbed(messageInfo, ArtEmbeds.GetInvalidArtEmbed(resultInfo.reason), null, null, null, true);
+                LogService.Log(LogType.ValidateArtBad, messageInfo.member.id, 'Channel', messageInfo.channel.id);
+                return;
+            }
 
-        const pixelData = [];
+            const bytesIn = await fetch(art.url)
+                .then((res: any) => res.arrayBuffer())
+                .then((arrayBuffer: any) => new Uint8Array(arrayBuffer));
 
-        for (let x = 0; x < pixels.shape[0]; x++) {
-            for (let y = 0; y < pixels.shape[1]; y++) {
-                const r = pixels.get(x, y, 0);
-                const g = pixels.get(x, y, 1);
-                const b = pixels.get(x, y, 2);
-                const a = pixels.get(x, y, 3);
+            const pixels = await getPixels(bytesIn, 'image/png');
 
-                if (a == 0) {
-                    continue;
+            const pixelData = [];
+
+            for (let x = 0; x < pixels.shape[0]; x++) {
+                for (let y = 0; y < pixels.shape[1]; y++) {
+                    const r = pixels.get(x, y, 0);
+                    const g = pixels.get(x, y, 1);
+                    const b = pixels.get(x, y, 2);
+                    const a = pixels.get(x, y, 3);
+
+                    if (a == 0) {
+                        continue;
+                    }
+
+                    const hex = Utils.RGBAToHex(r, g, b);
+
+                    pixelData.push(
+                        JSON.stringify({
+                            x: x + xCanvas,
+                            y: y + yCanvas,
+                            color: hex
+                        })
+                    );
+
+                    pixelData.push(1);
                 }
+            }
 
-                const hex = Utils.RGBAToHex(r, g, b);
+            const keyPixels = `${this.coordinatePixelsKey}${art.id}`;
+            const keyTime = `${this.coordinateTime}${art.id}`;
 
-                pixelData.push(
-                    JSON.stringify({
-                        x: x + xCanvas,
-                        y: y + yCanvas,
-                        color: hex
-                    })
+            await Redis.hmset(keyPixels, pixelData);
+            const expire = Utils.GetHoursInSeconds(24);
+            await Redis.expire(keyPixels, expire);
+
+            this.pixelDataCache[art.id] = Object.keys(await Redis.hgetall(keyPixels));
+
+            const total = pixelData.length / 2;
+
+            let epoch = 0;
+
+            if (time != null) {
+                epoch = Utils.HHMMToEpoch(time);
+            }
+
+            await Redis.set(keyTime, epoch, 'EX', expire);
+
+            const actionRow = new ActionRowBuilder<ButtonBuilder>()
+                .addComponents(
+                    new ButtonBuilder()
+                        .setCustomId(`coordinate_claim_${art.id}`)
+                        .setLabel('Claim een pixel!')
+                        .setStyle(ButtonStyle.Primary),
                 );
 
-                pixelData.push(1);
-            }
-        }
+            const reply = await interaction.reply({
+                embeds: [ArtEmbeds.GetCoordinateEmbed(art.url, xCanvas, yCanvas, epoch / 1000, time != null ? total : null, 0)],
+                components: [actionRow]
+            });
 
-        const keyPixels = `${this.coordinatePixelsKey}${art.id}`;
-        const keyTime = `${this.coordinateTime}${art.id}`;
+            const message = await reply.fetch();
 
-        this.pixelDataCache[art.id] = pixelData;
-        await Redis.hmset(keyPixels, pixelData);
-        const expire = Utils.GetHoursInSeconds(24);
-        await Redis.expire(keyPixels, expire);
+            if (time != null) {
+                const f: any = async () => {
+                    const now = new Date().getTime();
+                    const time = epoch;
+                    if (now > time) {
+                        message.embeds[0].fields.pop();
+                        message.edit({
+                            embeds: [message.embeds[0]],
+                        });
+                        clearInterval(f);
+                        return;
+                    }
 
-        const total = pixelData.length / 2;
+                    const data = await Redis.hgetall(keyPixels);
 
-        let epoch = 0;
+                    if (data == null) {
+                        clearInterval(f);
+                        return;
+                    }
 
-        if (time != null) {
-            epoch = Utils.HHMMToEpoch(time);
-        }
-
-        await Redis.set(keyTime, epoch, 'EX', expire);
-
-        const actionRow = new ActionRowBuilder<ButtonBuilder>()
-            .addComponents(
-                new ButtonBuilder()
-                    .setCustomId(`coordinate_claim_${art.id}`)
-                    .setLabel('Claim een pixel!')
-                    .setStyle(ButtonStyle.Primary),
-            );
-
-        const reply = await interaction.reply({
-            embeds: [ArtEmbeds.GetCoordinateEmbed(art.url, xCanvas, yCanvas, epoch / 1000, time != null ? total : null, 0)],
-            components: [actionRow]
-        });
-
-        const message = await reply.fetch();
-
-        if (time != null) {
-            const f: any = async () => {
-                const now = new Date().getTime();
-                const time = epoch;
-                if (now > time) {
-                    message.embeds[0].fields.pop();
+                    message.embeds[0].fields[0].value = `${total - Object.keys(data).length} / ${total}`;
                     message.edit({
                         embeds: [message.embeds[0]],
                     });
-                    clearInterval(f);
-                    return;
-                }
 
-                const data = await Redis.hgetall(keyPixels);
+                };
 
-                if (data == null) {
-                    clearInterval(f);
-                    return;
-                }
+                setInterval(f, 10000);
+            }
 
-                message.embeds[0].fields[0].value = `${total - Object.keys(data).length} / ${total}`;
-                message.edit({
-                    embeds: [message.embeds[0]],
-                });
-
-            };
-
-            setInterval(f, 10000);
+            LogService.Log(LogType.CoordinateCreate, messageInfo.member.id, 'Channel', messageInfo.channel.id);
+        } catch (error) {
+            console.error(error);
+            LogService.Error(LogType.CoordinateCreate, messageInfo.member.id, 'Channel', messageInfo.channel.id);
         }
-
-        LogService.Log(LogType.CoordinateCreate, messageInfo.member.id, 'Channel', messageInfo.channel.id);
     }
 
     private static async IsLegitArt(attachment: Attachment, english: boolean = false) {

@@ -77,7 +77,7 @@ export default class CommandManager {
                     .setRequired(true))
                 .addStringOption(option => option
                     .setName('tijd')
-                    .setDescription('Optioneel: Hoe laat de pixel art moet worden geplaatst (bijv: 14:15)')
+                    .setDescription('Optioneel: Hoe laat de pixel art moet worden geplaatst in HH:MM format (bijv: 14:15)')
                     .setMinLength(5)
                     .setMaxLength(5)
                     .setRequired(false)),
