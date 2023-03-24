@@ -26,9 +26,8 @@ export default class BillyHandler {
         // Convert AM/PM to 24-hours
         const timeParts = time.split(' ');
         const timeParts2 = timeParts[0].split(':');
-        if (timeParts[1] === 'PM') {
-            timeParts2[0] = (parseInt(timeParts2[0]) + 12).toString();
-        }
+        const hour = Utils.ParseHour(timeParts2[0]);
+        timeParts2[0] = hour.toString();
         const time24 = timeParts2.join(':');
 
         const interaction = <ChatInputCommandInteraction>messageInfo.interaction;
