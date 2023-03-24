@@ -8,11 +8,11 @@ export default class LogService {
 
     private static logChannel: TextChannel;
 
-    public static async Log(logType: LogType, userId?: string, idName?: string, id?: string) {
+    public static async Log(logType: LogType, userId?: string, idName?: string, id?: string, reason?: string) {
         await this.LoadLogChannel();
 
         await this.logChannel.send({
-            content: this.GetString(logType, userId, idName, id),
+            content: this.GetString(logType, userId, idName, id, reason),
             allowedMentions: { users: []}
         });
     }
@@ -35,7 +35,7 @@ export default class LogService {
         this.logChannel = <TextChannel> await DiscordService.FindChannelById(SettingsConstants.CHANNELS.LOG_ID);
     }
 
-    private static GetString(logType: LogType, userId?: string, idName?: string, id?: string) {
+    private static GetString(logType: LogType, userId?: string, idName?: string, id?: string, reason?: string) {
         const date = Utils.GetNowString();
         let str = `${date} - ${logType}`;
         if (userId != null) {
@@ -44,6 +44,10 @@ export default class LogService {
 
         if (idName != null && id != null) {
             str += ` | ${idName}: ${id}`;
+        }
+
+        if (reason != null) {
+            str += ` | Reason: ${reason}`;
         }
 
         return str;

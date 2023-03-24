@@ -38,7 +38,7 @@ export default class CommandManager {
                 .setDescription('Geef iemand een rol, of pak een rol af')
                 .setDefaultMemberPermissions(this.adminFlag)
                 .addSubcommand(subcommand => subcommand
-                    .setName('pixelaar')
+                    .setName(CommandConstants.SLASH.ROLE.ARTIST)
                     .setDescription('Geef iemand de rol van pixelaar, of pak deze af')
                     .addUserOption(option => option
                         .setName('wie')
@@ -63,7 +63,7 @@ export default class CommandManager {
                         .setMaxLength(500)
                         .setRequired(true)))
                 .addSubcommand(subcommand => subcommand
-                    .setName('diplomaat')
+                    .setName(CommandConstants.SLASH.ROLE.DIPLOMAT)
                     .setDescription('Geef iemand de rol van diplomaat, of pak deze af')
                     .addUserOption(option => option
                         .setName('wie')
