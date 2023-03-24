@@ -67,8 +67,9 @@ ${time == 0 ? 'Deze mag je __direct__ plaatsen!' : `__Wacht__ tot **<t:${time}:t
             .setTitle('Pixel')
             .setDescription(`**x=${x}, y=${y}**${ time == 0
                 ? '\nJe mag deze pixel __direct__ plaatsen'
-                : `\nWacht tot __<t:${time}:t>__ (<t:${time}:R>) met het plaatsen van deze pixel.`
-            }`)
+                : `\nWacht tot __<t:${time}:t>__ (<t:${time}:R>) met het plaatsen van deze pixel.
+                
+__Klik dit bericht niet weg__, of onthoud de coördinaten en kleur!`}`)
             .setImage(colorImageUrl);
         return embed;
     }

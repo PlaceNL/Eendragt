@@ -129,7 +129,7 @@ export default class ArtHandler {
                 url = `attachment://${name}`;
             }
 
-            const embed = ArtEmbeds.GetClaimPixelEmbed(pixelData.x, pixelData.y, pixelData.color, url, epoch / 1000);
+            const embed = ArtEmbeds.GetClaimPixelEmbed(pixelData.x, pixelData.y, pixelData.color, url, timePassed ? 0 : epoch / 1000);
 
             const replyOptions: any = {
                 embeds: [embed],
