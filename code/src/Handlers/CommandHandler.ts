@@ -7,6 +7,7 @@ import ArtHandler from './ArtHandler';
 import VariableHandler from './VariableHandler';
 import NominationHandler from './NominationHandler';
 import DiplomacyHandler from './DiplomacyHandler';
+import BillyHandler from './BillyHandler';
 
 export default class CommandHandler {
 
@@ -38,6 +39,10 @@ export default class CommandHandler {
         }
 
         if (NominationHandler.OnCommand(messageInfo)) {
+            return;
+        }
+
+        if (BillyHandler.OnCommand(messageInfo)) {
             return;
         }
     }

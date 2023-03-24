@@ -6,6 +6,7 @@ import VariableManager from './VariableManager';
 
 export default class CommandManager {
 
+    // TODO: Change this
     private static readonly adminFlag = PermissionFlagsBits.Administrator;
 
     public static UpdateSlashCommands() {
@@ -15,6 +16,14 @@ export default class CommandManager {
                 .setDMPermission(false)
                 .setDescription('Update de slash commands')
                 .setDefaultMemberPermissions(this.adminFlag),
+            new SlashCommandBuilder()
+                .setName(CommandConstants.SLASH.BILLY)
+                .setDMPermission(false)
+                .setDescription('Kijk hoe laat het bij Billy is')
+                .setDefaultMemberPermissions(this.adminFlag)
+                .addBooleanOption(option => option
+                    .setName('foto')
+                    .setDescription(':)')),
             new SlashCommandBuilder()
                 .setName(CommandConstants.SLASH.VALIDATE)
                 .setDMPermission(false)
