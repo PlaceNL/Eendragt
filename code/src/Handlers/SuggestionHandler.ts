@@ -33,6 +33,8 @@ export default class SuggestionHandler {
         let message: Message;
 
         try {
+            await Utils.Sleep(.2);
+
             message = await thread.fetchStarterMessage();
             const tags = this.FindMultipleTags(thread);
 
