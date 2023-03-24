@@ -37,7 +37,7 @@ export default class BillyHandler {
         const texts = [
             `Zeg Billy, hoe laat is het bij jou?\nBilly: ${time24}`,
             `"DING DONG!" zegt de klok bij Billy. "It is currently ${time24} over here!`,
-            `Zoals het klokje in San Francisco tikt, tik het precies ${time24}.`,
+            `Zoals het klokje in San Francisco tikt, tikt het precies ${time24}.`,
             `Zoals het klokje thuis tikt, tikt het niet in San Francisco. Want daar is het ${time24}.`,
             `Ik heb de computer van Billy gehackt, en gezien dat het daar exact ${time24} is`,
             `Het is heel simpel. Je pakt de huidige Nederlandse tijd, telt daar 5 bij op, haalt er 2 vanaf, deelt het door 3, draai het een kwartslag, zing een liedje, en dan zou je ongeveer op ${time24} uitkomen.`,
