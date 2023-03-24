@@ -14,6 +14,8 @@ export default class SettingsConstants {
         DIPLOMACY_REPORTS_ID: process.env.DIPLOMACY_REPORTS_CHANNEL_ID || '',
         BOT_SUPPORT_ID: process.env.BOT_SUPPORT_CHANNEL_ID || '',
         NIGHTS_WATCH_ID: process.env.NIGHTS_WATCH_CHANNEL_ID || '',
+        DIPLOMACY_LOG_ID: process.env.DIPLOMACY_LOG_CHANNEL_ID || '',
+        ARTIST_LOG_ID: process.env.ARTIST_LOG_CHANNEL_ID || '',
     };
 
     public static readonly CATEGORIES = {
@@ -27,6 +29,7 @@ export default class SettingsConstants {
         DIPLOMAT_ID: process.env.DIPLOMAT_ROLE_ID || '',
         OBSERVER_ID: process.env.OBSERVER_ROLE_ID || '',
         DEVELOPMENT_ID: process.env.DEVELOPMENT_ROLE_ID || '',
+        ART_DIRECTOR_ID: process.env.ART_DIRECTOR_ROLE_ID || '',
         ARTIST_ID: process.env.ARTIST_ROLE_ID || '',
         NIGHTS_WATCH_ID: process.env.NIGHTS_WATCH_ROLE_ID || '',
         SOLDIER_ID: process.env.SOLDIER_ROLE_ID || '',

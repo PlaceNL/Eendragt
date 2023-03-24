@@ -33,6 +33,61 @@ export default class CommandManager {
                     .setDescription('Your pixel art')
                     .setRequired(true)),
             new SlashCommandBuilder()
+                .setName(CommandConstants.SLASH.ROLE.COMMAND)
+                .setDMPermission(false)
+                .setDescription('Geef iemand een rol, of pak een rol af')
+                .setDefaultMemberPermissions(this.adminFlag)
+                .addSubcommand(subcommand => subcommand
+                    .setName('pixelaar')
+                    .setDescription('Geef iemand de rol van pixelaar, of pak deze af')
+                    .addUserOption(option => option
+                        .setName('wie')
+                        .setDescription('Wie die je de rol wilt geven/afpakken')
+                        .setRequired(true))
+                    .addStringOption(option => option
+                        .setName('actie')
+                        .setRequired(true)
+                        .setDescription('Wil je de rol geven of afpakken?')
+                        .addChoices({
+                            name: 'Geven',
+                            value: 'give'
+                        },
+                        {
+                            name: 'Afpakken',
+                            value: 'take'
+                        }))
+                    .addStringOption(option => option
+                        .setName('reden')
+                        .setDescription('De reden waarom je de rol geeft/afpakt')
+                        .setMinLength(10)
+                        .setMaxLength(500)
+                        .setRequired(true)))
+                .addSubcommand(subcommand => subcommand
+                    .setName('diplomaat')
+                    .setDescription('Geef iemand de rol van diplomaat, of pak deze af')
+                    .addUserOption(option => option
+                        .setName('wie')
+                        .setDescription('Wie je de rol wilt geven/afpakken')
+                        .setRequired(true))
+                    .addStringOption(option => option
+                        .setName('actie')
+                        .setRequired(true)
+                        .setDescription('Wil je de rol geven of afpakken?')
+                        .addChoices({
+                            name: 'Geven',
+                            value: 'give'
+                        },
+                        {
+                            name: 'Afpakken',
+                            value: 'take'
+                        }))
+                    .addStringOption(option => option
+                        .setName('reden')
+                        .setDescription('De reden waarom je de rol geeft/afpakt')
+                        .setMinLength(10)
+                        .setMaxLength(500)
+                        .setRequired(true))),
+            new SlashCommandBuilder()
                 .setName(CommandConstants.SLASH.VOICE)
                 .setDMPermission(false)
                 .setDescription('Diplomaten: Maak een tijdelijk voicekanaal aan'),

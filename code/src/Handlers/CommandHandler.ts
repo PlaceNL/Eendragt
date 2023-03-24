@@ -8,6 +8,7 @@ import VariableHandler from './VariableHandler';
 import NominationHandler from './NominationHandler';
 import DiplomacyHandler from './DiplomacyHandler';
 import BillyHandler from './BillyHandler';
+import RoleHandler from './RoleHandler';
 
 export default class CommandHandler {
 
@@ -31,6 +32,10 @@ export default class CommandHandler {
         }
 
         if (DiplomacyHandler.OnCommand(messageInfo)) {
+            return;
+        }
+
+        if (RoleHandler.OnCommand(messageInfo)) {
             return;
         }
 
