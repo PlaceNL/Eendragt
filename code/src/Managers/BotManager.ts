@@ -88,6 +88,8 @@ export default class BotManager {
         const messageInfo: IMessageInfo = await DiscordUtils.ParseInteractionToInfo(interaction);
         if (interaction.customId == 'diplomacy_invite') {
             DiplomacyHandler.OnInvite(messageInfo);
+        } else if (interaction.customId == 'onboarding_roles') {
+            OnboardingHandler.OnRoleSelect(messageInfo);
         }
     }
 

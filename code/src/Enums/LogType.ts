@@ -9,6 +9,7 @@ export enum LogType {
     OnboardingDiplomat = 'Onboarding Diplomat',
     OnboardingObserver = 'Onboarding Observer',
     OnboardingDevelopment = 'Onboarding Development',
+    OnboardingRoles = 'Onboarding Roles',
     ValidateArt = 'ValidateArt',
     ValidateArtGood = 'ValidateArt Good',
     ValidateArtBad = 'ValidateArt Bad',

@@ -1,4 +1,4 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, ChatInputCommandInteraction, ModalBuilder, TextInputBuilder, TextInputStyle } from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, ChatInputCommandInteraction, ModalBuilder, StringSelectMenuBuilder, StringSelectMenuInteraction, TextInputBuilder, TextInputStyle } from 'discord.js';
 import CommandConstants from '../Constants/CommandConstants';
 import SettingsConstants from '../Constants/SettingsConstants';
 import OnboardingEmbeds from '../Embeds/OnboardingEmbeds';
@@ -23,13 +23,37 @@ export default class OnboardingHandler {
     }
 
     public static OnPlacer(messageInfo: IMessageInfo) {
-        messageInfo.member.roles.add(SettingsConstants.ROLES.PLACER_ID);
-        (<ChatInputCommandInteraction>messageInfo.interaction).reply({
-            content: 'Fijn dat je komt helpen!',
-            ephemeral: true
-        });
+        const interaction = <ChatInputCommandInteraction>messageInfo.interaction;
 
-        LogService.Log(LogType.OnboardingPlacer, messageInfo.user.id);
+        const actionRow = new ActionRowBuilder<StringSelectMenuBuilder>()
+            .addComponents(
+                new StringSelectMenuBuilder()
+                    .setCustomId('onboarding_roles')
+                    .setPlaceholder('Selecteer een rol')
+                    .setMinValues(1)
+                    .setMaxValues(3)
+                    .addOptions(
+                        {
+                            label: 'Soldaat',
+                            value: 'soldaat'
+                        },
+                        {
+                            label: 'Bouwer',
+                            value: 'bouwer'
+                        },
+                        {
+                            label: 'Nieuwsredactie',
+                            value: 'redactie'
+                        },
+                    )
+            );
+
+        messageInfo.member.roles.add(SettingsConstants.ROLES.PLACER_ID);
+        (interaction).reply({
+            embeds: [OnboardingEmbeds.GetPlacerEmbed()],
+            ephemeral: true,
+            components: [actionRow]
+        });
     }
 
     public static OnObserver(messageInfo: IMessageInfo) {
@@ -122,6 +146,44 @@ export default class OnboardingHandler {
         DiplomacyHandler.OnStartDiplomacy(messageInfo);
     }
 
+    public static OnRoleSelect(messageInfo: IMessageInfo) {
+        const interaction = messageInfo.interaction as StringSelectMenuInteraction;
+
+        try {
+            const roles = interaction.values;
+
+            for (const role of roles) {
+                switch (role) {
+                    case 'soldaat':
+                        messageInfo.member.roles.add(SettingsConstants.ROLES.SOLDIER_ID);
+                        break;
+                    case 'bouwer':
+                        messageInfo.member.roles.add(SettingsConstants.ROLES.BUILDER_ID);
+                        break;
+                    case 'redactie':
+                        messageInfo.member.roles.add(SettingsConstants.ROLES.ASPIRING_REPORTER_ID);
+                        break;
+                }
+            }
+
+            const index = roles.indexOf('redactie');
+            if (index > -1) {
+                roles[index] = 'Aspirant Nieuwsredacteur';
+            }
+
+            interaction.reply({
+                content: `Ik heb je de rol${roles.length > 1 ? 'len' : ''} \
+                ${roles.slice(0, -1).map(r => `\`${r.toTitleCase()}\``).join(', ')} \
+                en \`${roles[roles.length - 1].toTitleCase()}\` gegeven.`,
+            });
+
+            LogService.Log(LogType.OnboardingRoles, messageInfo.user.id, 'Roles', interaction.values.join(', '));
+        } catch (error) {
+            console.error(error);
+            LogService.Error(LogType.OnboardingPlacer, messageInfo.user.id, 'Roles', interaction.values.join(', '));
+        }
+    }
+
     private static async OnCreateOnboarding(messageInfo: IMessageInfo) {
         try {
             const actionRowButtons = new ActionRowBuilder<ButtonBuilder>()
@@ -136,11 +198,11 @@ export default class OnboardingHandler {
                         .setStyle(ButtonStyle.Success),
                     new ButtonBuilder()
                         .setCustomId('onboarding_observe')
-                        .setLabel('👀 To observe')
+                        .setLabel('👀 I\'m here to observe')
                         .setStyle(ButtonStyle.Danger),
                     new ButtonBuilder()
                         .setCustomId('onboarding_development')
-                        .setLabel('🤖 Bot development/support')
+                        .setLabel('🤖 I\'m here for bot development/support')
                         .setStyle(ButtonStyle.Secondary)
                 );
 

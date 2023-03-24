@@ -29,6 +29,9 @@ export default class SettingsConstants {
         DEVELOPMENT_ID: process.env.DEVELOPMENT_ROLE_ID || '',
         ARTIST_ID: process.env.ARTIST_ROLE_ID || '',
         NIGHTS_WATCH_ID: process.env.NIGHTS_WATCH_ROLE_ID || '',
+        SOLDIER_ID: process.env.SOLDIER_ROLE_ID || '',
+        BUILDER_ID: process.env.BUILDER_ROLE_ID || '',
+        ASPIRING_REPORTER_ID: process.env.ASPIRING_REPORTER_ROLE_ID || '',
     };
 
     public static readonly EMOJI = {
