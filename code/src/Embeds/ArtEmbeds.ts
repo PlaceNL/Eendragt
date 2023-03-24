@@ -55,7 +55,7 @@ ${time == 0 ? 'Deze mag je __direct__ plaatsen!' : `__Wacht__ tot **<t:${time}:t
         if (total != null) {
             embed.addFields({
                 name: 'Aantal geclaimde pixels',
-                value: `${claimed}/${total}`,
+                value: `${claimed} / ${total}`,
             });
         }
         return embed;

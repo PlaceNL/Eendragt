@@ -189,15 +189,11 @@ export module Utils {
             target.setDate(target.getDate() + 1);
         }
 
-        // Get timezone offset for Dutch timezone
-        const timeZoneOffset = Intl.DateTimeFormat('nl-NL', { timeZone: 'Europe/Amsterdam' }).resolvedOptions().timeZone;
+        const utcTime = Date.UTC(target.getUTCFullYear(), target.getUTCMonth(),
+            target.getUTCDate(), target.getUTCHours(), target.getUTCMinutes());
 
-        // Adjust target time for timezone offset
-        const adjustedTarget = new Date(target.toLocaleString('en-US', { timeZone: timeZoneOffset }));
-
-        return adjustedTarget.getTime();
+        return utcTime - 60 * 60 * 1000;
     }
-
     export async function Sleep(seconds: number) {
         return new Promise(resolve => setTimeout(resolve, seconds * 1000));
     }
