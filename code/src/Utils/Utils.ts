@@ -189,10 +189,13 @@ export module Utils {
             target.setDate(target.getDate() + 1);
         }
 
-        const utcTime = Date.UTC(target.getUTCFullYear(), target.getUTCMonth(),
-            target.getUTCDate(), target.getUTCHours(), target.getUTCMinutes());
+        // Get timezone offset for Dutch timezone
+        const timeZoneOffset = Intl.DateTimeFormat('nl-NL', { timeZone: 'Europe/Amsterdam' }).resolvedOptions().timeZone;
 
-        return utcTime;
+        // Adjust target time for timezone offset
+        const adjustedTarget = new Date(target.toLocaleString('en-US', { timeZone: timeZoneOffset }));
+
+        return adjustedTarget.getTime();
     }
 
     export async function Sleep(seconds: number) {
