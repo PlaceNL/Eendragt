@@ -146,7 +146,7 @@ export default class DiplomacyHandler {
             const permissionOverwrites = [
                 {
                     id: guild.roles.everyone.id,
-                    deny: [PermissionFlagsBits.ViewChannel],
+                    deny: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages],
                     type: OverwriteType.Role
                 },
                 {
