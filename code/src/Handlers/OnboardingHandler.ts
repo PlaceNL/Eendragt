@@ -128,19 +128,19 @@ export default class OnboardingHandler {
                 .addComponents(
                     new ButtonBuilder()
                         .setCustomId('onboarding_help')
-                        .setLabel('Om te helpen')
+                        .setLabel('🌷 Ik wil meehelpen!')
                         .setStyle(ButtonStyle.Primary),
                     new ButtonBuilder()
                         .setCustomId('onboarding_diplomacy')
-                        .setLabel('I\'m here for diplomacy')
+                        .setLabel('🤝 I\'m a foreign diplomat')
                         .setStyle(ButtonStyle.Success),
                     new ButtonBuilder()
                         .setCustomId('onboarding_observe')
-                        .setLabel('Om te kijken / To observe')
+                        .setLabel('👀 To observe')
                         .setStyle(ButtonStyle.Danger),
                     new ButtonBuilder()
                         .setCustomId('onboarding_development')
-                        .setLabel('Bot development/support')
+                        .setLabel('🤖 Bot development/support')
                         .setStyle(ButtonStyle.Secondary)
                 );
 
