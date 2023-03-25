@@ -42,7 +42,7 @@ export default class OnboardingHandler {
                             value: 'bouwer'
                         },
                         {
-                            label: 'Nieuwsredactie',
+                            label: 'Nieuwsredacteur',
                             value: 'redactie'
                         },
                     )
@@ -173,8 +173,9 @@ export default class OnboardingHandler {
 
             interaction.reply({
                 content: `Ik heb je de rol${roles.length > 1 ? 'len' : ''} \
-                ${roles.slice(0, -1).map(r => `\`${r.toTitleCase()}\``).join(', ')} \
-                en \`${roles[roles.length - 1].toTitleCase()}\` gegeven.`,
+${roles.slice(0, -1).map(r => `\`${r.toTitleCase()}\``).join(', ')} \
+${roles.length > 1 ? 'en ' : ''}\`${roles[roles.length - 1].toTitleCase()}\` gegeven.`,
+                ephemeral: true,
             });
 
             LogService.Log(LogType.OnboardingRoles, messageInfo.user.id, 'Roles', interaction.values.join(', '));
