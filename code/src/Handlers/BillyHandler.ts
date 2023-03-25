@@ -3,7 +3,6 @@ import CommandConstants from '../Constants/CommandConstants';
 import { LogType } from '../Enums/LogType';
 import IMessageInfo from '../Interfaces/IMessageInfo';
 import LogService from '../Services/LogService';
-import { Utils } from '../Utils/Utils';
 
 export default class BillyHandler {
 
@@ -26,8 +25,14 @@ export default class BillyHandler {
         // Convert AM/PM to 24-hours
         const timeParts = time.split(' ');
         const timeParts2 = timeParts[0].split(':');
-        const hour = Utils.ParseHour(timeParts2[0]);
-        timeParts2[0] = hour.toString();
+        if (timeParts[1] === 'PM') {
+            timeParts2[0] = (parseInt(timeParts2[0]) + 12).toString();
+        } else {
+            if (timeParts2[0] === '12') {
+                timeParts2[0] = '00';
+            }
+        }
+
         const time24 = timeParts2.join(':');
 
         const interaction = <ChatInputCommandInteraction>messageInfo.interaction;
