@@ -9,6 +9,7 @@ import NominationHandler from './NominationHandler';
 import DiplomacyHandler from './DiplomacyHandler';
 import BillyHandler from './BillyHandler';
 import RoleHandler from './RoleHandler';
+import ThreadHandler from './ThreadHandler';
 
 export default class CommandHandler {
 
@@ -36,6 +37,10 @@ export default class CommandHandler {
         }
 
         if (RoleHandler.OnCommand(messageInfo)) {
+            return;
+        }
+
+        if (ThreadHandler.OnCommand(messageInfo)) {
             return;
         }
 

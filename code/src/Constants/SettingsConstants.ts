@@ -23,6 +23,8 @@ export default class SettingsConstants {
     };
 
     public static readonly ROLES = {
+        MODERATOR_ID: process.env.MODERATOR_ROLE_ID || '',
+        COMMUNITY_SUPPORT_ID: process.env.COMMUNITY_SUPPORT_ROLE_ID || '',
         PLACER_ID: process.env.PLACER_ROLE_ID || '',
         DIPLOMOD_ID: process.env.DIPLOMOD_ROLE_ID || '',
         DIPLONL_ID: process.env.DIPLONL_ROLE_ID || '',

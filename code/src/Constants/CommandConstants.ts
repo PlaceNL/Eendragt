@@ -8,10 +8,16 @@ export default class CommandConstants {
         COORDINATE: 'coordinate',
         VOICE: 'voice',
         TREATY: 'treaty',
+        THREAD: {
+            COMMAND: 'thread',
+            CLOSE: 'close',
+            LOCK: 'lock',
+            TAGS: 'tags',
+        },
         ROLE: {
             COMMAND: 'rol',
             DIPLOMAT: 'diplomaat',
-            PIXELER: 'pixelaar',
+            ARTIST: 'pixelaar',
         },
         VARIABLE: {
             COMMAND: 'variable',

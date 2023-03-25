@@ -73,7 +73,7 @@ export default class RoleHandler {
 
             if (!messageInfo.member.roles.cache.has(modRoleId)) {
                 await interaction.reply({
-                    content: 'Je hebt geen toegang tot dit commando',
+                    content: 'Je hebt geen toegang tot dit commando.',
                     ephemeral: true
                 });
 

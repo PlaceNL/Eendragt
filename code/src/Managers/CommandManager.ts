@@ -88,6 +88,32 @@ export default class CommandManager {
                         .setMaxLength(500)
                         .setRequired(true))),
             new SlashCommandBuilder()
+                .setName(CommandConstants.SLASH.THREAD.COMMAND)
+                .setDMPermission(false)
+                .setDescription('Beheer threads')
+                .setDefaultMemberPermissions(this.adminFlag)
+                .addSubcommand(subcommand => subcommand
+                    .setName(CommandConstants.SLASH.THREAD.CLOSE)
+                    .setDescription('Archiveer een thread, wordt automatisch geopend als iemand weer praat')
+                    .addStringOption(option => option
+                        .setName('reden')
+                        .setDescription('Optioneel: Waarom je deze thread sluit')
+                        .setMinLength(10)
+                        .setMaxLength(500)
+                        .setRequired(false)))
+                .addSubcommand(subcommand => subcommand
+                    .setName(CommandConstants.SLASH.THREAD.LOCK)
+                    .setDescription('Sluit een thread, niemand kan meer praten')
+                    .addStringOption(option => option
+                        .setName('reden')
+                        .setDescription('Optioneel: De reden waarom je de thread sluit')
+                        .setMinLength(10)
+                        .setMaxLength(500)
+                        .setRequired(true)))
+                .addSubcommand(subcommand => subcommand
+                    .setName(CommandConstants.SLASH.THREAD.TAGS)
+                    .setDescription('Pas de tags aan van een forum post')),
+            new SlashCommandBuilder()
                 .setName(CommandConstants.SLASH.VOICE)
                 .setDMPermission(false)
                 .setDescription('Diplomaten: Maak een tijdelijk voicekanaal aan'),

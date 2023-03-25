@@ -90,6 +90,8 @@ export default class BotManager {
             DiplomacyHandler.OnInvite(messageInfo);
         } else if (interaction.customId == 'onboarding_roles') {
             OnboardingHandler.OnRoleSelect(messageInfo);
+        } else if (interaction.customId == 'thread_tags') {
+            ThreadHandler.OnTagsSelect(messageInfo);
         }
     }
 
