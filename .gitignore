@@ -5,4 +5,5 @@ data
 docs
 logs
 .env
+.vscode
 package-lock.json
