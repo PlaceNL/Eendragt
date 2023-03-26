@@ -32,7 +32,7 @@ export default class OnboardingEmbeds {
             .addFields(
                 {
                     name: RolesConstants.ROLES[RoleType.Soldier].name,
-                    value: RolesConstants.ROLES[RoleType.Soldier].name,
+                    value: RolesConstants.ROLES[RoleType.Soldier].description,
                 },
                 {
                     name: RolesConstants.ROLES[RoleType.Builder].name,
