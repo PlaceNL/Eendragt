@@ -37,7 +37,7 @@ export default class LogService {
 
     private static GetString(logType: LogType, userId?: string, idName?: string, id?: string, reason?: string) {
         const date = Utils.GetNowString();
-        let str = `${date} - ${logType}`;
+        let str = `${logType}`;
         if (userId != null) {
             str += ` | User: ${userId} (<@${userId}>)`;
         }
@@ -49,6 +49,8 @@ export default class LogService {
         if (reason != null) {
             str += ` | Reason: ${reason}`;
         }
+
+        str += ` | ${date}`;
 
         return str;
     }
