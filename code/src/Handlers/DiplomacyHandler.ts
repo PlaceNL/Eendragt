@@ -363,7 +363,7 @@ export default class DiplomacyHandler {
             await interaction.deferReply({ ephemeral: true });
 
             const type = interaction.options.getString('type');
-            const duration = interaction.options.getString('hoelang') || 'the duration of r/Place 2023';
+            const duration = interaction.options.getString('hoelang') || 'the duration of r/place 2023';
 
             const image = await loadImage(`assets/treaty_of_${type}.png`);
 
@@ -391,19 +391,19 @@ export default class DiplomacyHandler {
             let text;
 
             if (type == TreatyType.Partnership) {
-                text = `Hear ye, hear ye! Let it be known that the Kingdom of Place NL and ${name} doth understand the worth of solidarity \
-and alliance upon the realm of r/Place. Thus, we doth hereby agree that Place NL shall render aid to ${name} in the creation \
-of their artwork, and in turn, ${name} shall pledge their support to defend Place NL. Let this treaty be made known to all, and may it stand fast for ${duration}.`;
+                text = `Hear ye, hear ye! Let it be known that the Kingdom of PlaceNL and ${name} doth understand the worth of solidarity \
+and alliance upon the realm of r/place. Thus, we doth hereby agree that PlaceNL shall render aid to ${name} in the creation \
+of their artwork, and in turn, ${name} shall pledge their support to defend PlaceNL. Let this treaty be made known to all, and may it stand fast for ${duration}.`;
             } else if (type == TreatyType.Harmony) {
                 text = `Be it known to those who doth gaze upon this parchment, \
-that the Kingdom of Place NL and the community of ${name} doth recognizing the value \
-of a peaceful and collaborative environment on r/Place, doth hereby agree not to place \
+that the Kingdom of PlaceNL and the community of ${name} doth recognizing the value \
+of a peaceful and collaborative environment on r/place, doth hereby agree not to place \
 pixels upon each other's ground. Let this Treaty remain in force for a period of ${duration}, \
 and may it be renewed by mutual agreement of the parties.`;
             } else if (type == TreatyType.Acquisition) {
-                text = `Let it be proclaimed to all that the Kingdom of Place NL and ${name} have \
-come to a mutual understanding regarding the division of lands on r/Place. For it is Place NL that \
-shall lay claim to the ground where ${name} presently resides, and in exchange, Place NL shall pledge \
+                text = `Let it be proclaimed to all that the Kingdom of PlaceNL and ${name} have \
+come to a mutual understanding regarding the division of lands on r/place. For it is PlaceNL that \
+shall lay claim to the ground where ${name} presently resides, and in exchange, PlaceNL shall pledge \
 to lend their assistance in the relocation of ${name} to new land.`;
             }
 
