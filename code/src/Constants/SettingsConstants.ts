@@ -12,6 +12,7 @@ export default class SettingsConstants {
         DIPLOMACY_THREADS_ID: process.env.DIPLOMACY_THREADS_CHANNEL_ID || '',
         DIPLOMACY_DISPATCH_ID: process.env.DIPLOMACY_DISPATCH_CHANNEL_ID || '',
         DIPLOMACY_REPORTS_ID: process.env.DIPLOMACY_REPORTS_CHANNEL_ID || '',
+        DIPLOMCACY_VOICE_CHANNEL_ID: process.env.DIPLOMACY_VOICE_CHANNEL_ID || '',
         BOT_SUPPORT_ID: process.env.BOT_SUPPORT_CHANNEL_ID || '',
         NIGHTS_WATCH_ID: process.env.NIGHTS_WATCH_CHANNEL_ID || '',
         DIPLOMACY_LOG_ID: process.env.DIPLOMACY_LOG_CHANNEL_ID || '',

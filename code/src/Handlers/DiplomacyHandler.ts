@@ -190,6 +190,10 @@ export default class DiplomacyHandler {
             return;
         }
 
+        if (oldState.channel?.id == SettingsConstants.CHANNELS.DIPLOMCACY_VOICE_CHANNEL_ID) {
+            return;
+        }
+
         try {
             if (oldState.channel.members.size == 0) {
                 oldState.channel.delete();
