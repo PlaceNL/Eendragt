@@ -18,7 +18,7 @@ export default class RolesConstants {
         },
         [RoleType.Diplomat]: {
             name: '🤝 Diplomaat',
-            description: 'Kan jij goed onderhandelen? Meld je aan als diplomaat, en help mee met het onderhouden van de relaties met andere landen.',
+            description: 'Kan jij goed onderhandelen? Meld je aan als diplomaat, en help mee met het onderhouden van de relaties met andere communities.',
         },
         [RoleType.Reporter]: {
             name: '📰 Nieuwsredacteur',
