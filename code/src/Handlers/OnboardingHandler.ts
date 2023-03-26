@@ -50,6 +50,8 @@ export default class OnboardingHandler {
             ephemeral: true,
             components: [actionRow]
         });
+
+        LogService.Log(LogType.OnboardingPlacer, messageInfo.user.id);
     }
 
     public static OnObserver(messageInfo: IMessageInfo) {
