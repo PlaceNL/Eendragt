@@ -6,8 +6,7 @@ import VariableManager from './VariableManager';
 
 export default class CommandManager {
 
-    // TODO: Change this
-    private static readonly adminFlag = PermissionFlagsBits.Administrator;
+    private static readonly adminFlag = PermissionFlagsBits.ManageGuild;
 
     public static UpdateSlashCommands() {
         const data = [
@@ -20,7 +19,6 @@ export default class CommandManager {
                 .setName(CommandConstants.SLASH.BILLY)
                 .setDMPermission(false)
                 .setDescription('Kijk hoe laat het bij Billy is')
-                .setDefaultMemberPermissions(this.adminFlag)
                 .addBooleanOption(option => option
                     .setName('foto')
                     .setDescription(':)')),
@@ -36,7 +34,6 @@ export default class CommandManager {
                 .setName(CommandConstants.SLASH.ROLE.COMMAND)
                 .setDMPermission(false)
                 .setDescription('Geef iemand een rol, of pak een rol af')
-                .setDefaultMemberPermissions(this.adminFlag)
                 .addSubcommand(subcommand => subcommand
                     .setName(CommandConstants.SLASH.ROLE.ARTIST)
                     .setDescription('Geef iemand de rol van pixelaar, of pak deze af')
@@ -91,7 +88,6 @@ export default class CommandManager {
                 .setName(CommandConstants.SLASH.THREAD.COMMAND)
                 .setDMPermission(false)
                 .setDescription('Beheer threads')
-                .setDefaultMemberPermissions(this.adminFlag)
                 .addSubcommand(subcommand => subcommand
                     .setName(CommandConstants.SLASH.THREAD.CLOSE)
                     .setDescription('Archiveer een thread, wordt automatisch geopend als iemand weer praat')
@@ -194,7 +190,12 @@ export default class CommandManager {
             new SlashCommandBuilder()
                 .setName(CommandConstants.SLASH.ONBOARDING)
                 .setDMPermission(false)
-                .setDescription('Plaats het onboarding bericht in dit kanaal.')
+                .setDescription('Plaats het onboarding bericht in dit kanaal')
+                .setDefaultMemberPermissions(this.adminFlag),
+            new SlashCommandBuilder()
+                .setName(CommandConstants.SLASH.ROLES)
+                .setDMPermission(false)
+                .setDescription('Plaats het rollen bericht in dit kanaal')
                 .setDefaultMemberPermissions(this.adminFlag),
             new SlashCommandBuilder()
                 .setName(CommandConstants.SLASH.VARIABLE.COMMAND)

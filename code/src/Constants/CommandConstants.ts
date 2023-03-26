@@ -5,6 +5,7 @@ export default class CommandConstants {
         VALIDATE: 'validate',
         TEMPLATE: 'template',
         ONBOARDING: 'onboarding',
+        ROLES: 'rollen',
         COORDINATE: 'coordinate',
         VOICE: 'voice',
         TREATY: 'treaty',

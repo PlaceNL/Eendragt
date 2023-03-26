@@ -1,12 +1,14 @@
 import { EmbedBuilder } from 'discord.js';
+import RolesConstants from '../Constants/RolesConstants';
 import SettingsConstants from '../Constants/SettingsConstants';
+import { RoleType } from '../Enums/RoleType';
 
 export default class OnboardingEmbeds {
 
     public static GetWelcomeEmbed() {
         const embed = new EmbedBuilder()
             .setColor(SettingsConstants.COLORS.DEFAULT)
-            .setTitle('Place NL')
+            .setTitle('PlaceNL')
             .addFields(
                 {
                     name: 'Welkom',
@@ -29,17 +31,16 @@ export default class OnboardingEmbeds {
             .setDescription('Meehelpen kan op de volgende manieren:')
             .addFields(
                 {
-                    name: 'Soldaat',
-                    value: 'Ben jij een strijder voor het Vaderlandt? Help dan mee met het verdedigen van onze glorie op het canvas.'
-
+                    name: RolesConstants.ROLES[RoleType.Soldier].name,
+                    value: RolesConstants.ROLES[RoleType.Soldier].name,
                 },
                 {
-                    name: 'Bouwer',
-                    value: 'Vind je het leuk om mee te werken aan nieuwe creaties? Of heet je Bob? Of Frans? Dan is deze rol voor jou!'
+                    name: RolesConstants.ROLES[RoleType.Builder].name,
+                    value: RolesConstants.ROLES[RoleType.Builder].description,
                 },
                 {
-                    name: 'Nieuwsredactie',
-                    value: 'Ben jij op de hoogte van wat er allemaal speelt op en rond het canvas? Vind jij het leuk om content te maken voor het journaal? Word dan Aspirant Nieuwsredacteur!'
+                    name: 'Nog meer rollen',
+                    value: `Bij PlaceNL zijn we op zoek naar talent! Bekijk <#${SettingsConstants.CHANNELS.MORE_ROLES_ID}> voor nog meer rollen!`,
                 }
             );
         return embed;

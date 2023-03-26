@@ -31,7 +31,7 @@ export default class OnboardingHandler {
                     .setCustomId('onboarding_roles')
                     .setPlaceholder('Selecteer een rol')
                     .setMinValues(1)
-                    .setMaxValues(3)
+                    .setMaxValues(2)
                     .addOptions(
                         {
                             label: 'Soldaat',
@@ -40,10 +40,6 @@ export default class OnboardingHandler {
                         {
                             label: 'Bouwer',
                             value: 'bouwer'
-                        },
-                        {
-                            label: 'Nieuwsredacteur',
-                            value: 'redactie'
                         },
                     )
             );
@@ -160,15 +156,7 @@ export default class OnboardingHandler {
                     case 'bouwer':
                         messageInfo.member.roles.add(SettingsConstants.ROLES.BUILDER_ID);
                         break;
-                    case 'redactie':
-                        messageInfo.member.roles.add(SettingsConstants.ROLES.ASPIRING_REPORTER_ID);
-                        break;
                 }
-            }
-
-            const index = roles.indexOf('redactie');
-            if (index > -1) {
-                roles[index] = 'Aspirant Nieuwsredacteur';
             }
 
             interaction.reply({

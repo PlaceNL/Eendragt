@@ -72,8 +72,6 @@ export default class Discord {
             intents: [
                 GatewayIntentBits.Guilds,
                 GatewayIntentBits.GuildMessageReactions,
-                GatewayIntentBits.DirectMessages,
-                GatewayIntentBits.MessageContent,
                 GatewayIntentBits.GuildVoiceStates
             ]
         });

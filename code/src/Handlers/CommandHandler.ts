@@ -10,6 +10,7 @@ import DiplomacyHandler from './DiplomacyHandler';
 import BillyHandler from './BillyHandler';
 import RoleHandler from './RoleHandler';
 import ThreadHandler from './ThreadHandler';
+import ApplicationHandler from './ApplicationHandler';
 
 export default class CommandHandler {
 
@@ -37,6 +38,10 @@ export default class CommandHandler {
         }
 
         if (RoleHandler.OnCommand(messageInfo)) {
+            return;
+        }
+
+        if (ApplicationHandler.OnCommand(messageInfo)) {
             return;
         }
 

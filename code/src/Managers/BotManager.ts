@@ -1,6 +1,6 @@
 import CommandHandler from '../Handlers/CommandHandler';
 import IMessageInfo from '../Interfaces/IMessageInfo';
-import { ButtonInteraction, ModalSubmitInteraction, ChatInputCommandInteraction, ThreadChannel, MessageReaction, User, SelectMenuInteraction, VoiceState } from 'discord.js';
+import { ButtonInteraction, ModalSubmitInteraction, ChatInputCommandInteraction, ThreadChannel, MessageReaction, User, VoiceState, SelectMenuInteraction } from 'discord.js';
 import DiscordUtils from '../Utils/DiscordUtils';
 import ThreadHandler from '../Handlers/ThreadHandler';
 import ReactionHandler from '../Handlers/ReactionHandler';
@@ -15,12 +15,15 @@ import { LogType } from '../Enums/LogType';
 import NominationHandler from '../Handlers/NominationHandler';
 import { NominationAction } from '../Enums/NominationAction';
 import ArtHandler from '../Handlers/ArtHandler';
+import { RoleType } from '../Enums/RoleType';
+import ApplicationHandler from '../Handlers/ApplicationHandler';
 
 export default class BotManager {
 
     public static async OnReady() {
         console.log('Eendragt: Connected');
         await VariableManager.InitializeVariables();
+        CommandManager.UpdateSlashCommands();
         NightsWatchManager.CreateNightCheckInterval();
     }
 
@@ -60,6 +63,9 @@ export default class BotManager {
             OnboardingHandler.OnObserver(messageInfo);
         } else if (interaction.customId == 'onboarding_development') {
             OnboardingHandler.OnDevelopment(messageInfo);
+        } else if (interaction.customId.startsWith('application')) {
+            const role = interaction.customId.split('_')[1];
+            ApplicationHandler.OnApplicationStart(messageInfo, role as RoleType);
         } else if (interaction.customId == 'diplomacy_report') {
             DiplomacyHandler.OnStartReport(messageInfo);
         } else if (interaction.customId.startsWith('diplomacy_claim')) {
@@ -81,6 +87,9 @@ export default class BotManager {
         } else if (interaction.customId.startsWith('nomination')) {
             const parts = interaction.customId.split('_');
             NominationHandler.OnModal(messageInfo, parts[1] as NominationAction, parts[2]);
+        } else if (interaction.customId.startsWith('application')) {
+            const parts = interaction.customId.split('_');
+            ApplicationHandler.OnApplicationFinish(messageInfo, parts[1] as RoleType);
         }
     }
 

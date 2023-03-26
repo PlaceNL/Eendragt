@@ -17,6 +17,11 @@ export default class SettingsConstants {
         NIGHTS_WATCH_ID: process.env.NIGHTS_WATCH_CHANNEL_ID || '',
         DIPLOMACY_LOG_ID: process.env.DIPLOMACY_LOG_CHANNEL_ID || '',
         ARTIST_LOG_ID: process.env.ARTIST_LOG_CHANNEL_ID || '',
+        MORE_ROLES_ID: process.env.MORE_ROLES_CHANNEL_ID || '',
+        SUPPORT_APPLICATIONS_ID: process.env.SUPPORT_APPLICATIONS_CHANNEL_ID || '',
+        ARTIST_APPLICATIONS_ID: process.env.ARTIST_APPLICATIONS_CHANNEL_ID || '',
+        DIPLOMAT_APPLICATIONS_ID: process.env.DIPLOMAT_APPLICATIONS_CHANNEL_ID || '',
+        REPORTER_APPLICATIONS_ID: process.env.REPORTER_APPLICATIONS_CHANNEL_ID || '',
     };
 
     public static readonly CATEGORIES = {
