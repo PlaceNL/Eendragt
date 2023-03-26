@@ -169,7 +169,7 @@ ${roles.length > 1 ? 'en ' : ''}\`${roles[roles.length - 1].toTitleCase()}\` geg
             LogService.Log(LogType.OnboardingRoles, messageInfo.user.id, 'Roles', interaction.values.join(', '));
         } catch (error) {
             console.error(error);
-            LogService.Error(LogType.OnboardingPlacer, messageInfo.user.id, 'Roles', interaction.values.join(', '));
+            LogService.Error(LogType.OnboardingRoles, messageInfo.user.id, 'Roles', interaction.values.join(', '));
         }
     }
 

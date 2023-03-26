@@ -146,8 +146,6 @@ export default class ArtHandler {
             if (file != null) {
                 this.pixelImageCache[pixelData.color] = message.embeds[0].image.url;
             }
-
-            LogService.Log(LogType.CoordinateClaim, messageInfo.member.id, 'Art', id);
         } catch (error) {
             console.error(error);
             LogService.Error(LogType.CoordinateClaim, messageInfo.member.id, 'Channel', messageInfo.channel.id);
