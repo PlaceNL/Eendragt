@@ -90,7 +90,7 @@ export default class ApplicationHandler {
         LogService.Log(LogType.OnboardingCreate, messageInfo.user.id);
     }
 
-    public static OnApplicationStart(messageInfo: IMessageInfo, role: RoleType) {
+    public static async OnApplicationStart(messageInfo: IMessageInfo, role: RoleType) {
         try {
             const interaction = messageInfo.interaction as ButtonInteraction;
 
