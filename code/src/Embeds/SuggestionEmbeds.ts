@@ -19,7 +19,7 @@ De suggestie heeft twee tags nodig om naar de stembus te gaan:
 Een hoog aantal stemmen, met een goede upvote/downvote ratio.
 
 **${TagConstants.TAGS.ART}**
-Valide pixelart van \`PNG\` formaat met alleen de juiste kleuren, 1:1 scaling, en een transparante achtergrond.
+Valide pixel art van \`PNG\` formaat met alleen de juiste kleuren, 1:1 scaling, en een transparante achtergrond.
 
 ${lookingForArtist
         ? `De artist die je suggestie tekent moet het commando ${CommandService.GetCommandString(CommandConstants.SLASH.VALIDATE)} \

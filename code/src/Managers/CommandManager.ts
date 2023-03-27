@@ -151,13 +151,13 @@ export default class CommandManager {
                     .setRequired(true))
                 .addNumberOption(option => option
                     .setName('x')
-                    .setDescription('De x-coördinaat van de linkerbovenhoek van de pixelart')
+                    .setDescription('De x-coördinaat van de linkerbovenhoek van de pixel art')
                     .setMinValue(0)
                     .setMaxValue(VariableManager.Get(VariableKey.CanvasWidth))
                     .setRequired(true))
                 .addNumberOption(option => option
                     .setName('y')
-                    .setDescription('De y-coördinaat van de linkerbovenhoek van de pixelart')
+                    .setDescription('De y-coördinaat van de linkerbovenhoek van de pixel art')
                     .setMinValue(0)
                     .setMaxValue(VariableManager.Get(VariableKey.CanvasHeight))
                     .setRequired(true))
@@ -177,13 +177,13 @@ export default class CommandManager {
                     .setRequired(true))
                 .addNumberOption(option => option
                     .setName('x')
-                    .setDescription('De x-coördinaat van de linkerbovenhoek van de pixelart')
+                    .setDescription('De x-coördinaat van de linkerbovenhoek van de pixel art')
                     .setMinValue(0)
                     .setMaxValue(VariableManager.Get(VariableKey.CanvasWidth))
                     .setRequired(true))
                 .addNumberOption(option => option
                     .setName('y')
-                    .setDescription('De y-coördinaat van de linkerbovenhoek van de pixelart')
+                    .setDescription('De y-coördinaat van de linkerbovenhoek van de pixel art')
                     .setMinValue(0)
                     .setMaxValue(VariableManager.Get(VariableKey.CanvasHeight))
                     .setRequired(true)),
