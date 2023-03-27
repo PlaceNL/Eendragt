@@ -68,11 +68,12 @@ export default class Discord {
 
     public static async Init() {
         this.client = new Client({
-            partials: [Partials.Channel],
+            partials: [Partials.Channel, Partials.Message, Partials.Reaction],
             intents: [
                 GatewayIntentBits.Guilds,
                 GatewayIntentBits.GuildMessageReactions,
-                GatewayIntentBits.GuildVoiceStates
+                GatewayIntentBits.GuildVoiceStates,
+                GatewayIntentBits.GuildPresences,
             ]
         });
 
