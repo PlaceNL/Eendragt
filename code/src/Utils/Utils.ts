@@ -192,7 +192,7 @@ export module Utils {
         const utcTime = Date.UTC(target.getUTCFullYear(), target.getUTCMonth(),
             target.getUTCDate(), target.getUTCHours(), target.getUTCMinutes());
 
-        return utcTime - 60 * 60 * 1000;
+        return utcTime;
     }
     export async function Sleep(seconds: number) {
         return new Promise(resolve => setTimeout(resolve, seconds * 1000));
