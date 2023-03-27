@@ -2,6 +2,7 @@ export default class RedisConstants {
     public static readonly KEYS = {
         PLACENL: 'PLACENL:',
         DIPLOMACY: 'diplomacy:',
+        APPLICATION: 'application:',
         REPORT: 'report:',
         SUGGESTION: 'suggestion:',
         THREADS: 'threads',

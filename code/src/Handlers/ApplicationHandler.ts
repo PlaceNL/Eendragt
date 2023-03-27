@@ -9,8 +9,12 @@ import LogService from '../Services/LogService';
 import { Utils } from '../Utils/Utils';
 import MemberData from '../Data/members.json';
 import ApplicationEmbeds from '../Embeds/ApplicationEmbeds';
+import RedisConstants from '../Constants/RedisConstants';
+import { Redis } from '../Providers/Redis';
 
 export default class ApplicationHandler {
+
+    private static readonly keyApplication: string = `${RedisConstants.KEYS.PLACENL}${RedisConstants.KEYS.APPLICATION}`;
 
     public static OnCommand(messageInfo: IMessageInfo) {
         const commands = CommandConstants.SLASH;
@@ -89,6 +93,17 @@ export default class ApplicationHandler {
     public static OnApplicationStart(messageInfo: IMessageInfo, role: RoleType) {
         try {
             const interaction = messageInfo.interaction as ButtonInteraction;
+
+            const application = Redis.get(`${this.keyApplication}${role}:${messageInfo.user.id}`);
+
+            if (application) {
+                interaction.reply({
+                    content: 'Je hebt al een sollicitatie ingediend voor deze rol.',
+                    ephemeral: true
+                });
+
+                return;
+            }
 
             const modal = new ModalBuilder()
                 .setCustomId(`application_${role}`)
@@ -170,6 +185,8 @@ export default class ApplicationHandler {
             channel.send({
                 embeds: [ApplicationEmbeds.GetApplicationEmbed(interaction.user, description, data)]
             });
+
+            Redis.set(`${this.keyApplication}${role}:${messageInfo.user.id}`, 1, 'EX', Utils.GetHoursInSeconds(24));
 
             interaction.reply({
                 content: 'Je sollicitatie is verzonden!',
