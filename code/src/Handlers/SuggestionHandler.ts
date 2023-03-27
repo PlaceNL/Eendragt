@@ -159,7 +159,7 @@ export default class SuggestionHandler {
             const badReaction = reactions.get(SettingsConstants.EMOJI.DOWNVOTE_ID);
 
             const goodReactionCount = goodReaction.count;
-            const badReactionCount = goodReaction.count;
+            const badReactionCount = badReaction.count;
             const ratio = goodReactionCount / (goodReactionCount + badReactionCount);
 
             if (goodReaction.count >= VariableManager.Get(VariableKey.GoodAmount)) {
