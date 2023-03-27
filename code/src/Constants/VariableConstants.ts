@@ -36,5 +36,9 @@ export default class VariableConstants {
             type: 'number',
             default: SettingsConstants.CANVAS.HEIGHT
         },
+        diplomacy_cooldown: {
+            type: 'number',
+            default: SettingsConstants.DIPLOMACY_COOLDOWN
+        },
     };
 }

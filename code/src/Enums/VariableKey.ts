@@ -7,4 +7,5 @@ export enum VariableKey {
     ValidColors = 'valid_colors',
     CanvasWidth = 'canvas_width',
     CanvasHeight = 'canvas_height',
+    DiplomacyCooldown = 'diplomacy_cooldown',
 }

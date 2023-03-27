@@ -6,8 +6,10 @@ import ArtEmbeds from '../Embeds/ArtEmbeds';
 import DiplomacyEmbeds from '../Embeds/DiplomacyEmbeds';
 import { LogType } from '../Enums/LogType';
 import { TreatyType } from '../Enums/TreatyType';
+import { VariableKey } from '../Enums/VariableKey';
 import IMessageInfo from '../Interfaces/IMessageInfo';
 import IResultInfo from '../Interfaces/IResultInfo';
+import VariableManager from '../Managers/VariableManager';
 import { Redis } from '../Providers/Redis';
 import DiscordService from '../Services/DiscordService';
 import LogService from '../Services/LogService';
@@ -20,6 +22,7 @@ export default class DiplomacyHandler {
 
     private static readonly keyReports: string = `${RedisConstants.KEYS.PLACENL}${RedisConstants.KEYS.DIPLOMACY}${RedisConstants.KEYS.REPORT}`;
     private static readonly keyThreads: string = `${RedisConstants.KEYS.PLACENL}${RedisConstants.KEYS.DIPLOMACY}${RedisConstants.KEYS.THREADS}`;
+    private static readonly keyCooldown: string = `${RedisConstants.KEYS.PLACENL}${RedisConstants.KEYS.DIPLOMACY}${RedisConstants.KEYS.COOLDOWN}`;
 
     public static OnCommand(messageInfo: IMessageInfo) {
         const commands = CommandConstants.SLASH;
@@ -237,8 +240,27 @@ export default class DiplomacyHandler {
 
     public static async OnClaim(messageInfo: IMessageInfo, threadId: string) {
         try {
-            const message = (<ButtonInteraction>messageInfo.interaction).message;
-            message.edit({ content: `Opgepakt door ${messageInfo.user}`, components: []});
+            const interaction = <ButtonInteraction>messageInfo.interaction;
+
+            if (!interaction.inCachedGuild()) {
+                return;
+            }
+
+            const keyCooldown = `${this.keyCooldown}${messageInfo.user.id}`;
+            const cooldown = await Redis.get(keyCooldown);
+
+            if (cooldown) {
+                interaction.reply({
+                    content: 'Je hebt recent al een diplomatie-thread opgepakt. Wacht even voordat je er weer een oppakt.',
+                    ephemeral: true,
+                });
+
+                return;
+            }
+
+            const message = interaction.message;
+            // message.edit({ content: `Opgepakt door ${messageInfo.user}`, components: []});
+            // TODO: COMMENT THIS BACK!!
 
             const actionRow = new ActionRowBuilder<ButtonBuilder>()
                 .addComponents(
@@ -255,6 +277,12 @@ export default class DiplomacyHandler {
                 allowedMentions: { users: [messageInfo.user.id] },
                 components: [actionRow]
             });
+
+            if (!interaction.member.roles.cache.has(SettingsConstants.ROLES.DIPLOMOD_ID)) {
+                Redis.set(keyCooldown, 1, 'EX', VariableManager.Get(VariableKey.DiplomacyCooldown));
+            }
+
+            interaction.deferUpdate();
 
             LogService.Log(LogType.DiplomacyClaim, messageInfo.user.id, 'Thread', messageInfo.channel.id);
         } catch (error) {

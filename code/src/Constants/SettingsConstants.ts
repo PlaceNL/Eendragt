@@ -123,4 +123,6 @@ export default class SettingsConstants {
             '#ffffff'
         ]
     };
+
+    public static readonly DIPLOMACY_COOLDOWN = 60 * 5; // Seconds;
 }
