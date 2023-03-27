@@ -259,8 +259,7 @@ export default class DiplomacyHandler {
             }
 
             const message = interaction.message;
-            // message.edit({ content: `Opgepakt door ${messageInfo.user}`, components: []});
-            // TODO: COMMENT THIS BACK!!
+            message.edit({ content: `Opgepakt door ${messageInfo.user}`, components: []});
 
             const actionRow = new ActionRowBuilder<ButtonBuilder>()
                 .addComponents(
