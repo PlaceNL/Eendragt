@@ -2,6 +2,13 @@
 
 A Discord bot for the Place NL server.
 
+You are free to fork this bot for your own r/place server. When you do, we ask you to:
+
+- Name the bot after a famous old ship.
+- Use [icon.png](images/icon.png) as the avatar for the bot
+
+Thanks!
+
 ## Environment file
 ```ini
 TOKEN=
