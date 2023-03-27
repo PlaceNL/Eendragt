@@ -115,7 +115,7 @@ export default class ApplicationHandler {
                 .setStyle(TextInputStyle.Paragraph)
                 .setRequired(true)
                 .setMinLength(100)
-                .setMaxLength(250);
+                .setMaxLength(500);
 
             if (role === RoleType.Artist) {
                 description.setLabel('Link naar iets dat je hebt gemaakt')
