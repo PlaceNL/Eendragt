@@ -21,9 +21,9 @@ const fetch = require('cross-fetch');
 
 export default class ArtHandler {
 
-    private static readonly coordinatePixelsKey: string = `${RedisConstants.KEYS.PLACENL}${RedisConstants.KEYS.ART}${RedisConstants.KEYS.COORDINATE}`;
-    private static readonly coordinateTime: string = `${RedisConstants.KEYS.PLACENL}${RedisConstants.KEYS.ART}${RedisConstants.KEYS.COORDINATE}${RedisConstants.KEYS.TIME}`;
-    private static readonly claimCooldownKey: string = `${RedisConstants.KEYS.PLACENL}${RedisConstants.KEYS.ART}${RedisConstants.KEYS.COOLDOWN}`;
+    private static readonly keyCoordinatePixels: string = `${RedisConstants.KEYS.PLACENL}${RedisConstants.KEYS.ART}${RedisConstants.KEYS.COORDINATE}`;
+    private static readonly keyCoordinateTime: string = `${RedisConstants.KEYS.PLACENL}${RedisConstants.KEYS.ART}${RedisConstants.KEYS.COORDINATE}${RedisConstants.KEYS.TIME}`;
+    private static readonly keyClaimCooldown: string = `${RedisConstants.KEYS.PLACENL}${RedisConstants.KEYS.ART}${RedisConstants.KEYS.COOLDOWN}`;
     private static readonly pixelImageCache: any = {};
     private static readonly pixelDataCache: any = {};
 
@@ -48,7 +48,7 @@ export default class ArtHandler {
 
     public static async OnClaimPixel(messageInfo: IMessageInfo, id: string) {
         try {
-            const cooldownKey = `${this.claimCooldownKey}${messageInfo.member.id}`;
+            const cooldownKey = `${this.keyClaimCooldown}${messageInfo.member.id}`;
             const cooldown = await Redis.get(cooldownKey);
             if (cooldown) {
                 const expire = await Redis.ttl(cooldownKey);
@@ -64,8 +64,8 @@ export default class ArtHandler {
                 return;
             }
 
-            const keyPixels = `${this.coordinatePixelsKey}${id}`;
-            const keyTime = `${this.coordinateTime}${id}`;
+            const keyPixels = `${this.keyCoordinatePixels}${id}`;
+            const keyTime = `${this.keyCoordinateTime}${id}`;
 
             let keys: Array<string>;
             let fromCache = false;
@@ -111,7 +111,7 @@ export default class ArtHandler {
                 }, Utils.GetMinutesInMiliSeconds(timePassed ? 5 : diff));
             }
 
-            Redis.set(`${this.claimCooldownKey}${messageInfo.member.id}`, 1, 'EX', Utils.GetMinutesInSeconds(timePassed ? 5 : diff));
+            Redis.set(`${this.keyClaimCooldown}${messageInfo.member.id}`, 1, 'EX', Utils.GetMinutesInSeconds(timePassed ? 5 : diff));
 
             let url = this.pixelImageCache[pixelData.color];
             let file;
@@ -275,8 +275,8 @@ export default class ArtHandler {
                 }
             }
 
-            const keyPixels = `${this.coordinatePixelsKey}${art.id}`;
-            const keyTime = `${this.coordinateTime}${art.id}`;
+            const keyPixels = `${this.keyCoordinatePixels}${art.id}`;
+            const keyTime = `${this.keyCoordinateTime}${art.id}`;
 
             await Redis.hmset(keyPixels, pixelData);
             const expire = Utils.GetHoursInSeconds(24);

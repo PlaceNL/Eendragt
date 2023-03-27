@@ -21,7 +21,7 @@ import SimilarityService from '../Services/SimilarityService';
 
 export default class SuggestionHandler {
 
-    private static readonly threadsKey: string = `${RedisConstants.KEYS.PLACENL}${RedisConstants.KEYS.SUGGESTION}${RedisConstants.KEYS.THREADS}`;
+    private static readonly keyThreads: string = `${RedisConstants.KEYS.PLACENL}${RedisConstants.KEYS.SUGGESTION}${RedisConstants.KEYS.THREADS}`;
 
     public static OnReaction(reaction: MessageReaction, channel: Channel) {
         if (reaction.emoji.name == EmojiConstants.STATUS.GOOD || reaction.emoji.name == EmojiConstants.STATUS.BAD) {
@@ -47,7 +47,7 @@ export default class SuggestionHandler {
                 return;
             }
 
-            const similarities = await SimilarityService.FindSimiliarThreads(thread, this.threadsKey, tags.data.tag == SettingsConstants.TAGS.UPGRADE_ART_ID);
+            const similarities = await SimilarityService.FindSimiliarThreads(thread, this.keyThreads, tags.data.tag == SettingsConstants.TAGS.UPGRADE_ART_ID);
 
             if (similarities.result && similarities.data.identical) {
                 await MessageService.ReplyEmbed(DiscordUtils.ParseMessageToInfo(message, message.author), SuggestionEmbeds.GetSuggestionDuplicateEmbed(similarities.data.thread));
@@ -57,7 +57,7 @@ export default class SuggestionHandler {
             }
 
             // TODO: Keep track of threads being edited or removed.
-            Redis.hset(this.threadsKey, thread.id, thread.name);
+            Redis.hset(this.keyThreads, thread.id, thread.name);
 
             const messageInfo: IMessageInfo = DiscordUtils.ParseMessageToInfo(message, message.author);
 

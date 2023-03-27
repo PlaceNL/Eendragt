@@ -18,8 +18,8 @@ const { createCanvas, loadImage, registerFont } = require('canvas');
 
 export default class DiplomacyHandler {
 
-    private static readonly reportKey: string = `${RedisConstants.KEYS.PLACENL}${RedisConstants.KEYS.DIPLOMACY}${RedisConstants.KEYS.REPORT}`;
-    private static readonly threadsKey: string = `${RedisConstants.KEYS.PLACENL}${RedisConstants.KEYS.DIPLOMACY}${RedisConstants.KEYS.THREADS}`;
+    private static readonly keyReports: string = `${RedisConstants.KEYS.PLACENL}${RedisConstants.KEYS.DIPLOMACY}${RedisConstants.KEYS.REPORT}`;
+    private static readonly keyThreads: string = `${RedisConstants.KEYS.PLACENL}${RedisConstants.KEYS.DIPLOMACY}${RedisConstants.KEYS.THREADS}`;
 
     public static OnCommand(messageInfo: IMessageInfo) {
         const commands = CommandConstants.SLASH;
@@ -61,9 +61,9 @@ export default class DiplomacyHandler {
                 invitable: false
             });
 
-            const similarities = await SimilarityService.FindSimiliarThreads(thread, this.threadsKey, true);
+            const similarities = await SimilarityService.FindSimiliarThreads(thread, this.keyThreads, true);
 
-            Redis.hset(this.threadsKey, thread.id, thread.name);
+            Redis.hset(this.keyThreads, thread.id, thread.name);
 
             const time = new Date().toLocaleTimeString('nl-NL', { timeZone: 'Europe/Amsterdam' });
 
@@ -282,7 +282,7 @@ export default class DiplomacyHandler {
 
     public static async OnStartReport(messageInfo: IMessageInfo) {
         try {
-            const cooldown = await Redis.get(`${this.reportKey}${messageInfo.channel.id}`);
+            const cooldown = await Redis.get(`${this.keyReports}${messageInfo.channel.id}`);
             if (cooldown != null) {
                 (<ButtonInteraction>messageInfo.interaction).reply({
                     content: 'Please wait at least an hour before reporting again.',
@@ -317,7 +317,7 @@ export default class DiplomacyHandler {
 
     public static async OnFinishReport(messageInfo: IMessageInfo) {
         try {
-            Redis.set(`${this.reportKey}${messageInfo.channel.id}`, '1', 'EX', 3600);
+            Redis.set(`${this.keyReports}${messageInfo.channel.id}`, '1', 'EX', 3600);
 
             const interaction = <ModalSubmitInteraction>messageInfo.interaction;
             interaction.reply({

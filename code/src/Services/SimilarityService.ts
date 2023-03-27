@@ -8,12 +8,12 @@ const stringSimilarity = require('string-similarity');
 
 export default class SimilarityService {
 
-    public static async FindSimiliarThreads(thread: ThreadChannel, threadsKey: string, ignoreDuplicate: boolean) {
+    public static async FindSimiliarThreads(thread: ThreadChannel, keyThreads: string, ignoreDuplicate: boolean) {
         const resultInfo: IResultInfo = {
             result: false
         };
 
-        const threads = await Redis.hgetall(threadsKey);
+        const threads = await Redis.hgetall(keyThreads);
         if (threads == null) {
             return resultInfo;
         }
