@@ -94,7 +94,7 @@ export default class ApplicationHandler {
         try {
             const interaction = messageInfo.interaction as ButtonInteraction;
 
-            const application = Redis.get(`${this.keyApplication}${role}:${messageInfo.user.id}`);
+            const application = await Redis.get(`${this.keyApplication}${role}:${messageInfo.user.id}`);
 
             if (application) {
                 interaction.reply({
