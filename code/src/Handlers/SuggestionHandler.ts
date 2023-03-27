@@ -155,8 +155,8 @@ export default class SuggestionHandler {
             }
 
             const reactions = starterMessage.reactions.cache;
-            const goodReaction = reactions.get(EmojiConstants.STATUS.GOOD);
-            const badReaction = reactions.get(EmojiConstants.STATUS.BAD);
+            const goodReaction = reactions.get(SettingsConstants.EMOJI.UPVOTE_ID);
+            const badReaction = reactions.get(SettingsConstants.EMOJI.DOWNVOTE_ID);
 
             const goodReactionCount = goodReaction.count;
             const badReactionCount = goodReaction.count;
