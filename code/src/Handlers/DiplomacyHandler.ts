@@ -192,7 +192,7 @@ export default class DiplomacyHandler {
     }
 
     // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-    public static OnVoiceUpdate(oldState: VoiceState, newState: VoiceState) {
+    public static async OnVoiceUpdate(oldState: VoiceState, newState: VoiceState) {
         if (oldState.channel?.parentId != SettingsConstants.CATEGORIES.DIPLOMACY_ID) {
             return;
         }
@@ -202,9 +202,14 @@ export default class DiplomacyHandler {
         }
 
         try {
-            if (oldState.channel.members.size == 0) {
-                oldState.channel.delete();
+            console.log(oldState.channel.members.size);
+            if (oldState.channel.members.size > 0) {
+                return;
             }
+
+            await Utils.Sleep(1);
+
+            oldState.channel.delete();
 
             LogService.Log(LogType.DiplomacyVoiceDelete, oldState.member.id, 'Channel', oldState.channel.id);
         } catch (error) {
