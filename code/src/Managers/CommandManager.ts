@@ -245,6 +245,10 @@ export default class CommandManager {
                 .setType(ApplicationCommandType.Message)
                 .setDMPermission(false)
                 .setDefaultMemberPermissions(this.adminFlag),
+            new ContextMenuCommandBuilder()
+                .setName(CommandConstants.MENU.PEEK)
+                .setType(ApplicationCommandType.Message)
+                .setDMPermission(false)
         ];
 
         Discord.client.application?.commands.set(data);

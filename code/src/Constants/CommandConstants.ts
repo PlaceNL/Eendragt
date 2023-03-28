@@ -33,5 +33,6 @@ export default class CommandConstants {
         DECLINE: 'Afwijzen',
         DELAY: 'Uitstellen',
         VOTE: 'Stemming',
+        PEEK: 'Gluren',
     };
 }
