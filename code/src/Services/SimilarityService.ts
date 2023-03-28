@@ -1,14 +1,12 @@
 import { ThreadChannel } from 'discord.js';
 import SettingsConstants from '../Constants/SettingsConstants';
-import { VariableKey } from '../Enums/VariableKey';
 import IResultInfo from '../Interfaces/IResultInfo';
-import VariableManager from '../Managers/VariableManager';
 import { Redis } from '../Providers/Redis';
 const stringSimilarity = require('string-similarity');
 
 export default class SimilarityService {
 
-    public static async FindSimiliarThreads(thread: ThreadChannel, keyThreads: string, ignoreDuplicate: boolean) {
+    public static async FindSimiliarThreads(thread: ThreadChannel, keyThreads: string, ignoreDuplicate: boolean, identicalRating: number, similarRating: number) {
         const resultInfo: IResultInfo = {
             result: false
         };
@@ -21,14 +19,14 @@ export default class SimilarityService {
         const titles = Object.values(threads);
 
         const similarities = stringSimilarity.findBestMatch(thread.name, titles);
-        if (similarities.bestMatch.rating < VariableManager.Get(VariableKey.Similar)) {
+        if (similarities.bestMatch.rating < similarRating) {
             return resultInfo;
         }
 
         resultInfo.result = true;
         resultInfo.data = {};
 
-        if (!ignoreDuplicate && similarities.bestMatch.rating >= VariableManager.Get(VariableKey.Identical)) {
+        if (!ignoreDuplicate && similarities.bestMatch.rating >= identicalRating) {
             resultInfo.data.identical = true;
             for (const [key, value] of Object.entries(threads)) {
                 if (value == similarities.bestMatch.target) {
@@ -45,7 +43,7 @@ export default class SimilarityService {
         const list = [];
 
         for (const rating of similarities.ratings) {
-            if (rating.rating >= VariableManager.Get(VariableKey.Similar)) {
+            if (rating.rating >= similarRating) {
                 for (const [key, value] of Object.entries(threads)) {
                     if (value == rating.target) {
                         list.push({

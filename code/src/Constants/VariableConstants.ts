@@ -16,11 +16,15 @@ export default class VariableConstants {
             type: 'number',
             default: SettingsConstants.SUGGESTION_APPRECIATION_CRITERIA.RATIO
         },
-        identical: {
+        identical_suggestion: {
             type: 'number',
             default: SettingsConstants.SUGGESTION_SIMILARITY_CRITERIA.IDENTICAL
         },
-        similar: {
+        similar_suggestion: {
+            type: 'number',
+            default: SettingsConstants.SUGGESTION_SIMILARITY_CRITERIA.SIMILAR
+        },
+        similar_diplomacy: {
             type: 'number',
             default: SettingsConstants.SUGGESTION_SIMILARITY_CRITERIA.SIMILAR
         },

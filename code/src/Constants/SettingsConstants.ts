@@ -87,6 +87,16 @@ export default class SettingsConstants {
         RATIO: .75,
     };
 
+    public static readonly SIMILARITY_CRITERIA = {
+        SUGGESTION: {
+            IDENTICAL: .9,
+            SIMILAR: .4,
+        },
+        DIPLOMACY: {
+            SIMILAR: .7,
+        }
+    };
+
     public static readonly SUGGESTION_SIMILARITY_CRITERIA = {
         IDENTICAL: .9,
         SIMILAR: .4,
