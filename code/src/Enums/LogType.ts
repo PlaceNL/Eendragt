@@ -10,6 +10,8 @@ export enum LogType {
     OnboardingObserver = '👋👀 Onboarding Observer',
     OnboardingDevelopment = '👋🤖 Onboarding Development',
     OnboardingRoles = '👋👯 Onboarding Roles',
+    ApplicationStateOpen = '📬🚪🔓 Application State Open',
+    ApplicationStateClose = '📬🚪🔒 Application State Close',
     ApplicationCreate = '📬⭕️ Application Create',
     ApplicationStart = '📬⚠️ Application Start',
     ApplicationSubmitArtist = '📬🧑‍🎨 Application Submit Artist',

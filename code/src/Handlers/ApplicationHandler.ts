@@ -15,11 +15,15 @@ import { Redis } from '../Providers/Redis';
 export default class ApplicationHandler {
 
     private static readonly keyApplication: string = `${RedisConstants.KEYS.PLACENL}${RedisConstants.KEYS.APPLICATION}`;
+    private static readonly keyApplicationClosed: string = `${RedisConstants.KEYS.PLACENL}${RedisConstants.KEYS.APPLICATION}${RedisConstants.KEYS.CLOSED}`;
 
     public static OnCommand(messageInfo: IMessageInfo) {
         const commands = CommandConstants.SLASH;
 
         switch (messageInfo.commandInfo.command) {
+            case commands.APPLICATIONS:
+                this.OnApplications(messageInfo);
+                break;
             case commands.ROLES:
                 this.OnRoles(messageInfo);
                 break;
@@ -27,67 +31,6 @@ export default class ApplicationHandler {
         }
 
         return true;
-    }
-
-    public static async OnRoles(messageInfo: IMessageInfo) {
-        try {
-            const actionRowSelect = new ActionRowBuilder<StringSelectMenuBuilder>()
-                .addComponents(
-                    new StringSelectMenuBuilder()
-                        .setCustomId('onboarding_roles')
-                        .setPlaceholder('Selecteer een rol')
-                        .setMinValues(1)
-                        .setMaxValues(2)
-                        .addOptions(
-                            {
-                                label: 'Soldaat',
-                                value: 'soldaat'
-                            },
-                            {
-                                label: 'Bouwer',
-                                value: 'bouwer'
-                            },
-                        )
-                );
-
-            const actionRowButtons = new ActionRowBuilder<ButtonBuilder>()
-                .addComponents(
-                    new ButtonBuilder()
-                        .setCustomId(`application_${RoleType.Support}`)
-                        .setLabel(RolesConstants.ROLES[RoleType.Support].name)
-                        .setStyle(ButtonStyle.Danger),
-                    new ButtonBuilder()
-                        .setCustomId(`application_${RoleType.Diplomat}`)
-                        .setLabel(RolesConstants.ROLES[RoleType.Diplomat].name)
-                        .setStyle(ButtonStyle.Success),
-                    new ButtonBuilder()
-                        .setCustomId(`application_${RoleType.Artist}`)
-                        .setLabel(RolesConstants.ROLES[RoleType.Artist].name)
-                        .setStyle(ButtonStyle.Primary),
-                    new ButtonBuilder()
-                        .setCustomId(`application_${RoleType.Reporter}`)
-                        .setLabel(RolesConstants.ROLES[RoleType.Reporter].name)
-                        .setStyle(ButtonStyle.Secondary)
-                );
-
-            const interaction = messageInfo.interaction as ChatInputCommandInteraction;
-
-            await interaction.channel.send({
-                embeds: [ApplicationEmbeds.GetRolesEmbed()],
-                components: [actionRowSelect, actionRowButtons]
-            });
-
-            interaction.reply({
-                content: 'Done!',
-                ephemeral: true
-            });
-        } catch (error) {
-            console.error(error);
-            LogService.Error(LogType.OnboardingCreate, messageInfo.user.id);
-            return;
-        }
-
-        LogService.Log(LogType.OnboardingCreate, messageInfo.user.id);
     }
 
     public static async OnApplicationStart(messageInfo: IMessageInfo, role: RoleType) {
@@ -99,6 +42,18 @@ export default class ApplicationHandler {
             if (application) {
                 interaction.reply({
                     content: 'Je hebt al een sollicitatie ingediend voor deze rol.',
+                    ephemeral: true
+                });
+
+                return;
+            }
+
+            const closed = await Redis.get(`${this.keyApplicationClosed}${role}`);
+
+            if (closed) {
+                interaction.reply({
+                    content: `Bedankt voor je interesse, maar wij nemen momenteel geen nieuwe ${RolesConstants.ROLES[role].name} meer aan.
+Houd de aankondigingen in de gaten om te weten wanneer je weer voor deze rol kan solliciteren.`,
                     ephemeral: true
                 });
 
@@ -198,5 +153,91 @@ export default class ApplicationHandler {
             LogService.Error(logType, messageInfo.user.id);
             return;
         }
+    }
+
+    private static OnApplications(messageInfo: IMessageInfo) {
+        const interaction = messageInfo.interaction as ChatInputCommandInteraction;
+        const category = interaction.options.getString('categorie') as RoleType;
+        const on = interaction.options.getString('actie') == 'open';
+
+        try {
+            const key = `${this.keyApplicationClosed}${category}`;
+
+            if (on) {
+                Redis.del(key);
+            } else {
+                Redis.set(key, 1);
+            }
+
+            interaction.reply({
+                content: `De ${RolesConstants.ROLES[category].name} sollicitaties zijn nu ${on ? 'open' : 'gesloten'}.`
+            });
+
+            LogService.Log(on ? LogType.ApplicationStateOpen : LogType.ApplicationStateClose, messageInfo.user.id, `${RolesConstants.ROLES[category].name} applicaties zijn nu ${on ? 'open' : 'gesloten'}.`);
+        } catch (error) {
+            console.error(error);
+            LogService.Log( on ? LogType.ApplicationStateOpen : LogType.ApplicationStateClose, messageInfo.user.id, 'Categorie', category);
+        }
+    }
+
+    private static async OnRoles(messageInfo: IMessageInfo) {
+        try {
+            const actionRowSelect = new ActionRowBuilder<StringSelectMenuBuilder>()
+                .addComponents(
+                    new StringSelectMenuBuilder()
+                        .setCustomId('onboarding_roles')
+                        .setPlaceholder('Selecteer een rol')
+                        .setMinValues(1)
+                        .setMaxValues(2)
+                        .addOptions(
+                            {
+                                label: 'Soldaat',
+                                value: 'soldaat'
+                            },
+                            {
+                                label: 'Bouwer',
+                                value: 'bouwer'
+                            },
+                        )
+                );
+
+            const actionRowButtons = new ActionRowBuilder<ButtonBuilder>()
+                .addComponents(
+                    new ButtonBuilder()
+                        .setCustomId(`application_${RoleType.Support}`)
+                        .setLabel(RolesConstants.ROLES[RoleType.Support].name)
+                        .setStyle(ButtonStyle.Danger),
+                    new ButtonBuilder()
+                        .setCustomId(`application_${RoleType.Diplomat}`)
+                        .setLabel(RolesConstants.ROLES[RoleType.Diplomat].name)
+                        .setStyle(ButtonStyle.Success),
+                    new ButtonBuilder()
+                        .setCustomId(`application_${RoleType.Artist}`)
+                        .setLabel(RolesConstants.ROLES[RoleType.Artist].name)
+                        .setStyle(ButtonStyle.Primary),
+                    new ButtonBuilder()
+                        .setCustomId(`application_${RoleType.Reporter}`)
+                        .setLabel(RolesConstants.ROLES[RoleType.Reporter].name)
+                        .setStyle(ButtonStyle.Secondary)
+                );
+
+            const interaction = messageInfo.interaction as ChatInputCommandInteraction;
+
+            await interaction.channel.send({
+                embeds: [ApplicationEmbeds.GetRolesEmbed()],
+                components: [actionRowSelect, actionRowButtons]
+            });
+
+            interaction.reply({
+                content: 'Done!',
+                ephemeral: true
+            });
+        } catch (error) {
+            console.error(error);
+            LogService.Error(LogType.OnboardingCreate, messageInfo.user.id);
+            return;
+        }
+
+        LogService.Log(LogType.OnboardingCreate, messageInfo.user.id);
     }
 }

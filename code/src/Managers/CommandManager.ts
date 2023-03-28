@@ -16,6 +16,44 @@ export default class CommandManager {
                 .setDescription('Update de slash commands')
                 .setDefaultMemberPermissions(this.adminFlag),
             new SlashCommandBuilder()
+                .setName(CommandConstants.SLASH.APPLICATIONS)
+                .setDMPermission(false)
+                .setDescription('Zet de sollicitaties open of dicht')
+                .setDefaultMemberPermissions(this.adminFlag)
+                .addStringOption(option => option
+                    .setName('categorie')
+                    .setDescription('Voor welke rol je de sollicitaties wilt openen of sluiten')
+                    .setRequired(true)
+                    .addChoices({
+                        name: 'Diplomaten',
+                        value: 'diplomat'
+                    },
+                    {
+                        name: 'Pixel Artists',
+                        value: 'artist'
+                    },
+                    {
+                        name: 'Community Support',
+                        value: 'support'
+                    },
+                    {
+                        name: 'Redacteur',
+                        value: 'reporter'
+                    }
+                    ))
+                .addStringOption(option => option
+                    .setName('actie')
+                    .setDescription('Wil je de sollicitaties openen of sluiten?')
+                    .setRequired(true)
+                    .addChoices({
+                        name: 'Openen',
+                        value: 'open'
+                    },
+                    {
+                        name: 'Sluiten',
+                        value: 'take'
+                    })),
+            new SlashCommandBuilder()
                 .setName(CommandConstants.SLASH.BILLY)
                 .setDMPermission(false)
                 .setDescription('Kijk hoe laat het bij Billy is')

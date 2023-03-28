@@ -3,6 +3,7 @@ export default class RedisConstants {
         PLACENL: 'PLACENL:',
         DIPLOMACY: 'diplomacy:',
         APPLICATION: 'application:',
+        CLOSED: 'closed:',
         REPORT: 'report:',
         SUGGESTION: 'suggestion:',
         THREADS: 'threads',
