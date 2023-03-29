@@ -64,6 +64,8 @@ export default class BotManager {
             OnboardingHandler.OnDevelopment(messageInfo);
         } else if (interaction.customId == 'diplomacy_invite') {
             DiplomacyHandler.OnInviteButton(messageInfo);
+        } else if (interaction.customId == 'diplomacy_peek') {
+            DiplomacyHandler.OnPeek(messageInfo);
         } else if (interaction.customId.startsWith('application')) {
             const role = interaction.customId.split('_')[1];
             ApplicationHandler.OnApplicationStart(messageInfo, role as RoleType);

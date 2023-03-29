@@ -36,7 +36,7 @@ export default class DiplomacyHandler {
                 this.OnTreaty(messageInfo);
                 break;
             case commandsMenu.PEEK:
-                this.OnJoin(messageInfo);
+                this.OnPeek(messageInfo);
                 break;
             default: return false;
         }
@@ -301,10 +301,18 @@ Only add diplomats who are part of ${messageInfo.channel.name} like you, or igno
                 return;
             }
 
-            const message = interaction.message;
-            message.edit({ content: `Opgepakt door ${messageInfo.user}`, components: []});
+            const actionRowPeek = new ActionRowBuilder<ButtonBuilder>()
+                .addComponents(
+                    new ButtonBuilder()
+                        .setCustomId('diplomacy_peek')
+                        .setLabel('Gluren')
+                        .setStyle(ButtonStyle.Secondary),
+                );
 
-            const actionRow = new ActionRowBuilder<ButtonBuilder>()
+            const message = interaction.message;
+            message.edit({ content: `Opgepakt door ${messageInfo.user}`, components: [actionRowPeek]});
+
+            const actionRowReport = new ActionRowBuilder<ButtonBuilder>()
                 .addComponents(
                     new ButtonBuilder()
                         .setCustomId('diplomacy_report')
@@ -317,7 +325,7 @@ Only add diplomats who are part of ${messageInfo.channel.name} like you, or igno
                 content: `${messageInfo.user}`,
                 embeds: [DiplomacyEmbeds.GetDiplomatArrivedEmbed(messageInfo.member.displayName)],
                 allowedMentions: { users: [messageInfo.user.id] },
-                components: [actionRow]
+                components: [actionRowReport]
             });
 
             if (!interaction.member.roles.cache.has(SettingsConstants.ROLES.DIPLOMOD_ID)) {
@@ -494,9 +502,9 @@ to lend their assistance in the relocation of ${name} to new land.`;
         }
     }
 
-    private static async OnJoin(messageInfo: IMessageInfo) {
+    public static async OnPeek(messageInfo: IMessageInfo) {
         try {
-            const interaction = messageInfo.interaction as ContextMenuCommandInteraction;
+            const interaction = messageInfo.interaction as ContextMenuCommandInteraction|ButtonInteraction;
 
             if (!interaction.inCachedGuild()) {
                 return;
@@ -510,7 +518,14 @@ to lend their assistance in the relocation of ${name} to new land.`;
                 return;
             }
 
-            const message = await (<TextChannel> messageInfo.channel).messages.fetch(interaction.targetId);
+            let message;
+
+            if (interaction.isContextMenuCommand()) {
+                message = await (<TextChannel> messageInfo.channel).messages.fetch(interaction?.targetId);
+            } else {
+                message = interaction.message;
+            }
+
             const embed = message.embeds[0];
 
             if (embed == null) {
@@ -534,6 +549,15 @@ to lend their assistance in the relocation of ${name} to new land.`;
                     content: 'Er is iets fouts gegaan. Sorry.',
                     ephemeral: true
                 });
+                return;
+            }
+
+            if (await threadChannel.members.fetch(interaction.user.id)) {
+                interaction.reply({
+                    content: 'Je zit al in de thread.',
+                    ephemeral: true
+                });
+
                 return;
             }
 
