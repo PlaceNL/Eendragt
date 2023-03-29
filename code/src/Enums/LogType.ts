@@ -42,6 +42,7 @@ export enum LogType {
     DiplomacyClaim = '🤝 Diplomacy Claim',
     DiplomacyReportStart = '🤝⚠️ Diplomacy Report Start',
     DiplomacyReport = '🤝🚩 Diplomacy Report',
+    DiplomacyInviteButton = '🤝📧🔘 Diplomacy Invite Button',
     DiplomacyInvite = '🤝📧 Diplomacy Invite',
     DiplomacyVoiceCreate = '🤝🔊 Diplomacy Voice Create',
     DiplomacyVoiceDelete = '🤝🔇 Diplomacy Voice Delete',

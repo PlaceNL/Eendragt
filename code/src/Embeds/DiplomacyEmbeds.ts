@@ -26,7 +26,7 @@ ${size}
 ${description}
 
 **Invite associates**
-You can use the dropdown below to add up to two people from your community to this thread. __Do not abuse this__ \
+You can click the button below to get a dropdown, which allows you to add up to ${SettingsConstants.DIPLOMACY_ASSOCIATE_INVITE_MAX} people from your community to this thread. __Do not abuse this__ \
 by adding people who are not part of your community, as it can result in a ban. You can do this __one time only__, \
 so make sure you add both at once (if needed). If you don't have any associates, you can ignore this.`);
         return embed;

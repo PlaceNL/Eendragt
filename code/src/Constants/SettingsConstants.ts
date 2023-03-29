@@ -135,4 +135,5 @@ export default class SettingsConstants {
     };
 
     public static readonly DIPLOMACY_COOLDOWN = 60 * 5; // Seconds;
+    public static readonly DIPLOMACY_ASSOCIATE_INVITE_MAX = 3;
 }

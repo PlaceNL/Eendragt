@@ -82,10 +82,11 @@ export default class DiplomacyHandler {
                 formattedTime = `${timeParts[0]}:${timeParts[1]} AM`;
             }
 
-            const components = new ActionRowBuilder<UserSelectMenuBuilder>()
-                .addComponents(new UserSelectMenuBuilder()
+            const components = new ActionRowBuilder<ButtonBuilder>()
+                .addComponents(new ButtonBuilder()
                     .setCustomId('diplomacy_invite')
-                    .setMaxValues(2));
+                    .setLabel('Invite associates')
+                    .setStyle(ButtonStyle.Primary));
 
             const message = await thread.send({
                 content: `${messageInfo.user}!`,
@@ -216,6 +217,38 @@ export default class DiplomacyHandler {
         } catch (error) {
             console.error(error);
             LogService.Error(LogType.DiplomacyVoiceDelete, oldState.member.id, 'Channel', oldState.channel.id);
+        }
+    }
+
+    public static OnInviteButton(messageInfo: IMessageInfo) {
+        try {
+            if (!messageInfo.channel.isThread()) {
+                return;
+            }
+
+            const interaction = <ButtonInteraction>messageInfo.interaction;
+
+            const components = new ActionRowBuilder<UserSelectMenuBuilder>()
+                .addComponents(new UserSelectMenuBuilder()
+                    .setCustomId('diplomacy_invite')
+                    .setMinValues(1)
+                    .setMaxValues(SettingsConstants.DIPLOMACY_ASSOCIATE_INVITE_MAX));
+
+            interaction.reply({
+                content: `I replaced the button with a dropdown menu. Use it to invite your associates to this thread.
+
+__Do not abuse this.__
+
+Only add diplomats who are part of ${messageInfo.channel.name} like you, or ignore if you misclicked.`,
+                ephemeral: true,
+            });
+
+            interaction.message.edit({ components: [components]});
+
+            LogService.Log(LogType.DiplomacyInviteButton, messageInfo.user.id, 'Thread', messageInfo.channel.id);
+        } catch (error) {
+            console.error(error);
+            LogService.Error(LogType.DiplomacyInviteButton, messageInfo.user.id, 'Thread', messageInfo.channel.id);
         }
     }
 
