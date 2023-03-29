@@ -204,7 +204,6 @@ export default class DiplomacyHandler {
         }
 
         try {
-            console.log(oldState.channel.members.size);
             if (oldState.channel.members.size > 0) {
                 return;
             }
