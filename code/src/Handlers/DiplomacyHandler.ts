@@ -1,4 +1,4 @@
-import { ActionRowBuilder, Attachment, ButtonBuilder, ButtonInteraction, ButtonStyle, ChannelType, ChatInputCommandInteraction, ContextMenuCommandInteraction, ModalBuilder, ModalSubmitInteraction, OverwriteType, PermissionFlagsBits, TextChannel, TextInputBuilder, TextInputStyle, ThreadChannel, UserSelectMenuBuilder, UserSelectMenuInteraction, VoiceState } from 'discord.js';
+import { ActionRowBuilder, Attachment, ButtonBuilder, ButtonInteraction, ButtonStyle, ChannelType, ChatInputCommandInteraction, ContextMenuCommandInteraction, ForumChannel, ModalBuilder, ModalSubmitInteraction, OverwriteType, PermissionFlagsBits, TextChannel, TextInputBuilder, TextInputStyle, ThreadChannel, UserSelectMenuBuilder, UserSelectMenuInteraction, VoiceState } from 'discord.js';
 import CommandConstants from '../Constants/CommandConstants';
 import RedisConstants from '../Constants/RedisConstants';
 import SettingsConstants from '../Constants/SettingsConstants';
@@ -105,10 +105,14 @@ export default class DiplomacyHandler {
                         .setStyle(ButtonStyle.Primary),
                 );
 
-            const diplomacyDispatchChannel = (await DiscordService.FindChannelById(SettingsConstants.CHANNELS.DIPLOMACY_DISPATCH_ID)) as TextChannel;
-            await diplomacyDispatchChannel.send({
-                embeds: [DiplomacyEmbeds.GetDispatchEmbed(name, size, description, message.url, similarities)],
-                components: [actionRow]
+            const diplomacyDispatchChannel = (await DiscordService.FindChannelById(SettingsConstants.CHANNELS.DIPLOMACY_DISPATCH_ID)) as ForumChannel;
+            await diplomacyDispatchChannel.threads.create({
+                name: name,
+                autoArchiveDuration: Utils.GetHoursInMinutes(24),
+                message: {
+                    embeds: [DiplomacyEmbeds.GetDispatchEmbed(name, size, description, message.url, similarities)],
+                    components: [actionRow]
+                }
             });
             LogService.Log(LogType.OnboardingDiplomat, messageInfo.user.id, 'Thread', thread.id);
         } catch (error) {
@@ -509,7 +513,7 @@ to lend their assistance in the relocation of ${name} to new land.`;
                 return;
             }
 
-            if (interaction.channelId != SettingsConstants.CHANNELS.DIPLOMACY_DISPATCH_ID) {
+            if (interaction.channel?.parentId != SettingsConstants.CHANNELS.DIPLOMACY_DISPATCH_ID) {
                 interaction.reply({
                     content: `Je kan deze actie alleen uitvoeren in <#${SettingsConstants.CHANNELS.DIPLOMACY_DISPATCH_ID}>.`,
                     ephemeral: true
