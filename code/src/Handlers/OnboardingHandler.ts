@@ -193,7 +193,7 @@ ${roles.length > 1 ? 'en ' : ''}\`${roles[roles.length - 1].toTitleCase()}\` geg
                         .setStyle(ButtonStyle.Danger),
                     new ButtonBuilder()
                         .setCustomId('onboarding_development')
-                        .setLabel('🤖 I\'m here for bot development/support')
+                        .setLabel('💻 I\'m here for development/support')
                         .setStyle(ButtonStyle.Secondary)
                 );
 
