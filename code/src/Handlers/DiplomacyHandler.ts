@@ -555,7 +555,7 @@ to lend their assistance in the relocation of ${name} to new land.`;
                 return;
             }
 
-            if (await threadChannel.members.fetch(interaction.user.id)) {
+            if (threadChannel.guildMembers.has(interaction.user.id)) {
                 interaction.reply({
                     content: 'Je zit al in de thread.',
                     ephemeral: true
@@ -582,7 +582,7 @@ to lend their assistance in the relocation of ${name} to new land.`;
             LogService.Log(LogType.DiplomacyPeek, messageInfo.user.id, 'Thread', threadChannel.id);
         } catch (error) {
             console.error(error);
-            LogService.Error(LogType.DiplomacyPeek, messageInfo.user.id, 'Message', messageInfo.message.id);
+            LogService.Error(LogType.DiplomacyPeek, messageInfo.user.id);
             return;
         }
     }
