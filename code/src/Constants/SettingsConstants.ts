@@ -136,4 +136,7 @@ export default class SettingsConstants {
 
     public static readonly DIPLOMACY_COOLDOWN = 60 * 5; // Seconds;
     public static readonly DIPLOMACY_ASSOCIATE_INVITE_MAX = 3;
+
+    public static readonly VOTE_OPTIONS_MAX = 5;
+    public static readonly VOTE_DURATION_DEFAULT = 5;
 }

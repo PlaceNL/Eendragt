@@ -8,7 +8,7 @@ export default class LogService {
 
     private static logChannel: TextChannel;
 
-    public static async Log(logType: LogType, userId?: string, idName?: string, id?: string, reason?: string) {
+    public static async Log(logType: LogType, userId: string, idName?: string, id?: string, reason?: string) {
         await this.LoadLogChannel();
 
         await this.logChannel.send({

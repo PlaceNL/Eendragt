@@ -9,6 +9,7 @@ export default class CommandConstants {
         ROLES: 'rollen',
         COORDINATE: 'coordinate',
         VOICE: 'voice',
+        VOTE: 'stemming',
         TREATY: 'treaty',
         THREAD: {
             COMMAND: 'thread',

@@ -11,6 +11,7 @@ import BillyHandler from './BillyHandler';
 import RoleHandler from './RoleHandler';
 import ThreadHandler from './ThreadHandler';
 import ApplicationHandler from './ApplicationHandler';
+import VoteHandler from './VoteHandler';
 
 export default class CommandHandler {
 
@@ -26,6 +27,10 @@ export default class CommandHandler {
         messageInfo.commandInfo = commandInfo;
 
         if (OnboardingHandler.OnCommand(messageInfo)) {
+            return;
+        }
+
+        if (VoteHandler.OnCommand(messageInfo)) {
             return;
         }
 

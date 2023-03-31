@@ -7,10 +7,15 @@ export default class RedisConstants {
         REPORT: 'report:',
         SUGGESTION: 'suggestion:',
         THREADS: 'threads',
+        VOTE: 'vote:',
+        CHOICE: 'choice:',
+        IMAGE: 'image',
         ART: 'art:',
         COORDINATE: 'coordinate:',
         COOLDOWN: 'cooldown:',
-        TIME: 'data:',
+        DATA: 'data:',
+        TRACK: 'track',
+        TIME: 'time:',
         NIGHTS_WATCH: 'nightswatch',
     };
 }

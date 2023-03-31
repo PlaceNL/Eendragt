@@ -8,7 +8,7 @@ export default class CommandManager {
 
     private static readonly adminFlag = PermissionFlagsBits.ManageGuild;
 
-    public static UpdateSlashCommands() {
+    public static UpdateCommands() {
         const data = [
             new SlashCommandBuilder()
                 .setName(CommandConstants.SLASH.UDPATE)
@@ -53,6 +53,21 @@ export default class CommandManager {
                         name: 'Sluiten',
                         value: 'take'
                     })),
+            new SlashCommandBuilder()
+                .setName(CommandConstants.SLASH.VOTE)
+                .setDescription('Creëer een stemming')
+                .setDMPermission(false)
+                .setDefaultMemberPermissions(this.adminFlag)
+                .addAttachmentOption(option => option
+                    .setName('image')
+                    .setDescription('De afbeelding die bij de stemming hoort')
+                    .setRequired(true))
+                .addNumberOption(option => option
+                    .setName('duration')
+                    .setDescription('Optioneel: Hoe lang de stemming moet duren in minuten. Standaard 5 minuten.')
+                    .setMinValue(1)
+                    .setMaxValue(60)
+                    .setRequired(false)),
             new SlashCommandBuilder()
                 .setName(CommandConstants.SLASH.BILLY)
                 .setDMPermission(false)

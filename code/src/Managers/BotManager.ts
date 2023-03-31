@@ -17,6 +17,8 @@ import { NominationAction } from '../Enums/NominationAction';
 import ArtHandler from '../Handlers/ArtHandler';
 import { RoleType } from '../Enums/RoleType';
 import ApplicationHandler from '../Handlers/ApplicationHandler';
+import VoteHandler from '../Handlers/VoteHandler';
+import VoteManager from './VoteManager';
 
 export default class BotManager {
 
@@ -24,6 +26,7 @@ export default class BotManager {
         console.log('Eendragt: Connected');
         await VariableManager.InitializeVariables();
         NightsWatchManager.CreateNightCheckInterval();
+        VoteManager.CheckOngoingVote();
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
@@ -39,7 +42,7 @@ export default class BotManager {
         const messageInfo: IMessageInfo = await DiscordUtils.ParseInteractionToInfo(interaction);
 
         if (interaction.commandName == 'update') {
-            CommandManager.UpdateSlashCommands();
+            CommandManager.UpdateCommands();
             interaction.reply({
                 content: 'Done!',
                 ephemeral: true
@@ -66,6 +69,15 @@ export default class BotManager {
             DiplomacyHandler.OnInviteButton(messageInfo);
         } else if (interaction.customId == 'diplomacy_peek') {
             DiplomacyHandler.OnPeek(messageInfo);
+        } else if (interaction.customId.startsWith('vote_confirm')) {
+            const id = interaction.customId.split('_')[2];
+            VoteHandler.OnCreateConfirm(messageInfo, id);
+        } else if (interaction.customId.startsWith('vote_destroy')) {
+            const id = interaction.customId.split('_')[2];
+            VoteHandler.OnDestroy(messageInfo, id);
+        } else if (interaction.customId.startsWith('vote_choose')) {
+            const split = interaction.customId.split('_');
+            VoteHandler.OnChoose(messageInfo, [split[2]], split[3]);
         } else if (interaction.customId.startsWith('application')) {
             const role = interaction.customId.split('_')[1];
             ApplicationHandler.OnApplicationStart(messageInfo, role as RoleType);
@@ -87,6 +99,8 @@ export default class BotManager {
             OnboardingHandler.OnFinishDiplomacyOnboarding(messageInfo);
         } else if (interaction.customId == 'diplomacy_report') {
             DiplomacyHandler.OnFinishReport(messageInfo);
+        } else if (interaction.customId.startsWith('vote_create_')) {
+            VoteHandler.OnCreatePreview(messageInfo, interaction.customId.split('_')[2]);
         } else if (interaction.customId.startsWith('nomination')) {
             const parts = interaction.customId.split('_');
             NominationHandler.OnModal(messageInfo, parts[1] as NominationAction, parts[2]);
@@ -104,6 +118,8 @@ export default class BotManager {
             OnboardingHandler.OnRoleSelect(messageInfo);
         } else if (interaction.customId == 'thread_tags') {
             ThreadHandler.OnTagsSelect(messageInfo);
+        } else if (interaction.customId.startsWith('vote_choose')) {
+            VoteHandler.OnChoose(messageInfo, interaction.values, interaction.customId.split('_')[2]);
         }
     }
 
