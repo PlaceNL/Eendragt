@@ -6,19 +6,19 @@ const stringSimilarity = require('string-similarity');
 
 export default class SimilarityService {
 
-    public static async FindSimiliarThreads(thread: ThreadChannel, keyThreads: string, ignoreDuplicate: boolean, identicalRating: number, similarRating: number) {
+    public static async FindSimiliarThreads(thread: ThreadChannel, keyThreads: string, ignoreDuplicate: boolean, identicalRating: number, similarRating: number, ignorePlace: boolean = false) {
         const resultInfo: IResultInfo = {
             result: false
         };
 
-        const threads = await Redis.hgetall(keyThreads);
+        const threads = await Redis.hgetall(keyThreads) as { [key: string]: string };
         if (threads == null) {
             return resultInfo;
         }
 
-        const titles = Object.values(threads);
+        let titles = Object.values(threads);
 
-        const similarities = stringSimilarity.findBestMatch(thread.name, titles);
+        let similarities = stringSimilarity.findBestMatch(thread.name, titles);
         if (similarities.bestMatch.rating < similarRating) {
             return resultInfo;
         }
@@ -37,6 +37,15 @@ export default class SimilarityService {
 
                     return resultInfo;
                 }
+            }
+        }
+
+        if (ignorePlace) {
+            const threadName = thread.name.replace(/[pP]lace/, '');
+            titles = titles.map((x: string) => x.replace(/[pP]lace/, ''));
+            similarities = stringSimilarity.findBestMatch(threadName, titles);
+            if (similarities.bestMatch.rating < similarRating) {
+                return resultInfo;
             }
         }
 

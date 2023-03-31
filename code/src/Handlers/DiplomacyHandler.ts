@@ -69,7 +69,7 @@ export default class DiplomacyHandler {
             });
 
             const similarities = await SimilarityService.FindSimiliarThreads(thread, this.keyThreads, true,
-                0, VariableManager.Get(VariableKey.SimilarDiplomacy));
+                0, VariableManager.Get(VariableKey.SimilarDiplomacy), true);
 
             Redis.hset(this.keyThreads, thread.id, thread.name);
 
