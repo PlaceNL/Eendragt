@@ -256,6 +256,15 @@ export default class ThreadHandler {
                         });
                         return;
                     }
+                } else if (thread.parentId == SettingsConstants.CHANNELS.DIPLOMACY_DISPATCH_ID) {
+                    if (!interaction.member.roles.cache.has(SettingsConstants.ROLES.DIPLONL_ID) &&
+                        !interaction.member.roles.cache.has(SettingsConstants.ROLES.DIPLOMOD_ID) ) {
+                        interaction.reply({
+                            content: 'Je hebt geen toegang tot dit commando.',
+                            ephemeral: true
+                        });
+                        return;
+                    }
                 } else {
                     interaction.reply({
                         content: 'Je hebt geen toegang tot dit commando.',
