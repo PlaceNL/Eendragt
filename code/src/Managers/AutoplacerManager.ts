@@ -7,6 +7,7 @@ const WebSocket = require('ws');
 export default class AutoplacerManager {
 
     private static attempts: number = 0;
+    private static updateReady: boolean = true;
 
     public static Start() {
         const ws = new WebSocket('wss://chief.placenl.nl/ws');
@@ -24,8 +25,17 @@ export default class AutoplacerManager {
             }, 1000 * 10);
         };
 
+        ws.onopen = () => {
+            ws.send(JSON.stringify({
+                type: 'subscribe',
+                payload: ['stats']
+            }));
+        };
+
         ws.onmessage = (ev: MessageEvent<any>) => {
             const data = JSON.parse(ev.data);
+
+            console.log(data);
 
             if (data.type == 'hello') {
                 this.attempts = 0;
@@ -34,14 +44,16 @@ export default class AutoplacerManager {
                     type: 'pong'
                 }));
             } else if (data.type == 'stats') {
-                Discord.GetClient().user.setActivity(`${data.payload.capabilities.place} autoplacers`, { type: ActivityType.Watching });
+                if (this.updateReady) {
+                    console.log('Heb de stats!');
+                    Discord.GetClient().user.setActivity(`${data.payload.capabilities.place} autoplacers`, { type: ActivityType.Watching });
+                    this.updateReady = false;
+                }
             }
         };
 
         setInterval(() => {
-            ws.send(JSON.stringify({
-                type: 'getStats',
-            }));
+            this.updateReady = true;
         }, SettingsConstants.ACTIVITY_UPDATE_INTERVAL);
     }
 }
