@@ -52,7 +52,6 @@ export default class AutoplacerManager {
                 }));
             } else if (data.type == 'stats') {
                 if (this.updateReady) {
-                    console.log('Heb de stats!');
                     Discord.GetClient().user.setActivity(`${data.payload.capabilities.place} autoplacers`, { type: ActivityType.Watching });
                     this.updateReady = false;
                 }
