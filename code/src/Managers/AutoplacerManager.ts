@@ -35,8 +35,6 @@ export default class AutoplacerManager {
         ws.onmessage = (ev: MessageEvent<any>) => {
             const data = JSON.parse(ev.data);
 
-            console.log(data);
-
             if (data.type == 'hello') {
                 this.attempts = 0;
             } else if (data.type == 'ping') {
