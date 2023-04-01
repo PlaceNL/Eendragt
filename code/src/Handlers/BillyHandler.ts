@@ -26,7 +26,9 @@ export default class BillyHandler {
         const timeParts = time.split(' ');
         const timeParts2 = timeParts[0].split(':');
         if (timeParts[1] === 'PM') {
-            timeParts2[0] = (parseInt(timeParts2[0]) + 12).toString();
+            if (timeParts2[0] != '12') {
+                timeParts2[0] = (parseInt(timeParts2[0]) + 12).toString();
+            }
         } else {
             if (timeParts2[0] === '12') {
                 timeParts2[0] = '00';
