@@ -45,6 +45,7 @@ export default class SimilarityService {
             titles = titles.map((x: string) => x.replace(/[pP]lace/, ''));
             similarities = stringSimilarity.findBestMatch(threadName, titles);
             if (similarities.bestMatch.rating < similarRating) {
+                resultInfo.result = false;
                 return resultInfo;
             }
         }
