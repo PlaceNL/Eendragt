@@ -19,7 +19,7 @@ Wanneer je je sollicitatie hebt ingediend stuurt de bot jouw sollicitatie naar e
 
 ![](images/guide/applications/application.png)
 
-Met het commando `/rol` kan aan een moderator de rol NL-diplomaat en Pixel Artist worden gegeven aan een ander lid. Met hetzelfde commando kan de rol ook weer worden afgepakt.
+Met het commando `/rol` kan een moderator de rol NL-diplomaat en Pixel Artist geven aan een ander lid. Met hetzelfde commando kan de rol ook weer worden afgepakt.
 
 ![](images/guide/applications/role_command.png)
 
@@ -59,7 +59,7 @@ Op diezelfde manier kan met het commando `/lock` kan een thread op slot worden g
 
 ## Suggesties
 
-Het suggesties-kanaal is het hart van onze democratie. Om alles zo eerlijk mogelijk te laten verlopen automatiseerd Eendragt het proces voor een suggestie om genomineerd te worden voor het canvas.
+Het suggesties-kanaal is het hart van onze democratie. Om alles zo eerlijk mogelijk te laten verlopen automatiseert Eendragt het proces voor een suggestie om genomineerd te worden voor het canvas.
 
 Wanneer iemand een nieuwe post maakt met een suggestie, dan stuurt de bot automatisch een bericht. Er wordt ook bijgehouden en gekeken of eerder al een vergelijkbare suggestie is gedaan. Zo ja, dan wordt dit toegevoegd aan het bericht. De maker van de thread, of een moderator, kan dan kiezen of ze de thread willen sluiten.
 
@@ -104,11 +104,11 @@ Via menu-commando's kan een canvas coordinator bepalen wat er met de nominatie m
 * Uitstellen - Het is een goede suggestie, maar er is momenteel geen plek voor op het canvas.
 * Afkeuren - De suggestie overtreedt de regels.
 
-![](images/guide/suggestions/nomination_menu.png)
+![](images/guide/suggestions/menu.png)
 
 Na het menu-commando te hebben uitgevoerd komt er een modal. Hier wordt gevraagd de actie te bevestigen door het te typen. Dit voorkomt dat er per ongeluk een verkeerde actie wordt uitgevoerd. Verder kan er een reden worden gegeven voor de actie.
 
-![](images/guide/suggestions/nomination_modal.png)
+![](images/guide/suggestions/modal.png)
 
 Na het uitvoeren van het commando wordt het originele bericht geupdate met de nieuwe status.
 
@@ -136,6 +136,27 @@ Met het `/template` commando kan er een afbeelding worden gegeneerd ter grote va
 
 ![](images/guide/template/message.png)
 
+## Stemmingen
+
+Met Eendragt kan je een stemming uitvoeren. Je start een stemming met het `/stemming` commando. Hierbij geef je een afbeelding, en optioneel hoelang de stemming moet duren.
+
+![](images/guide/voting/command.png)
+
+Wanneer je dit doet krijg je een modal te zien. In het eerste vak vul je een beschrijving in. Dit is optioneel, en indien leeggelaten zal het een standaard tekst hebben.
+
+Het tweede vak is ook optioneel, en dient alleen ingevuld te worden wanneer het geen ja/nee stemming is. Hierin vul je de opties in die de leden kunnen kiezen. Elke optie moet op een nieuwe regel staan. Door twee keer een dubbele punt te plaatsen (`::`) kan je een beschrijving toevoegen. In deze beschrijving kan je embedded links gebruiken ( \[text\]\(url\) ).
+
+![](images/guide/voting/modal.png)
+
+Wanneer je de modal hebt ingevuld krijg je een preview te zien. Als deze er goed uitziet klik je onderaan op "Ja, stuur het".
+
+![](images/guide/voting/preview.png)
+
+Wanneer je meerdere opties hebt komt er onder de knoppen een dropdown te staan. Hierin kan je stemmen op meerdere opties tegelijkertijd.
+
+Als de tijd voorbij is worden de resultaten getoond, en daarmee ook de winnaar.
+
+![](images/guide/voting/results.png)
 
 ## Diplomatie
 
