@@ -19,6 +19,7 @@ import { RoleType } from '../Enums/RoleType';
 import ApplicationHandler from '../Handlers/ApplicationHandler';
 import VoteHandler from '../Handlers/VoteHandler';
 import VoteManager from './VoteManager';
+import AutoplacerManager from './AutoplacerManager';
 
 export default class BotManager {
 
@@ -27,6 +28,7 @@ export default class BotManager {
         await VariableManager.InitializeVariables();
         NightsWatchManager.CreateNightCheckInterval();
         VoteManager.CheckOngoingVote();
+        AutoplacerManager.Start();
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars

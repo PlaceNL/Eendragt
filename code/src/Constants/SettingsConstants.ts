@@ -139,4 +139,6 @@ export default class SettingsConstants {
 
     public static readonly VOTE_OPTIONS_MAX = 5;
     public static readonly VOTE_DURATION_DEFAULT = 5;
+
+    public static readonly ACTIVITY_UPDATE_INTERVAL = 1000 * 20; // 20 seconds
 }
