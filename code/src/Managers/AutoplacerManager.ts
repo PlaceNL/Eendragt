@@ -28,7 +28,7 @@ export default class AutoplacerManager {
         ws.onopen = () => {
             ws.send(JSON.stringify({
                 type: 'subscribe',
-                payload: ['stats']
+                payload: 'stats'
             }));
         };
 
