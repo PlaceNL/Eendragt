@@ -50,7 +50,7 @@ export default class PlaceHandler {
 
         scaledCtx.drawImage(image, 0, 0, canvas.width, canvas.height, 0, 0, scaledCanvas.width, scaledCanvas.height);
 
-        const reply = await interaction.reply({
+        this.cacheMessage = await interaction.channel.send({
             content:
 `Alleen kan je iets maken.
 Samen kan je meer maken.
@@ -59,11 +59,16 @@ Gebruik \`/place\` om een pixel te plaatsen.`,
             files: [{ attachment: scaledCanvas.toBuffer(), name: 'canvas.png'}],
         });
 
-        this.cacheMessage = await reply.fetch();
         Redis.hmset(this.keyMessage, {
             messageId: this.cacheMessage.id,
             channelId: this.cacheMessage.channel.id,
         });
+
+        await interaction.reply({
+            content: 'Done',
+            ephemeral: true,
+        });
+
     }
 
     private static async OnPlace(messageInfo: IMessageInfo) {
