@@ -203,18 +203,29 @@ Wanneer je iets hebt afgesproken met een diplomaat van een andere community, dan
 
 De DiploMod kan het `/treaty` commando gebruiken om een verdrag te genereren. Hierbij zijn er drie keuzes:
 
-**Partnership**
+**Non-Agression**
+
+Wij spreken met de andere partij af dat we elkaar niet aanvallen. Het betekent niet dat we elkaar helpen te verdedigen, alleen dat wij elkaars grenzen respecteren.
+
+**Mutual Defense**
+
+Wij spreken met de andere partij af dat als een van ons wordt aangevallen, de andere partij ons zal helpen verdedigen.
+
+**Solidarity**
 
 Wij helpen de andere partij artwork te bouwen, en in ruil daarvoor gebruikt de community van de andere partij onze autoplacers. Het zijn ten slotte onze autoplacers die hun artwork bouwen.
 
-**Harmony**
+**Friendship**
 
-Wij spreken met de andere partij af dat we elkaar niet aanvallen. Het betekent niet dat we elkaar helpen te verdedigen, alleen dat wij elkaars grenzen respecteren.
+We sluiten vriendschap met de andere partij. Op de grens van onze gebieden plaatsen we artwork die relevant is voor ons beiden (bijvoorbeeld Alfred met Japan).
 
 **Acquisition**
 
 Wij verhuizen de partij naar een andere plek, zodat wij de plek kunnen claimen waar de partij momenteel op staat.
 
+**Custom**
+
+Als je geen van bovenstaande opties kan gebruiken, dan kan je een eigen verdrag opstellen.
 
 ![](images/guide/diplomacy/treaties/slash.png)
 
