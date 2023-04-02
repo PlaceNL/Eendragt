@@ -2,6 +2,7 @@ import { Canvas, createCanvas, loadImage } from 'canvas';
 import { ChatInputCommandInteraction, Message, TextChannel } from 'discord.js';
 import CommandConstants from '../Constants/CommandConstants';
 import RedisConstants from '../Constants/RedisConstants';
+import SettingsConstants from '../Constants/SettingsConstants';
 import IMessageInfo from '../Interfaces/IMessageInfo';
 import { Redis } from '../Providers/Redis';
 
@@ -34,17 +35,17 @@ export default class PlaceHandler {
     private static async OnCanvas(messageInfo: IMessageInfo) {
         const interaction = messageInfo.interaction as ChatInputCommandInteraction;
 
-        const canvas = createCanvas(100, 100);
+        const canvas = createCanvas(SettingsConstants.MINI_CANVAS_SIZE, SettingsConstants.MINI_CANVAS_SIZE);
         this.cacheCanvas = canvas;
 
         const ctx = canvas.getContext('2d');
         ctx.fillStyle = '#FFFFFF';
-        ctx.fillRect(0, 0, 100, 100);
+        ctx.fillRect(0, 0, SettingsConstants.MINI_CANVAS_SIZE, SettingsConstants.MINI_CANVAS_SIZE);
 
         const canvasImageData = canvas.toBuffer();
         const image = await loadImage(canvasImageData);
 
-        const scaledCanvas = createCanvas(400, 400);
+        const scaledCanvas = createCanvas(SettingsConstants.MINI_CANVAS_UPSCALE, SettingsConstants.MINI_CANVAS_UPSCALE);
         const scaledCtx = scaledCanvas.getContext('2d');
 
         scaledCtx.drawImage(image, 0, 0, canvas.width, canvas.height, 0, 0, scaledCanvas.width, scaledCanvas.height);
@@ -99,11 +100,11 @@ Gebruik \`/place\` om een pixel te plaatsen.`,
                 const imageData = await fetch(attachment.url);
                 const image = await loadImage(imageData.url);
 
-                const canvas = createCanvas(100, 100);
+                const canvas = createCanvas(SettingsConstants.MINI_CANVAS_SIZE, SettingsConstants.MINI_CANVAS_SIZE);
                 this.cacheCanvas = canvas;
                 const ctx = canvas.getContext('2d');
                 ctx.imageSmoothingEnabled = false;
-                ctx.drawImage(image, 0, 0, 400, 400, 0, 0, 100, 100);
+                ctx.drawImage(image, 0, 0, SettingsConstants.MINI_CANVAS_UPSCALE, SettingsConstants.MINI_CANVAS_UPSCALE, 0, 0, SettingsConstants.MINI_CANVAS_SIZE, SettingsConstants.MINI_CANVAS_SIZE);
             }
         }
 
@@ -115,7 +116,7 @@ Gebruik \`/place\` om een pixel te plaatsen.`,
         const canvasImageData = canvas.toBuffer();
         const image = await loadImage(canvasImageData);
 
-        const scaledCanvas = createCanvas(400, 400);
+        const scaledCanvas = createCanvas(SettingsConstants.MINI_CANVAS_UPSCALE, SettingsConstants.MINI_CANVAS_UPSCALE);
         const scaledCtx = scaledCanvas.getContext('2d');
         scaledCtx.imageSmoothingEnabled = false;
 
@@ -125,9 +126,9 @@ Gebruik \`/place\` om een pixel te plaatsen.`,
             files: [{ attachment: scaledCanvas.toBuffer(), name: 'canvas.png'}],
         });
 
-        const time = new Date().getTime() + 60000;
+        const time = new Date().getTime() + SettingsConstants.MINI_PLACE_COOLDOWN * 1000;
 
-        Redis.set(`${this.keyCooldown}${interaction.user.id}`, '1', 'ex', 60);
+        Redis.set(`${this.keyCooldown}${interaction.user.id}`, '1', 'ex', SettingsConstants.MINI_CANVAS_UPSCALE);
 
         interaction.followUp({
             content: `Ik heb de kleur ${color} geplaatst op ${x}, ${y}\n
