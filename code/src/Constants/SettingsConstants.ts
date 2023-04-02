@@ -143,6 +143,6 @@ export default class SettingsConstants {
     public static readonly ACTIVITY_UPDATE_INTERVAL = 1000 * 20; // 20 seconds
 
     public static readonly MINI_CANVAS_SIZE = 100;
-    public static readonly MINI_CANVAS_UPSCALE = 350;
+    public static readonly MINI_CANVAS_UPSCALE = 400;
     public static readonly MINI_PLACE_COOLDOWN = 60; // 1 minute
 }
