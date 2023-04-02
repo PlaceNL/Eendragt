@@ -128,7 +128,7 @@ Gebruik \`/place\` om een pixel te plaatsen.`,
 
         const time = new Date().getTime() + SettingsConstants.MINI_PLACE_COOLDOWN * 1000;
 
-        Redis.set(`${this.keyCooldown}${interaction.user.id}`, '1', 'ex', SettingsConstants.MINI_CANVAS_UPSCALE);
+        Redis.set(`${this.keyCooldown}${interaction.user.id}`, '1', 'ex', SettingsConstants.MINI_PLACE_COOLDOWN);
 
         interaction.followUp({
             content: `Ik heb de kleur ${color} geplaatst op ${x}, ${y}\n
