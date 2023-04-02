@@ -16,6 +16,97 @@ export default class CommandManager {
                 .setDescription('Update de slash commands')
                 .setDefaultMemberPermissions(this.adminFlag),
             new SlashCommandBuilder()
+                .setName(CommandConstants.SLASH.CANVAS)
+                .setDMPermission(false)
+                .setDescription('Creëer een place canvas')
+                .setDefaultMemberPermissions(this.adminFlag),
+            new SlashCommandBuilder()
+                .setName(CommandConstants.SLASH.PLACE)
+                .setDMPermission(false)
+                .setDescription('Plaats een pixel')
+                .addIntegerOption(option => option
+                    .setName('x')
+                    .setDescription('X-coördinaat')
+                    .setMinValue(0)
+                    .setMaxValue(99)
+                    .setRequired(true))
+                .addIntegerOption(option => option
+                    .setName('y')
+                    .setDescription('Y-coördinaat')
+                    .setMinValue(0)
+                    .setMaxValue(99)
+                    .setRequired(true))
+                .addStringOption(option => option
+                    .setName('kleur')
+                    .setDescription('Kies een kleur')
+                    .setRequired(true)
+                    .addChoices(
+                        {
+                            name: '#222222 (Zwart)',
+                            value: '222222'
+                        },
+                        {
+                            name: '#e50000 (Rood)',
+                            value: 'e50000'
+                        },
+                        {
+                            name: '#a06a42 (Bruin)',
+                            value: 'a06a42'
+                        },
+                        {
+                            name: '#02be01 (Groen)',
+                            value: '02be01'
+                        },
+                        {
+                            name: '#e59500 (Oranje)',
+                            value: 'e59500'
+                        },
+                        {
+                            name: '#e5d900 (Geel)',
+                            value: 'e5d900'
+                        },
+                        {
+                            name: '#94e044 (Lime)',
+                            value: '94e044'
+                        },
+                        {
+                            name: '#0000ea (Donkerblauw)',
+                            value: '0000ea'
+                        },
+                        {
+                            name: '#0083c7 (Blauw)',
+                            value: '0083c7'
+                        },
+                        {
+                            name: '#00d3dd (Lichtblauw)',
+                            value: '00d3dd'
+                        },
+                        {
+                            name: '#820080 (Donkerpaars)',
+                            value: '820080'
+                        },
+                        {
+                            name: '#cf6ee4 (Paars)',
+                            value: 'cf6ee4'
+                        },
+                        {
+                            name: '#ffa7d1 (Roze)',
+                            value: 'ffa7d1'
+                        },
+                        {
+                            name: '#888888 (Grijs)',
+                            value: '888888'
+                        },
+                        {
+                            name: '#e4e4e4 (Lichtgrijs)',
+                            value: 'e4e4e4'
+                        },
+                        {
+                            name: '#ffffff (Wit)',
+                            value: 'ffffff'
+                        })
+                ),
+            new SlashCommandBuilder()
                 .setName(CommandConstants.SLASH.APPLICATIONS)
                 .setDMPermission(false)
                 .setDescription('Zet de sollicitaties open of dicht')
