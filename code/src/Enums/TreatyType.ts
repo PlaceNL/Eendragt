@@ -1,5 +1,8 @@
 export enum TreatyType {
-    Harmony = 'harmony',
-    Partnership = 'partnership',
+    NonAgression = 'non-agression',
+    MutualDefense = 'mutual-defense',
+    Solidarity = 'solidarity',
+    Friendship = 'friendship',
     Acquisition = 'acquisition',
+    Custom = 'custom',
 }

@@ -421,7 +421,7 @@ Only add diplomats who are part of ${messageInfo.channel.name} like you, or igno
         }
     }
 
-    public static async OnTreaty(messageInfo: IMessageInfo) {
+    public static async OnTreaty(messageInfo: IMessageInfo, customText?: string) {
         const interaction = <ChatInputCommandInteraction>messageInfo.interaction;
 
         if (!interaction.inCachedGuild()) {
@@ -441,10 +441,44 @@ Only add diplomats who are part of ${messageInfo.channel.name} like you, or igno
                 return;
             }
 
-            await interaction.deferReply({ ephemeral: true });
+            let type;
+            let duration;
 
-            const type = interaction.options.getString('type');
-            const duration = interaction.options.getString('hoelang') || 'the duration of r/place 2023';
+            if (customText == null) {
+                type = interaction.options.getString('type');
+                duration = interaction.options.getString('hoelang') || 'the duration of r/place 2023';
+            } else {
+                type = TreatyType.Custom;
+            }
+
+            let text;
+
+            if (type == TreatyType.Custom) {
+                if (customText == null) {
+                    const modal = new ModalBuilder()
+                        .setCustomId('treaty_custom')
+                        .setTitle('Treaty');
+
+                    const description = new TextInputBuilder()
+                        .setCustomId('text')
+                        .setLabel('Tekst')
+                        .setStyle(TextInputStyle.Paragraph)
+                        .setRequired(true)
+                        .setMinLength(100)
+                        .setMaxLength(500);
+
+                    const row = new ActionRowBuilder<TextInputBuilder>().addComponents(description);
+
+                    modal.addComponents(row);
+
+                    (messageInfo.interaction as ButtonInteraction).showModal(modal);
+                    return;
+                } else {
+                    text = customText;
+                }
+            }
+
+            await interaction.deferReply({ ephemeral: true });
 
             const image = await loadImage(`assets/treaty_of_${type}.png`);
 
@@ -469,18 +503,26 @@ Only add diplomats who are part of ${messageInfo.channel.name} like you, or igno
             ctx.font = `38px ${font}`;
 
             const name = interaction.channel.name;
-            let text;
 
-            if (type == TreatyType.Partnership) {
+            if (type == TreatyType.NonAgression) {
+                text = `Be it known to those who doth gaze upon this parchment, \
+that the Kingdom of PlaceNL and the community of ${name} doth recognizing the value \
+of a peaceful environment on r/place, doth hereby agree not to place \
+pixels upon each other's ground. Let this Treaty remain in force for a period of ${duration}, \
+and may it be renewed by mutual agreement of the parties.`;
+            } else if (type == TreatyType.MutualDefense) {
+                text = `Let it be known that the Kingdom of Place NL and ${name} have recognized \
+the importance of mutual protection and defense on the grounds of r/Place. Thus, we doth solemnly \
+vow to stand united in times of conflict and lend aid to one another when faced with adversity. \
+Let this treaty be made known to all, and may it stand fast for ${duration}.`;
+            } else if (type == TreatyType.Solidarity) {
                 text = `Hear ye, hear ye! Let it be known that the Kingdom of PlaceNL and ${name} doth understand the worth of solidarity \
 and alliance upon the realm of r/place. Thus, we doth hereby agree that PlaceNL shall render aid to ${name} in the creation \
 of their artwork, and in turn, ${name} shall pledge their support to defend PlaceNL. Let this treaty be made known to all, and may it stand fast for ${duration}.`;
-            } else if (type == TreatyType.Harmony) {
-                text = `Be it known to those who doth gaze upon this parchment, \
-that the Kingdom of PlaceNL and the community of ${name} doth recognizing the value \
-of a peaceful and collaborative environment on r/place, doth hereby agree not to place \
-pixels upon each other's ground. Let this Treaty remain in force for a period of ${duration}, \
-and may it be renewed by mutual agreement of the parties.`;
+            } else if (type == TreatyType.Friendship) {
+                text = `Let it be known to all that the Kingdom of PlaceNL and ${name} have agreed to join in amity and \
+pledged their loyalty to one another. As a testament to the unity between our two kingdoms, PlaceNL and ${name} shall create a common artwork to be \
+displayed on the border of our lands. May the friendship between our two kingdoms endure and prosper, now and forevermore!`;
             } else if (type == TreatyType.Acquisition) {
                 text = `Let it be proclaimed to all that the Kingdom of PlaceNL and ${name} have \
 come to a mutual understanding regarding the division of lands on r/place. For it is PlaceNL that \

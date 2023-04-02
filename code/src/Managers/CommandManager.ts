@@ -176,16 +176,28 @@ export default class CommandManager {
                     .setRequired(true)
                     .addChoices(
                         {
-                            name: 'Partnership',
-                            value: 'partnership',
+                            name: 'Non-Aggression',
+                            value: 'non-agression',
                         },
                         {
-                            name: 'Harmony',
-                            value: 'harmony',
+                            name: 'Mutual Defense',
+                            value: 'mutual-defense',
+                        },
+                        {
+                            name: 'Solidarity',
+                            value: 'solidarity',
+                        },
+                        {
+                            name: 'Friendship',
+                            value: 'friendship',
                         },
                         {
                             name: 'Acquisition',
                             value: 'acquisition',
+                        },
+                        {
+                            name: 'Custom',
+                            value: 'custom',
                         }
                     )
                 )

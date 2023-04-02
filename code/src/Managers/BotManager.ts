@@ -99,6 +99,8 @@ export default class BotManager {
         const messageInfo: IMessageInfo = await DiscordUtils.ParseInteractionToInfo(interaction);
         if (interaction.customId == 'onboarding_diplomacy') {
             OnboardingHandler.OnFinishDiplomacyOnboarding(messageInfo);
+        } else if (interaction.customId == 'treaty_custom') {
+            DiplomacyHandler.OnTreaty(messageInfo, interaction.fields.getTextInputValue('text'));
         } else if (interaction.customId == 'diplomacy_report') {
             DiplomacyHandler.OnFinishReport(messageInfo);
         } else if (interaction.customId.startsWith('vote_create_')) {
