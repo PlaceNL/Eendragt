@@ -372,12 +372,31 @@ export default class ArtHandler {
             return resultInfo;
         }
 
+        let currentColor = '';
+        let currentColorCount = 0;
+        let singlePixel = false;
+
         for (let x = 0; x < pixels.shape[0]; x++) {
             for (let y = 0; y < pixels.shape[1]; y++) {
                 const r = pixels.get(x, y, 0);
                 const g = pixels.get(x, y, 1);
                 const b = pixels.get(x, y, 2);
                 const a = pixels.get(x, y, 3);
+
+                if (!singlePixel) {
+                    const colorString = `${r},${g},${b},${a}`;
+                    if (currentColor == colorString) {
+                        currentColorCount++;
+                    } else {
+                        if (currentColorCount == 1) {
+                            singlePixel = true;
+                        }
+
+                        currentColorCount = 1;
+                        currentColor = colorString;
+                    }
+                }
+
                 if (a == 0) {
                     transparent = true;
                 } else {
@@ -395,10 +414,17 @@ export default class ArtHandler {
             }
         }
 
+        if (!singlePixel) {
+            resultInfo.reason = english
+                ? 'Your pixel art doesn\'t have 1:1 scaling. If it does have 1:1 scaling, add a transparent border to the right.'
+                : 'Je pixel art lijkt geen 1:1 scaling te hebben. Als het wel 1:1 scaling heeft, voeg rechts dan een transparante rand toe.';
+            return resultInfo;
+        }
+
         if (!transparent) {
             resultInfo.reason = english
                 ? 'You don\'t have a transparent background. Is your art square? Give it a transparent border around it.'
-                : 'Je hebt geen transparante achtergrond. Is je art vierkant? Geef deze dan een transparante rand eromheen.';
+                : 'Je hebt geen transparante achtergrond. Is je art rechthoekig? Voeg rechts dan een transparante rand toe.';
             return resultInfo;
         }
 
