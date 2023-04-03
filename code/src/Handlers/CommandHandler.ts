@@ -12,7 +12,6 @@ import RoleHandler from './RoleHandler';
 import ThreadHandler from './ThreadHandler';
 import ApplicationHandler from './ApplicationHandler';
 import VoteHandler from './VoteHandler';
-import PlaceHandler from './PlaceHandler';
 
 export default class CommandHandler {
 
@@ -28,10 +27,6 @@ export default class CommandHandler {
         messageInfo.commandInfo = commandInfo;
 
         if (OnboardingHandler.OnCommand(messageInfo)) {
-            return;
-        }
-
-        if (PlaceHandler.OnCommand(messageInfo)) {
             return;
         }
 
