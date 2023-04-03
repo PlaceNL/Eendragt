@@ -47,6 +47,7 @@ export default class BillyHandler {
             `Zoals het klokje thuis tikt, tikt het niet in San Francisco. Want daar is het ${time24}.`,
             `Ik heb de computer van Billy gehackt, en gezien dat het daar exact ${time24} is`,
             `Het is heel simpel. Je pakt de huidige Nederlandse tijd, telt daar 5 bij op, haalt er 2 vanaf, deelt het door 3, draai het een kwartslag, zing een liedje, en dan zou je ongeveer op ${time24} uitkomen.`,
+            `Billy is wat in het verleden blijven hangen. Om precies te zijn is hij blijven hangen op exact ${time24}.`
         ];
 
         const text = texts[Math.floor(Math.random() * texts.length)];
