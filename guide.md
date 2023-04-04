@@ -45,7 +45,7 @@ Nadat je het commando hebt gebruikt krijg je een dropdown menu te zien. Hier kan
 
 ### Archiveren en sluiten
 
-Met het commando `/close` kan een thread geachiveerd worden. Hier kan een reden mee worden gegeven, die dan te zien is in de logs.
+Met het commando `/close` kan een thread gearchiveerd worden. Hier kan een reden mee worden gegeven, die dan te zien is in de logs.
 
 ![](images/guide/threads/close/command.png)
 
@@ -84,7 +84,7 @@ Valide art voldoet aan de volgende criteria:
 * Het gebruikt alleen de kleuren die r/place gebruikt.
 * Het is 1x1 scaling.
 
-Alleen die laatste kan de bot niet controlleren, maar de eerste drie worden dus wel gecontrolleerd door de bot. Wanneer een van de drie niet klopt, dan zal de bot aangeven wat er precies mis is.
+Al deze vier criteria worden gecontrolleerd door de bot. Wanneer een van de vier niet klopt, dan zal de bot aangeven wat er precies mis is.
 
 ![](images/guide/suggestions/invalid_art.png)
 
@@ -176,7 +176,7 @@ Eendragt automatiseert de onboarding van diplomaten. Wanneer een lid klikt op **
 
 ![](images/guide/diplomacy/onboarding/onboarding.png)
 
-Nadat ze deze hebben ingevuld krijgt het lid de Diplomat rol, en wordt er een privé thread aangemaakt in #diplomacy-threads met alleen het lid. Daar krijgen ze een welkomsbericht te zien, met onderaan de mogelijkheid om maximaal twee leden, hun mede-diplomaten, toe te voegen.
+Nadat ze deze hebben ingevuld krijgt het lid de Diplomat rol, en wordt er een privé thread aangemaakt in #embassy met alleen het lid. Daar krijgen ze een welkomsbericht te zien, met onderaan de mogelijkheid om maximaal drie leden, hun mede-diplomaten, toe te voegen.
 
 ![](images/guide/diplomacy/onboarding/thread.png)
 
@@ -211,7 +211,7 @@ Hiermee wordt een tijdelijk voicekanaal aangemaakt. Zodra iemand in het voicekan
 
 Wanneer je iets hebt afgesproken met een diplomaat van een andere community, dan moet het nog wel goedgekeurd worden. Vraag aan een DiploMod om een verdrag op te stellen.
 
-De DiploMod kan het `/treaty` commando gebruiken om een verdrag te genereren. Hierbij zijn er drie keuzes:
+De DiploMod kan het `/treaty` commando gebruiken om een verdrag te genereren. Hierbij zijn er zes keuzes:
 
 **Non-Agression**
 
