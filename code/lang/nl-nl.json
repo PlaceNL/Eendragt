@@ -3,5 +3,11 @@
   "I_WANT_TO_HELP": "🌷 Ik wil meehelpen!",
   "ROLE_APPLICATION_ALREADY_SUBMITTED": "Je hebt al een sollicitatie ingediend voor deze rol.",
   "SHOW_PROOF_OF_SKILL": "Link naar iets dat je hebt gemaakt",
-  "APPLICATION_SENT": "Je sollicitatie is verzonden!"
+  "APPLICATION_SENT": "Je sollicitatie is verzonden!",
+  "APPLICATION_LETTER": "Sollicitatiebrief",
+  "ROLE_APPLICATIONS_CLOSED": "Bedankt voor je interesse, maar wij nemen momenteel geen nieuwe {roleName} meer aan.\nHoud de aankondigingen in de gaten om te weten wanneer je weer voor deze rol kan solliciteren.",
+  "ROLE_APPLICATION": "Sollicitatie {roleName}",
+  "ROLE_APPLICATION_OPEN_STATUS": "De {roleName} sollicitaties zijn nu {status}.",
+  "OPEN": "open",
+  "CLOSED": "gesloten"
 }

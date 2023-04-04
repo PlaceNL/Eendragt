@@ -10,6 +10,7 @@ import { Utils } from '../Utils/Utils';
 import MemberData from '../Data/members.json';
 import ApplicationEmbeds from '../Embeds/ApplicationEmbeds';
 import RedisConstants from '../Constants/RedisConstants';
+import LanguageLoader from '../Utils/LanguageLoader';
 import { Redis } from '../Providers/Redis';
 
 export default class ApplicationHandler {
@@ -41,7 +42,7 @@ export default class ApplicationHandler {
 
             if (application) {
                 interaction.reply({
-                    content: 'Je hebt al een sollicitatie ingediend voor deze rol.',
+                    content: LanguageLoader.LangConfig.ROLE_APPLICATION_ALREADY_SUBMITTED,
                     ephemeral: true
                 });
 
@@ -52,8 +53,7 @@ export default class ApplicationHandler {
 
             if (closed) {
                 interaction.reply({
-                    content: `Bedankt voor je interesse, maar wij nemen momenteel geen nieuwe ${RolesConstants.ROLES[role].name} meer aan.
-Houd de aankondigingen in de gaten om te weten wanneer je weer voor deze rol kan solliciteren.`,
+                    content: LanguageLoader.LangConfig.ROLE_APPLICATIONS_CLOSED.replace('{roleName}', RolesConstants.ROLES[role].name),
                     ephemeral: true
                 });
 
@@ -62,18 +62,18 @@ Houd de aankondigingen in de gaten om te weten wanneer je weer voor deze rol kan
 
             const modal = new ModalBuilder()
                 .setCustomId(`application_${role}`)
-                .setTitle(`Sollicitatie ${RolesConstants.ROLES[role].name}`);
+                .setTitle(LanguageLoader.LangConfig.ROLE_APPLICATION.replace('{roleName}', RolesConstants.ROLES[role].name));
 
             const description = new TextInputBuilder()
                 .setCustomId('description')
-                .setLabel('Sollicitatiebrief')
+                .setLabel(LanguageLoader.LangConfig.APPLICATION_LETTER)
                 .setStyle(TextInputStyle.Paragraph)
                 .setRequired(true)
                 .setMinLength(100)
                 .setMaxLength(500);
 
             if (role === RoleType.Artist) {
-                description.setLabel('Link naar iets dat je hebt gemaakt')
+                description.setLabel(LanguageLoader.LangConfig.SHOW_PROOF_OF_SKILL)
                     .setStyle(TextInputStyle.Short)
                     .setRequired(true)
                     .setMinLength(25)
@@ -144,7 +144,7 @@ Houd de aankondigingen in de gaten om te weten wanneer je weer voor deze rol kan
             Redis.set(`${this.keyApplication}${role}:${messageInfo.user.id}`, 1, 'EX', Utils.GetHoursInSeconds(24));
 
             interaction.reply({
-                content: 'Je sollicitatie is verzonden!',
+                content: LanguageLoader.LangConfig.APPLICATION_SENT,
                 ephemeral: true,
             });
             LogService.Log(logType, messageInfo.user.id);
@@ -170,7 +170,7 @@ Houd de aankondigingen in de gaten om te weten wanneer je weer voor deze rol kan
             }
 
             interaction.reply({
-                content: `De ${RolesConstants.ROLES[category].name} sollicitaties zijn nu ${on ? 'open' : 'gesloten'}.`
+                content: LanguageLoader.LangConfig.ROLE_APPLICATION_OPEN_STATUS.replace('{roleName}', RolesConstants.ROLES[category].name).replace('{status}', on ? LanguageLoader.LangConfig.OPEN : LanguageLoader.LangConfig.CLOSED)
             });
 
             LogService.Log(on ? LogType.ApplicationStateOpen : LogType.ApplicationStateClose, messageInfo.user.id, `${RolesConstants.ROLES[category].name} applicaties zijn nu ${on ? 'open' : 'gesloten'}.`);
@@ -186,7 +186,7 @@ Houd de aankondigingen in de gaten om te weten wanneer je weer voor deze rol kan
                 .addComponents(
                     new StringSelectMenuBuilder()
                         .setCustomId('onboarding_roles')
-                        .setPlaceholder('Selecteer een rol')
+                        .setPlaceholder(LanguageLoader.LangConfig.ROLE_SELECTOR_PLACEHOLDER)
                         .setMinValues(1)
                         .setMaxValues(2)
                         .addOptions(
