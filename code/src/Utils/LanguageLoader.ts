@@ -9,9 +9,11 @@ type LangConfig = {
     APPLICATION_LETTER: string,
     ROLE_APPLICATIONS_CLOSED: string,
     ROLE_APPLICATION: string,
-    ROLE_APPLICATION_OPEN_STATUS: string,
+    ROLE_CATEGORY_APPLICATION_OPEN_STATUS: string,
     OPEN: string,
-    CLOSED: string
+    CLOSED: string,
+    LOG_ROLE_CATEGORY_APPLICATION_OPEN_STATUS: string,
+    CATEGORY: string
 };
 
 // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
@@ -25,9 +27,11 @@ export default class LanguageLoader {
         I_WANT_TO_HELP: '🌷 Ik wil meehelpen!',
         ROLE_APPLICATIONS_CLOSED: 'Bedankt voor je interesse, maar wij nemen momenteel geen nieuwe {roleName} meer aan.\nHoud de aankondigingen in de gaten om te weten wanneer je weer voor deze rol kan solliciteren.',
         ROLE_APPLICATION: 'Sollicitatie {roleName}',
-        ROLE_APPLICATION_OPEN_STATUS: 'De {roleName} sollicitaties zijn nu {status}.',
+        ROLE_CATEGORY_APPLICATION_OPEN_STATUS: 'De {roleCategory} sollicitaties zijn nu {status}.',
         OPEN: 'open',
-        CLOSED: 'gesloten'
+        CLOSED: 'gesloten',
+        LOG_ROLE_CATEGORY_APPLICATION_OPEN_STATUS: '{roleCategory} applicaties zijn nu {status}.',
+        CATEGORY: 'Categorie'
     };
     public static LoadLanguageConfig(languageCode: string) {
         const json = fs.readFileSync(`lang/${languageCode}.json`, 'utf8');

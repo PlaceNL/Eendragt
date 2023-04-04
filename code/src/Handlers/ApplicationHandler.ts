@@ -1,17 +1,29 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, ChatInputCommandInteraction, ModalBuilder, ModalSubmitInteraction, StringSelectMenuBuilder, TextChannel, TextInputBuilder, TextInputStyle } from 'discord.js';
+import {
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonInteraction,
+    ButtonStyle,
+    ChatInputCommandInteraction,
+    ModalBuilder,
+    ModalSubmitInteraction,
+    StringSelectMenuBuilder,
+    TextChannel,
+    TextInputBuilder,
+    TextInputStyle
+} from 'discord.js';
 import CommandConstants from '../Constants/CommandConstants';
 import RolesConstants from '../Constants/RolesConstants';
 import SettingsConstants from '../Constants/SettingsConstants';
-import { LogType } from '../Enums/LogType';
-import { RoleType } from '../Enums/RoleType';
+import {LogType} from '../Enums/LogType';
+import {RoleType} from '../Enums/RoleType';
 import IMessageInfo from '../Interfaces/IMessageInfo';
 import LogService from '../Services/LogService';
-import { Utils } from '../Utils/Utils';
+import {Utils} from '../Utils/Utils';
 import MemberData from '../Data/members.json';
 import ApplicationEmbeds from '../Embeds/ApplicationEmbeds';
 import RedisConstants from '../Constants/RedisConstants';
 import LanguageLoader from '../Utils/LanguageLoader';
-import { Redis } from '../Providers/Redis';
+import {Redis} from '../Providers/Redis';
 
 export default class ApplicationHandler {
 
@@ -28,7 +40,8 @@ export default class ApplicationHandler {
             case commands.ROLES:
                 this.OnRoles(messageInfo);
                 break;
-            default: return false;
+            default:
+                return false;
         }
 
         return true;
@@ -170,13 +183,17 @@ export default class ApplicationHandler {
             }
 
             interaction.reply({
-                content: LanguageLoader.LangConfig.ROLE_APPLICATION_OPEN_STATUS.replace('{roleName}', RolesConstants.ROLES[category].name).replace('{status}', on ? LanguageLoader.LangConfig.OPEN : LanguageLoader.LangConfig.CLOSED)
+                content: LanguageLoader.LangConfig.ROLE_CATEGORY_APPLICATION_OPEN_STATUS
+                    .replace('{roleCategory}', RolesConstants.ROLES[category].name)
+                    .replace('{status}', on ? LanguageLoader.LangConfig.OPEN : LanguageLoader.LangConfig.CLOSED)
             });
 
-            LogService.Log(on ? LogType.ApplicationStateOpen : LogType.ApplicationStateClose, messageInfo.user.id, `${RolesConstants.ROLES[category].name} applicaties zijn nu ${on ? 'open' : 'gesloten'}.`);
+            LogService.Log(on ? LogType.ApplicationStateOpen : LogType.ApplicationStateClose, messageInfo.user.id, LanguageLoader.LangConfig.LOG_ROLE_CATEGORY_APPLICATION_OPEN_STATUS
+                .replace('{roleCategory}', RolesConstants.ROLES[category].name)
+                .replace('{status}', on ? LanguageLoader.LangConfig.OPEN : LanguageLoader.LangConfig.CLOSED));
         } catch (error) {
             console.error(error);
-            LogService.Log( on ? LogType.ApplicationStateOpen : LogType.ApplicationStateClose, messageInfo.user.id, 'Categorie', category);
+            LogService.Log(on ? LogType.ApplicationStateOpen : LogType.ApplicationStateClose, messageInfo.user.id, LanguageLoader.LangConfig.CATEGORY, category);
         }
     }
 

@@ -7,7 +7,9 @@
   "APPLICATION_LETTER": "Sollicitatiebrief",
   "ROLE_APPLICATIONS_CLOSED": "Bedankt voor je interesse, maar wij nemen momenteel geen nieuwe {roleName} meer aan.\nHoud de aankondigingen in de gaten om te weten wanneer je weer voor deze rol kan solliciteren.",
   "ROLE_APPLICATION": "Sollicitatie {roleName}",
-  "ROLE_APPLICATION_OPEN_STATUS": "De {roleName} sollicitaties zijn nu {status}.",
+  "ROLE_CATEGORY_APPLICATION_OPEN_STATUS": "De {roleCategory} sollicitaties zijn nu {status}.",
   "OPEN": "open",
-  "CLOSED": "gesloten"
+  "CLOSED": "gesloten",
+  "LOG_ROLE_CATEGORY_APPLICATION_OPEN_STATUS": "{roleCategory} applicaties zijn nu {status}.",
+  "CATEGORY": "Categorie"
 }
