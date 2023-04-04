@@ -128,6 +128,14 @@ Na het commando te hebben gebruikt verschijnt er een bericht met daarin de ingev
 
 Het lid wordt vertelt waar en wanneer ze een pixel moeten plaatsen, en van welke kleur. Wanneer alle leden dit tegelijkertijd doen zou er in no-time het kunstwerk op het canvas moeten staan.
 
+## Grid
+
+Met het `/grid` commando kan er een grid worden gegeneerd met de meegegeven pixel art. In dit grid staan de x- en y-coördinaten van elke pixel, aan de hand van de meegegeven positie. Deze afbeelding kan gebruikt worden als handleiding bij het handmatig plaatsen van pixels.
+
+![](images/guide/grid/command.png)
+
+![](images/guide/grid/grid.png)
+
 ## Template
 
 Met het `/template` commando kan er een afbeelding worden gegeneerd ter grote van het canvas, met de meegegeven pixel art op de meegegeven positie. Dit is handig voor Canvas Coordinators wanneer zij de art in de template moeten plaatsen.
