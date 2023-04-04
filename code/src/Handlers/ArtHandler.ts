@@ -489,15 +489,15 @@ export default class ArtHandler {
                     transparent = true;
                 } else {
                     colors = true;
-                }
 
-                const hex = Utils.RGBAToHex(r, g, b);
+                    const hex = Utils.RGBAToHex(r, g, b);
 
-                if (!VariableManager.Get(VariableKey.ValidColors).includes(hex)) {
-                    resultInfo.reason = english
-                        ? `The color ${hex} at position (${x}, ${y}) is not allowed.`
-                        : `De kleur ${hex} op positie (${x}, ${y}) is niet toegestaan.`;
-                    return resultInfo;
+                    if (!VariableManager.Get(VariableKey.ValidColors).includes(hex)) {
+                        resultInfo.reason = english
+                            ? `The color ${hex} at position (${x}, ${y}) is not allowed.`
+                            : `De kleur ${hex} op positie (${x}, ${y}) is niet toegestaan.`;
+                        return resultInfo;
+                    }
                 }
             }
         }
