@@ -1,3 +1,7 @@
 {
-  "ROLE_SELECTOR_PLACEHOLDER": "Selecteer een rol"
+  "ROLE_SELECTOR_PLACEHOLDER": "Selecteer een rol",
+  "I_WANT_TO_HELP": "🌷 Ik wil meehelpen!",
+  "ROLE_APPLICATION_ALREADY_SUBMITTED": "Je hebt al een sollicitatie ingediend voor deze rol.",
+  "SHOW_PROOF_OF_SKILL": "Link naar iets dat je hebt gemaakt",
+  "APPLICATION_SENT": "Je sollicitatie is verzonden!"
 }
