@@ -4,6 +4,7 @@ export default class CommandConstants {
         BILLY: 'billy',
         APPLICATIONS: 'sollicitaties',
         VALIDATE: 'validate',
+        GRID: 'grid',
         TEMPLATE: 'template',
         ONBOARDING: 'onboarding',
         ROLES: 'rollen',

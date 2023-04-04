@@ -54,6 +54,27 @@ export default class CommandManager {
                         value: 'take'
                     })),
             new SlashCommandBuilder()
+                .setName(CommandConstants.SLASH.GRID)
+                .setDescription('Creëer een grid voor je pixel art')
+                .setDMPermission(false)
+                .setDefaultMemberPermissions(this.adminFlag)
+                .addAttachmentOption(option => option
+                    .setName('art')
+                    .setDescription('De pixel art waar je een grid van wilt hebben')
+                    .setRequired(true))
+                .addNumberOption(option => option
+                    .setName('x')
+                    .setDescription('De x-coördinaat van de linkerbovenhoek van de pixel art')
+                    .setMinValue(0)
+                    .setMaxValue(VariableManager.Get(VariableKey.CanvasWidth))
+                    .setRequired(true))
+                .addNumberOption(option => option
+                    .setName('y')
+                    .setDescription('De y-coördinaat van de linkerbovenhoek van de pixel art')
+                    .setMinValue(0)
+                    .setMaxValue(VariableManager.Get(VariableKey.CanvasHeight))
+                    .setRequired(true)),
+            new SlashCommandBuilder()
                 .setName(CommandConstants.SLASH.VOTE)
                 .setDescription('Creëer een stemming')
                 .setDMPermission(false)
@@ -238,7 +259,7 @@ export default class CommandManager {
                 .setDescription('Maak een template afbeelding voor je pixel art')
                 .addAttachmentOption(option => option
                     .setName('art')
-                    .setDescription('De afbeelding die je wilt toevoegen aan de template')
+                    .setDescription('De pixel art die je wilt toevoegen aan de template')
                     .setRequired(true))
                 .addNumberOption(option => option
                     .setName('x')

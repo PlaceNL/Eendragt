@@ -33,6 +33,7 @@ export enum LogType {
     CoordinateCreate = '🗺️🆕 Coordinate Create',
     CoordinateClaim = '🗺️⚠️ Coordinate Claim',
     TemplateCreate = '📝🆕 Template Create',
+    GridCreate = '🔢🆕 Grid Create',
     SuggestionCreated = '💡⭕️ Suggestion Created',
     SuggestionNoTags = '💡⚠️ Suggestion NoTags',
     SuggestionDuplicate = '💡♻️ Suggestion Duplicate',

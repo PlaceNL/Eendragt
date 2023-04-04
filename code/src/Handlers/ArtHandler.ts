@@ -40,6 +40,9 @@ export default class ArtHandler {
             case commands.COORDINATE:
                 this.OnCoordinate(messageInfo);
                 break;
+            case commands.GRID:
+                this.OnGrid(messageInfo);
+                break;
             default: return false;
         }
 
@@ -154,7 +157,7 @@ export default class ArtHandler {
 
     private static async OnValidate(messageInfo: IMessageInfo) {
         try {
-            const attachment = (<ChatInputCommandInteraction> messageInfo.interaction).options.get('art')?.attachment;
+            const attachment = (<ChatInputCommandInteraction> messageInfo.interaction).options.getAttachment('art');
 
             if (messageInfo.channel.isThread()) {
                 if (messageInfo.channel.parentId == SettingsConstants.CHANNELS.SUGGESTIONS_ID) {
@@ -186,7 +189,7 @@ export default class ArtHandler {
     private static async OnTemplate(messageInfo: IMessageInfo) {
         try {
             const interaction = messageInfo.interaction as ChatInputCommandInteraction;
-            const art = interaction.options.get('art')?.attachment;
+            const art = interaction.options.getAttachment('art');
             const x = interaction.options.getNumber('x');
             const y = interaction.options.getNumber('y');
 
@@ -220,7 +223,7 @@ export default class ArtHandler {
     private static async OnCoordinate(messageInfo: IMessageInfo) {
         try {
             const interaction = messageInfo.interaction as ChatInputCommandInteraction;
-            const art = interaction.options.get('art')?.attachment;
+            const art = interaction.options.getAttachment('art');
             const xCanvas = interaction.options.getNumber('x');
             const yCanvas = interaction.options.getNumber('y');
             const time = interaction.options.getString('tijd', false);
@@ -346,6 +349,95 @@ export default class ArtHandler {
         }
     }
 
+    private static async OnGrid(messageInfo: IMessageInfo) {
+        try {
+            const interaction = messageInfo.interaction as ChatInputCommandInteraction;
+            const art = interaction.options.getAttachment('art');
+            const startX = interaction.options.getNumber('x');
+            const startY = interaction.options.getNumber('y');
+
+            const resultInfo = await this.IsLegitArt(art);
+            if (!resultInfo.result) {
+                MessageService.ReplyEmbed(messageInfo, ArtEmbeds.GetInvalidArtEmbed(resultInfo.reason), null, null, null, true);
+                LogService.Log(LogType.ValidateArtBad, messageInfo.member.id, 'Channel', messageInfo.channel.id);
+                return;
+            }
+
+            await interaction.deferReply();
+            const pixels = await this.GetPixels(art);
+            const size = 35;
+
+            const image = await loadImage(art.url);
+            const canvas = createCanvas(image.width * size, image.height * size);
+            const ctx = canvas.getContext('2d');
+
+            if (startX + image.width > VariableManager.Get(VariableKey.CanvasHeight)
+            || startY + image.height > VariableManager.Get(VariableKey.CanvasWidth)) {
+                interaction.followUp({
+                    content: 'Deze pixel art past niet op de meegegven locatie.',
+                    ephemeral: true,
+                });
+
+                return;
+            }
+
+            if (startX + image.width > 1000 ||
+                startY + image.height > 1000) {
+                ctx.font = '9px sans-serif';
+            }
+
+            ctx.imageSmoothingEnabled = false;
+            ctx.drawImage(image, 0, 0, image.width * size, image.height * size);
+
+            for (let i = 0; i < image.height; i++) {
+                ctx.beginPath();
+                ctx.moveTo(0, i * size);
+                ctx.lineTo(image.width * size, i * size);
+                ctx.stroke();
+            }
+
+            for (let i = 0; i < image.width; i++) {
+                ctx.beginPath();
+                ctx.moveTo(i * size, 0);
+                ctx.lineTo(i * size, image.height * size);
+                ctx.stroke();
+            }
+
+            for (let i = 0; i < image.height; i++) {
+                for (let j = 0; j < image.width; j++) {
+                    if (pixels.get(j, i, 3) == 0) {
+                        continue;
+                    }
+
+                    const r = pixels.get(j, i, 0);
+                    const g = pixels.get(j, i, 1);
+                    const b = pixels.get(j, i, 2);
+
+                    // Use black text if the pixel is light
+                    const brightness = Math.round(((r * 299) + (g * 587) + (b * 114)) / 1000);
+                    if (brightness > 125) {
+                        ctx.fillStyle = '#000000';
+                    } else {
+                        ctx.fillStyle = '#ffffff';
+                    }
+
+                    ctx.fillText(`x:${startX + j}`, j * size + 2, i * size + 13);
+                    ctx.fillText(`y:${startY + i}`, j * size + 2, i * size + 28);
+                }
+            }
+
+            interaction.followUp({
+                content: 'Alsjeblieft :)',
+                files: [{ attachment: canvas.toBuffer(), name: `grid_${art.name}`}]
+            });
+
+            LogService.Log(LogType.GridCreate, messageInfo.member.id, 'Channel', messageInfo.channel.id);
+        } catch (error) {
+            console.error(error);
+            LogService.Error(LogType.GridCreate, messageInfo.member.id, 'Channel', messageInfo.channel.id);
+        }
+    }
+
     private static async IsLegitArt(attachment: Attachment, english: boolean = false) {
         const resultInfo: IResultInfo = {
             result : false
@@ -356,11 +448,7 @@ export default class ArtHandler {
             return resultInfo;
         }
 
-        const bytesIn = await fetch(attachment.url)
-            .then((res: any) => res.arrayBuffer())
-            .then((arrayBuffer: any) => new Uint8Array(arrayBuffer));
-
-        const pixels = await getPixels(bytesIn, 'image/png');
+        const pixels = await this.GetPixels(attachment);
         let transparent = false;
         let colors = false;
 
@@ -437,5 +525,13 @@ export default class ArtHandler {
 
         resultInfo.result = true;
         return resultInfo;
+    }
+
+    private static async GetPixels(attachment: Attachment) {
+        const bytesIn = await fetch(attachment.url)
+            .then((res: any) => res.arrayBuffer())
+            .then((arrayBuffer: any) => new Uint8Array(arrayBuffer));
+
+        return await getPixels(bytesIn, 'image/png');
     }
 }
