@@ -9,6 +9,15 @@ You are free to fork this bot for your own r/place server. When you do, we ask y
 
 Thanks!
 
+## Guide
+
+Read the guide to find out how the both works.
+
+[Dutch](guide.md)
+
+[English](guide_en.md)
+
+
 ## Environment file
 ```ini
 TOKEN=
