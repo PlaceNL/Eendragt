@@ -29,7 +29,8 @@ type LangConfig = {
     SCALE_INCORRECT: string,
     ARTWORK_NOT_TRANSPARENT: string,
     ARTWORK_HAS_NO_COLOURS: string,
-    BILLY_TIME_JOKES: string[]
+    BILLY_TIME_JOKES: string[],
+    YOU_ALREADY_HAVE_THIS_ROLE: string
 };
 
 // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
@@ -63,7 +64,8 @@ export default class LanguageLoader {
         SCALE_INCORRECT: 'Je pixel art lijkt geen 1:1 scaling te hebben. Als het wel 1:1 scaling heeft, voeg rechts dan een transparante rand toe.',
         ARTWORK_NOT_TRANSPARENT: 'Je hebt geen transparante achtergrond. Is je art rechthoekig? Voeg rechts dan een transparante rand toe.',
         ARTWORK_HAS_NO_COLOURS: 'Deze afbeelding is volledig transparant.',
-        BILLY_TIME_JOKES: ['Zeg Billy, hoe laat is het bij jou?\nBilly: {time}']
+        BILLY_TIME_JOKES: ['Zeg Billy, hoe laat is het bij jou?\nBilly: {time}'],
+        YOU_ALREADY_HAVE_THIS_ROLE: 'Je hebt de rol al.'
     };
     public static LoadLanguageConfig(languageCode: string) {
         try {

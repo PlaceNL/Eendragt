@@ -35,5 +35,6 @@
     "Ik heb de computer van Billy gehackt, en gezien dat het daar exact {time} is.",
     "Het is heel simpel. Je pakt de huidige Nederlandse tijd, telt daar 5 bij op, haalt er 2 vanaf, deelt het door 3, draai het een kwartslag, zing een liedje, en dan zou je ongeveer op {time} uitkomen.",
     "Billy is wat in het verleden blijven hangen. Om precies te zijn is hij blijven hangen op exact {time}."
-  ]
+  ],
+  "YOU_ALREADY_HAVE_THIS_ROLE": "Je hebt de rol al."
 }
