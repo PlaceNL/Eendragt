@@ -16,7 +16,7 @@ import LogService from '../Services/LogService';
 import MessageService from '../Services/MessageService';
 import SimilarityService from '../Services/SimilarityService';
 import { Utils } from '../Utils/Utils';
-import LanguageLoader from "../Utils/LanguageLoader";
+import LanguageLoader from '../Utils/LanguageLoader';
 const { createCanvas, loadImage, registerFont } = require('canvas');
 
 export default class DiplomacyHandler {
