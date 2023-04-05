@@ -16,6 +16,7 @@ import LogService from '../Services/LogService';
 import MessageService from '../Services/MessageService';
 import SimilarityService from '../Services/SimilarityService';
 import { Utils } from '../Utils/Utils';
+import LanguageLoader from "../Utils/LanguageLoader";
 const { createCanvas, loadImage, registerFont } = require('canvas');
 
 export default class DiplomacyHandler {
@@ -101,7 +102,7 @@ export default class DiplomacyHandler {
                 .addComponents(
                     new ButtonBuilder()
                         .setCustomId(`diplomacy_claim_${thread.id}`)
-                        .setLabel('Ik pak dit op!')
+                        .setLabel(LanguageLoader.LangConfig.ILL_PICK_THIS_UP)
                         .setStyle(ButtonStyle.Primary),
                 );
 
@@ -130,7 +131,7 @@ export default class DiplomacyHandler {
         try {
             if (!interaction.member.roles.cache.has(SettingsConstants.ROLES.DIPLONL_ID)) {
                 interaction.reply({
-                    content: 'Je hebt geen toegang tot dit commando.',
+                    content: LanguageLoader.LangConfig.YOU_DONT_HAVE_ACCESS_TO_THIS_COMMAND,
                     ephemeral: true
                 });
                 return;
@@ -139,7 +140,7 @@ export default class DiplomacyHandler {
             const thread = interaction.channel;
             if (!thread.isThread()!) {
                 interaction.reply({
-                    content: 'Je kan dit commando alleen in de diplomatieke threads gebruiken.',
+                    content: LanguageLoader.LangConfig.COMMAND_CAN_ONLY_BE_USED_IN_DIPLOMACY_THREAD,
                     ephemeral: true
                 });
                 return;
@@ -147,7 +148,7 @@ export default class DiplomacyHandler {
 
             if (interaction.channel.parentId != SettingsConstants.CHANNELS.DIPLOMACY_THREADS_ID) {
                 interaction.reply({
-                    content: 'Je kan dit commando alleen in de diplomatieke threads gebruiken.',
+                    content: LanguageLoader.LangConfig.COMMAND_CAN_ONLY_BE_USED_IN_DIPLOMACY_THREAD,
                     ephemeral: true
                 });
                 return;
@@ -297,7 +298,7 @@ Only add diplomats who are part of ${messageInfo.channel.name} like you, or igno
 
             if (cooldown) {
                 interaction.reply({
-                    content: 'Je hebt recent al een diplomatie-thread opgepakt. Wacht even voordat je er weer een oppakt.',
+                    content: LanguageLoader.LangConfig.PLEASE_WAIT_BEFORE_TAKING_ANOTHER_THREAD,
                     ephemeral: true,
                 });
 
@@ -308,12 +309,12 @@ Only add diplomats who are part of ${messageInfo.channel.name} like you, or igno
                 .addComponents(
                     new ButtonBuilder()
                         .setCustomId('diplomacy_peek')
-                        .setLabel('Gluren')
+                        .setLabel(LanguageLoader.LangConfig.WATCH)
                         .setStyle(ButtonStyle.Secondary),
                 );
 
             const message = interaction.message;
-            message.edit({ content: `Opgepakt door ${messageInfo.user}`, components: [actionRowPeek]});
+            message.edit({ content: LanguageLoader.LangConfig.PICKED_UP_BY.replace('{user}', `${messageInfo.user}`), components: [actionRowPeek]});
 
             const actionRowReport = new ActionRowBuilder<ButtonBuilder>()
                 .addComponents(
@@ -435,7 +436,7 @@ Only add diplomats who are part of ${messageInfo.channel.name} like you, or igno
         try {
             if (!interaction.member.roles.cache.has(SettingsConstants.ROLES.DIPLOMOD_ID)) {
                 interaction.reply({
-                    content: 'Je hebt geen toegang tot dit commando.',
+                    content: LanguageLoader.LangConfig.YOU_DONT_HAVE_ACCESS_TO_THIS_COMMAND,
                     ephemeral: true
                 });
                 return;
@@ -535,7 +536,7 @@ to lend their assistance in the relocation of ${name} to new land.`;
             Utils.WrapText(ctx, name, 535, 752, 260, 60, font, 2);
 
             interaction.followUp({
-                content: 'Hier is het verdrag. Onderteken het eerst zelf, en stuur het daarna naar de andere partij.',
+                content: LanguageLoader.LangConfig.HERE_IS_YOUR_TREATY,
                 files: [{ attachment: canvas.toBuffer(), name: `treaty_of_${type}_${interaction.channel.name}.png`}],
                 ephemeral: true,
             });
@@ -557,7 +558,7 @@ to lend their assistance in the relocation of ${name} to new land.`;
 
             if (interaction.channel?.parentId != SettingsConstants.CHANNELS.DIPLOMACY_DISPATCH_ID) {
                 interaction.reply({
-                    content: `Je kan deze actie alleen uitvoeren in <#${SettingsConstants.CHANNELS.DIPLOMACY_DISPATCH_ID}>.`,
+                    content: LanguageLoader.LangConfig.THIS_ACTION_CAN_ONLY_BE_DONE_IN.replace('{location}', `<#${SettingsConstants.CHANNELS.DIPLOMACY_DISPATCH_ID}>`),
                     ephemeral: true
                 });
                 return;
@@ -580,7 +581,7 @@ to lend their assistance in the relocation of ${name} to new land.`;
             const match = embed.description.match(/https:\/\/discord.com\/channels\/\d+?\/(\d+?)\/(\d+)/);
             if (match == null) {
                 interaction.reply({
-                    content: 'Je kan deze actie niet op dit bericht uitvoeren.',
+                    content: LanguageLoader.LangConfig.CANT_EXECUTE_THIS_ACTION_ON_THIS_MESSAGE,
                     ephemeral: true
                 });
                 return;
@@ -591,7 +592,7 @@ to lend their assistance in the relocation of ${name} to new land.`;
 
             if (starterMessage == null) {
                 interaction.reply({
-                    content: 'Er is iets fouts gegaan. Sorry.',
+                    content: LanguageLoader.LangConfig.SOMETHING_WENT_WRONG,
                     ephemeral: true
                 });
                 return;
@@ -599,7 +600,7 @@ to lend their assistance in the relocation of ${name} to new land.`;
 
             if (threadChannel.guildMembers.has(interaction.user.id)) {
                 interaction.reply({
-                    content: 'Je zit al in de thread.',
+                    content: LanguageLoader.LangConfig.ALREADY_IN_THREAD,
                     ephemeral: true
                 });
 
@@ -617,7 +618,7 @@ to lend their assistance in the relocation of ${name} to new land.`;
             });
 
             interaction.reply({
-                content: 'Je kan nu in de thread kijken.',
+                content: LanguageLoader.LangConfig.YOU_CAN_VIEW_THE_THREAD,
                 ephemeral: true
             });
 

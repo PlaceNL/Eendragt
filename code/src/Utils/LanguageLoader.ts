@@ -30,7 +30,19 @@ type LangConfig = {
     ARTWORK_NOT_TRANSPARENT: string,
     ARTWORK_HAS_NO_COLOURS: string,
     BILLY_TIME_JOKES: string[],
-    YOU_ALREADY_HAVE_THIS_ROLE: string
+    YOU_ALREADY_HAVE_THIS_ROLE: string,
+    ILL_PICK_THIS_UP: string,
+    YOU_DONT_HAVE_ACCESS_TO_THIS_COMMAND: string,
+    COMMAND_CAN_ONLY_BE_USED_IN_DIPLOMACY_THREAD: string,
+    PLEASE_WAIT_BEFORE_TAKING_ANOTHER_THREAD: string,
+    WATCH: string,
+    PICKED_UP_BY: string,
+    HERE_IS_YOUR_TREATY: string,
+    THIS_ACTION_CAN_ONLY_BE_DONE_IN: string,
+    CANT_EXECUTE_THIS_ACTION_ON_THIS_MESSAGE: string,
+    SOMETHING_WENT_WRONG: string,
+    ALREADY_IN_THREAD: string,
+    YOU_CAN_VIEW_THE_THREAD: string
 };
 
 // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
@@ -65,7 +77,19 @@ export default class LanguageLoader {
         ARTWORK_NOT_TRANSPARENT: 'Je hebt geen transparante achtergrond. Is je art rechthoekig? Voeg rechts dan een transparante rand toe.',
         ARTWORK_HAS_NO_COLOURS: 'Deze afbeelding is volledig transparant.',
         BILLY_TIME_JOKES: ['Zeg Billy, hoe laat is het bij jou?\nBilly: {time}'],
-        YOU_ALREADY_HAVE_THIS_ROLE: 'Je hebt de rol al.'
+        YOU_ALREADY_HAVE_THIS_ROLE: 'Je hebt de rol al.',
+        ILL_PICK_THIS_UP: 'Ik pak dit op!',
+        YOU_DONT_HAVE_ACCESS_TO_THIS_COMMAND: 'Je hebt geen toegang tot dit commando.',
+        COMMAND_CAN_ONLY_BE_USED_IN_DIPLOMACY_THREAD: 'Je kan dit commando alleen in de diplomatieke threads gebruiken.',
+        PLEASE_WAIT_BEFORE_TAKING_ANOTHER_THREAD: 'Je hebt recent al een diplomatie-thread opgepakt. Wacht even voordat je er weer een oppakt.',
+        WATCH: 'Gluren',
+        PICKED_UP_BY: 'Opgepakt door {user}',
+        HERE_IS_YOUR_TREATY: 'Hier is het verdrag. Onderteken het eerst zelf, en stuur het daarna naar de andere partij.',
+        THIS_ACTION_CAN_ONLY_BE_DONE_IN: 'Je kan deze actie alleen uitvoeren in {location}.',
+        CANT_EXECUTE_THIS_ACTION_ON_THIS_MESSAGE: 'Je kan deze actie niet op dit bericht uitvoeren.',
+        SOMETHING_WENT_WRONG: 'Er is iets fouts gegaan. Sorry.',
+        ALREADY_IN_THREAD: 'Je zit al in de thread.',
+        YOU_CAN_VIEW_THE_THREAD: 'Je kan nu in de thread kijken.'
     };
     public static LoadLanguageConfig(languageCode: string) {
         try {
