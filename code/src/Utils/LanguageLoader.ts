@@ -13,7 +13,22 @@ type LangConfig = {
     OPEN: string,
     CLOSED: string,
     LOG_ROLE_CATEGORY_APPLICATION_OPEN_STATUS: string,
-    CATEGORY: string
+    CATEGORY: string,
+    HERE_YOU_GO: string,
+    CLAIM_A_PIXEL: string,
+    PIXEL_ART_DOES_NOT_FIT_LOCATION: string,
+    TIME_FORMAT: string,
+    CURRENTLY_NO_PIXEL_AVAILABLE: string,
+    WAIT_BEFORE_CLAIMING_ANOTHER_PIXEL: string,
+    MINUTES: string,
+    SECONDS: string,
+    AND: string,
+    FILE_FORMAT_NOT_CORRECT: string,
+    FILE_SIZE_INCORRECT: string,
+    COLOUR_AT_POSITION_NOT_ALLOWED: string,
+    SCALE_INCORRECT: string,
+    ARTWORK_NOT_TRANSPARENT: string,
+    ARTWORK_HAS_NO_COLOURS: string
 };
 
 // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
@@ -31,7 +46,22 @@ export default class LanguageLoader {
         OPEN: 'open',
         CLOSED: 'gesloten',
         LOG_ROLE_CATEGORY_APPLICATION_OPEN_STATUS: '{roleCategory} applicaties zijn nu {status}.',
-        CATEGORY: 'Categorie'
+        CATEGORY: 'Categorie',
+        HERE_YOU_GO: 'Alsjeblieft',
+        CLAIM_A_PIXEL: 'Claim een pixel!',
+        PIXEL_ART_DOES_NOT_FIT_LOCATION: 'Deze pixel art past niet op de meegegven locatie.',
+        TIME_FORMAT: 'De tijd moet in het formaat `HH:MM` zijn.',
+        CURRENTLY_NO_PIXEL_AVAILABLE: 'Er zijn momenteel geen pixels meer beschikbaar. Probeer het later nog eens.',
+        WAIT_BEFORE_CLAIMING_ANOTHER_PIXEL: 'Je moet {minutes}{and}{seconds} wachten voordat je weer een pixel kan claimen.',
+        MINUTES: 'minuten',
+        SECONDS: 'seconden',
+        AND: 'en',
+        FILE_FORMAT_NOT_CORRECT: 'Het is geen {format} formaat',
+        FILE_SIZE_INCORRECT: 'De afbeelding is te groot.\nMax breedte: {width}, max hoogte: {height}',
+        COLOUR_AT_POSITION_NOT_ALLOWED: 'De kleur {hex} op positie ({x}, {y}) is niet toegestaan.',
+        SCALE_INCORRECT: 'Je pixel art lijkt geen 1:1 scaling te hebben. Als het wel 1:1 scaling heeft, voeg rechts dan een transparante rand toe.',
+        ARTWORK_NOT_TRANSPARENT: 'Je hebt geen transparante achtergrond. Is je art rechthoekig? Voeg rechts dan een transparante rand toe.',
+        ARTWORK_HAS_NO_COLOURS: 'Deze afbeelding is volledig transparant.',
     };
     public static LoadLanguageConfig(languageCode: string) {
         const json = fs.readFileSync(`lang/${languageCode}.json`, 'utf8');
