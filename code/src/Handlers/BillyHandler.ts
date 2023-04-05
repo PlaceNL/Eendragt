@@ -3,6 +3,7 @@ import CommandConstants from '../Constants/CommandConstants';
 import { LogType } from '../Enums/LogType';
 import IMessageInfo from '../Interfaces/IMessageInfo';
 import LogService from '../Services/LogService';
+import LanguageLoader from '../Utils/LanguageLoader';
 
 export default class BillyHandler {
 
@@ -40,17 +41,8 @@ export default class BillyHandler {
         const interaction = <ChatInputCommandInteraction>messageInfo.interaction;
         const picture = interaction.options.getBoolean('foto') || false;
 
-        const texts = [
-            `Zeg Billy, hoe laat is het bij jou?\nBilly: ${time24}`,
-            `"DING DONG!" zegt de klok bij Billy. "It is currently ${time24} over here!`,
-            `Zoals het klokje in San Francisco tikt, tikt het precies ${time24}.`,
-            `Zoals het klokje thuis tikt, tikt het niet in San Francisco. Want daar is het ${time24}.`,
-            `Ik heb de computer van Billy gehackt, en gezien dat het daar exact ${time24} is`,
-            `Het is heel simpel. Je pakt de huidige Nederlandse tijd, telt daar 5 bij op, haalt er 2 vanaf, deelt het door 3, draai het een kwartslag, zing een liedje, en dan zou je ongeveer op ${time24} uitkomen.`,
-            `Billy is wat in het verleden blijven hangen. Om precies te zijn is hij blijven hangen op exact ${time24}.`
-        ];
-
-        const text = texts[Math.floor(Math.random() * texts.length)];
+        const texts = LanguageLoader.LangConfig.BILLY_TIME_JOKES;
+        const text = texts[Math.floor(Math.random() * texts.length)].replace('{time}', `${time24}`);
 
         const data: any = {
             content: text

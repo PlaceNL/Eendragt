@@ -26,5 +26,14 @@
   "COLOUR_AT_POSITION_NOT_ALLOWED": "De kleur {hex} op positie ({x}, {y}) is niet toegestaan.",
   "SCALE_INCORRECT": "Je pixel art lijkt geen 1:1 scaling te hebben. Als het wel 1:1 scaling heeft, voeg rechts dan een transparante rand toe.",
   "ARTWORK_NOT_TRANSPARENT": "Je hebt geen transparante achtergrond. Is je art rechthoekig? Voeg rechts dan een transparante rand toe.",
-  "ARTWORK_HAS_NO_COLOURS": "Deze afbeelding is volledig transparant."
+  "ARTWORK_HAS_NO_COLOURS": "Deze afbeelding is volledig transparant.",
+  "BILLY_TIME_JOKES": [
+    "Zeg Billy, hoe laat is het bij jou?\nBilly: {time}",
+    "\"DING DONG!\" zegt de klok bij Billy. \"It is currently {time} over here!\"",
+    "Zoals het klokje in San Francisco tikt, tikt het precies {time}.",
+    "Zoals het klokje thuis tikt, tikt het niet in San Francisco. Want daar is het {time}.",
+    "Ik heb de computer van Billy gehackt, en gezien dat het daar exact {time} is.",
+    "Het is heel simpel. Je pakt de huidige Nederlandse tijd, telt daar 5 bij op, haalt er 2 vanaf, deelt het door 3, draai het een kwartslag, zing een liedje, en dan zou je ongeveer op {time} uitkomen.",
+    "Billy is wat in het verleden blijven hangen. Om precies te zijn is hij blijven hangen op exact {time}."
+  ]
 }

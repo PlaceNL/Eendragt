@@ -28,7 +28,8 @@ type LangConfig = {
     COLOUR_AT_POSITION_NOT_ALLOWED: string,
     SCALE_INCORRECT: string,
     ARTWORK_NOT_TRANSPARENT: string,
-    ARTWORK_HAS_NO_COLOURS: string
+    ARTWORK_HAS_NO_COLOURS: string,
+    BILLY_TIME_JOKES: string[]
 };
 
 // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
@@ -62,14 +63,17 @@ export default class LanguageLoader {
         SCALE_INCORRECT: 'Je pixel art lijkt geen 1:1 scaling te hebben. Als het wel 1:1 scaling heeft, voeg rechts dan een transparante rand toe.',
         ARTWORK_NOT_TRANSPARENT: 'Je hebt geen transparante achtergrond. Is je art rechthoekig? Voeg rechts dan een transparante rand toe.',
         ARTWORK_HAS_NO_COLOURS: 'Deze afbeelding is volledig transparant.',
+        BILLY_TIME_JOKES: ['Zeg Billy, hoe laat is het bij jou?\nBilly: {time}']
     };
     public static LoadLanguageConfig(languageCode: string) {
-        const json = fs.readFileSync(`lang/${languageCode}.json`, 'utf8');
         try {
+            const json = fs.readFileSync(`lang/${languageCode}.json`, 'utf8');
             const parsedObject: Partial<LangConfig> = JSON.parse(json);
             this.LangConfig = Object.assign(this.LangConfig, parsedObject);
         } catch (e) {
-            console.log(e);
+            if (e instanceof Error) {
+                console.log(`Error Message: ${e.message}\nAn error occurred while loading the language configuration, settings default values...`);
+            }
         }
     }
 }
