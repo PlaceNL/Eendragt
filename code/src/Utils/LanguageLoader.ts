@@ -42,7 +42,19 @@ type LangConfig = {
     CANT_EXECUTE_THIS_ACTION_ON_THIS_MESSAGE: string,
     SOMETHING_WENT_WRONG: string,
     ALREADY_IN_THREAD: string,
-    YOU_CAN_VIEW_THE_THREAD: string
+    YOU_CAN_VIEW_THE_THREAD: string,
+    NOMINATION_APPROVE_TITLE: string,
+    NOMINATION_DECLINE_TITLE: string,
+    NOMINATION_DELAY_TITLE: string,
+    NOMINATION_VOTE_TITLE: string,
+    NOMINATION_APPROVE_MESSAGE: string,
+    NOMINATION_DECLINE_MESSAGE: string,
+    NOMINATION_DELAY_MESSAGE: string,
+    NOMINATION_VOTE_MESSAGE: string,
+    NOMINATION_CONFIRMATION_INCORRECT: string,
+    NOMINATION_TYPE_TITLE_TO_CONFIRM: string,
+    NOMINATION_OPTIONAL_EXPLANATION: string,
+    NOMINATION_EXPLANATION_REQUIRED: string
 };
 
 // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
@@ -89,7 +101,19 @@ export default class LanguageLoader {
         CANT_EXECUTE_THIS_ACTION_ON_THIS_MESSAGE: 'Je kan deze actie niet op dit bericht uitvoeren.',
         SOMETHING_WENT_WRONG: 'Er is iets fouts gegaan. Sorry.',
         ALREADY_IN_THREAD: 'Je zit al in de thread.',
-        YOU_CAN_VIEW_THE_THREAD: 'Je kan nu in de thread kijken.'
+        YOU_CAN_VIEW_THE_THREAD: 'Je kan nu in de thread kijken.',
+        NOMINATION_APPROVE_TITLE: 'Goedkeuren',
+        NOMINATION_DECLINE_TITLE: 'Afwijzen',
+        NOMINATION_DELAY_TITLE: 'Uitstellen',
+        NOMINATION_VOTE_TITLE: 'Stembus',
+        NOMINATION_APPROVE_MESSAGE: 'We gaan het regelen.',
+        NOMINATION_DECLINE_MESSAGE: 'Dit is niet mogelijk.',
+        NOMINATION_DELAY_MESSAGE: 'Hier is momenteel nog geen tijd/plek voor.',
+        NOMINATION_VOTE_MESSAGE: 'Deze suggestie wordt meegenomen in de volgende stemronde.',
+        NOMINATION_CONFIRMATION_INCORRECT: 'Bevestiging incorrect.',
+        NOMINATION_TYPE_TITLE_TO_CONFIRM: 'Typ {title} om je keuze te bevestigen',
+        NOMINATION_OPTIONAL_EXPLANATION: 'Optionele toelichting',
+        NOMINATION_EXPLANATION_REQUIRED: 'Licht je keuze toe'
     };
     public static LoadLanguageConfig(languageCode: string) {
         try {

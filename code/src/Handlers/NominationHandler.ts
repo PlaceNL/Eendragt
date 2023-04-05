@@ -5,21 +5,22 @@ import { LogType } from '../Enums/LogType';
 import { NominationAction as NominationAction } from '../Enums/NominationAction';
 import IMessageInfo from '../Interfaces/IMessageInfo';
 import LogService from '../Services/LogService';
+import LanguageLoader from '../Utils/LanguageLoader';
 
 export default class NominationHandler {
 
     private static readonly titles: {[key in NominationAction]: string} = {
-        approve:  'Goedkeuren',
-        decline:  'Afwijzen',
-        delay:  'Uitstellen',
-        vote:  'Stembus',
+        approve:  LanguageLoader.LangConfig.NOMINATION_APPROVE_TITLE,
+        decline:  LanguageLoader.LangConfig.NOMINATION_DECLINE_TITLE,
+        delay:  LanguageLoader.LangConfig.NOMINATION_DELAY_TITLE,
+        vote:  LanguageLoader.LangConfig.NOMINATION_VOTE_TITLE,
     };
 
     private static readonly defaultMessages: {[key in NominationAction]: string} = {
-        approve:  'We gaan het regelen.',
-        decline:  'Dit is niet mogelijk.',
-        delay:  'Hier is momenteel nog geen tijd/plek voor.',
-        vote:  'Deze suggestie wordt meegenomen in de volgende stemronde.',
+        approve:  LanguageLoader.LangConfig.NOMINATION_APPROVE_MESSAGE,
+        decline:  LanguageLoader.LangConfig.NOMINATION_DECLINE_MESSAGE,
+        delay:  LanguageLoader.LangConfig.NOMINATION_DELAY_MESSAGE,
+        vote:  LanguageLoader.LangConfig.NOMINATION_VOTE_MESSAGE,
     };
 
     public static OnCommand(messageInfo: IMessageInfo) {
@@ -49,7 +50,7 @@ export default class NominationHandler {
 
         const confirm = interaction.fields.getTextInputValue('confirm');
         if (confirm.toLowerCase() != this.titles[action].toLowerCase()) {
-            interaction.reply({ content: 'Bevestiging incorrect.', ephemeral: true });
+            interaction.reply({ content: LanguageLoader.LangConfig.NOMINATION_CONFIRMATION_INCORRECT, ephemeral: true });
             return;
         }
 
@@ -125,7 +126,7 @@ export default class NominationHandler {
 
         const inputConfirm = new TextInputBuilder()
             .setCustomId('confirm')
-            .setLabel(`Typ "${title}" om je keuze te bevestigen`)
+            .setLabel(LanguageLoader.LangConfig.NOMINATION_TYPE_TITLE_TO_CONFIRM.replace('{title}', `${title}`))
             .setStyle(TextInputStyle.Short)
             .setRequired(true)
             .setPlaceholder(title)
@@ -134,7 +135,7 @@ export default class NominationHandler {
 
         const inputAddition = new TextInputBuilder()
             .setCustomId('addition')
-            .setLabel(additionOptional ? 'Optionele toelichting' : 'Licht je keuze toe')
+            .setLabel(additionOptional ? LanguageLoader.LangConfig.NOMINATION_OPTIONAL_EXPLANATION : LanguageLoader.LangConfig.NOMINATION_EXPLANATION_REQUIRED)
             .setStyle(TextInputStyle.Paragraph)
             .setRequired(additionOptional)
             .setPlaceholder(this.defaultMessages[action])
