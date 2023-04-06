@@ -5,7 +5,7 @@ import { LogType } from '../Enums/LogType';
 import IMessageInfo from '../Interfaces/IMessageInfo';
 import DiscordService from '../Services/DiscordService';
 import LogService from '../Services/LogService';
-import LanguageLoader from "../Utils/LanguageLoader";
+import LanguageLoader from '../Utils/LanguageLoader';
 
 export default class RoleHandler {
 
