@@ -61,7 +61,7 @@
   "NOMINATION_TYPE_TITLE_TO_CONFIRM": "Typ {title} om je keuze te bevestigen",
   "NOMINATION_OPTIONAL_EXPLANATION": "Optionele toelichting",
   "NOMINATION_EXPLANATION_REQUIRED": "Licht je keuze toe",
-  "ONBOARDING_OBSERVE": "Kijk gerust even rond.\nFeel free to look around.",
+  "ONBOARDING_OBSERVE": "Kijk gerust even rond.",
   "ONBOARDING_ROLES_GIVEN": "Ik heb je de rol{plural} {roles} gegeven.",
   "ROLES_CANT_MODIFY_OWN_ROLE": "Je kunt deze rol niet aan jezelf geven/afpakken",
   "UNAUTHORISED_COMMAND_EXEC": "Je hebt geen toegang tot dit commando.",
@@ -83,5 +83,6 @@
   "THREADS_SELECT_TAGS_FOR_THREAD": "Selecteer de tags die deze thread moet hebben",
   "REOPENED": "heropend",
   "FORUMS_COMMAND_CAN_ONLY_BE_USED_IN": "Dit commando kan alleen in een forum post worden gebruikt",
-  "VARIABLES_THE_VALUE_OF_VAR_IS": "De waarde van `{name}` is `{value}`"
+  "VARIABLES_THE_VALUE_OF_VAR_IS": "De waarde van `{name}` is `{value}`",
+  "JOIN_NIGHTWATCH": "Word beschermer van de nacht"
 }

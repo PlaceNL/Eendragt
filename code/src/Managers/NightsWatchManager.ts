@@ -5,6 +5,7 @@ import NightsWatchEmbeds from '../Embeds/NightsWatchEmbed';
 import { Redis } from '../Providers/Redis';
 import DiscordService from '../Services/DiscordService';
 import { Utils } from '../Utils/Utils';
+import LanguageLoader from '../Utils/LanguageLoader';
 
 export default class NightsWatchManager {
 
@@ -64,7 +65,7 @@ export default class NightsWatchManager {
             .addComponents(
                 new ButtonBuilder()
                     .setCustomId('nightswatch')
-                    .setLabel('Word beschermer van de nacht')
+                    .setLabel(LanguageLoader.LangConfig.JOIN_NIGHTWATCH)
                     .setStyle(ButtonStyle.Primary),
             );
 

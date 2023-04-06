@@ -77,7 +77,8 @@ type LangConfig = {
     REOPENED: string,
     FORUMS_COMMAND_CAN_ONLY_BE_USED_IN: string,
     THREADS_SELECT_TAGS_FOR_THREAD: string,
-    VARIABLES_THE_VALUE_OF_VAR_IS: string
+    VARIABLES_THE_VALUE_OF_VAR_IS: string,
+    JOIN_NIGHTWATCH: string
 };
 
 // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
@@ -161,7 +162,8 @@ export default class LanguageLoader {
         REOPENED: 'heropend',
         FORUMS_COMMAND_CAN_ONLY_BE_USED_IN: 'Dit commando kan alleen in een forum post worden gebruikt',
         THREADS_SELECT_TAGS_FOR_THREAD: 'Selecteer de tags die deze thread moet hebben',
-        VARIABLES_THE_VALUE_OF_VAR_IS: 'De waarde van `{name}` is `{value}`'
+        VARIABLES_THE_VALUE_OF_VAR_IS: 'De waarde van `{name}` is `{value}`',
+        JOIN_NIGHTWATCH: 'Word beschermer van de nacht'
     };
     public static LoadLanguageConfig(languageCode: string) {
         try {
