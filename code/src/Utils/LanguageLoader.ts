@@ -56,7 +56,16 @@ type LangConfig = {
     NOMINATION_OPTIONAL_EXPLANATION: string,
     NOMINATION_EXPLANATION_REQUIRED: string,
     ONBOARDING_OBSERVE: string,
-    ONBOARDING_ROLES_GIVEN: string
+    ONBOARDING_ROLES_GIVEN: string,
+    ROLES_CANT_MODIFY_OWN_ROLE: string,
+    ROLES_UNAUTHORISED_COMMAND_EXEC: string,
+    ROLES_USER_ALREADY_HAS_ROLE: string,
+    ROLES_USER_ROLE_REMOVED: string,
+    ROLES_USER_DOES_NOT_HAVE_ROLE: string,
+    ROLES_USER_ROLE_GIVEN: string,
+    ROLES_GIVEN_TO: string,
+    ROLES_TAKEN_FROM: string,
+    ROLES_LOGGING: string
 };
 
 // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
@@ -117,7 +126,16 @@ export default class LanguageLoader {
         NOMINATION_OPTIONAL_EXPLANATION: 'Optionele toelichting',
         NOMINATION_EXPLANATION_REQUIRED: 'Licht je keuze toe',
         ONBOARDING_OBSERVE: 'Kijk gerust even rond.',
-        ONBOARDING_ROLES_GIVEN: 'Ik heb je de rol{plural} {roles} gegeven.'
+        ONBOARDING_ROLES_GIVEN: 'Ik heb je de rol{plural} {roles} gegeven.',
+        ROLES_CANT_MODIFY_OWN_ROLE: 'Je kunt deze rol niet aan jezelf geven/afpakken',
+        ROLES_UNAUTHORISED_COMMAND_EXEC: 'Je hebt geen toegang tot dit commando.',
+        ROLES_USER_ALREADY_HAS_ROLE: '{targetMember} heeft deze rol al',
+        ROLES_USER_ROLE_REMOVED: 'Ik heb de rol {roleName} **afgepakt** van {targetMember}',
+        ROLES_USER_DOES_NOT_HAVE_ROLE: '{targetMember} heeft deze rol niet',
+        ROLES_USER_ROLE_GIVEN: 'Ik heb de rol {roleName} **gegeven** aan {targetMember}',
+        ROLES_GIVEN_TO: 'gegeven aan',
+        ROLES_TAKEN_FROM: 'afgepakt van',
+        ROLES_LOGGING: '{executingMember} heeft de rol {roleName} {givenOrTaken} {targetMember}\n    Reden: {reason}'
     };
     public static LoadLanguageConfig(languageCode: string) {
         try {
