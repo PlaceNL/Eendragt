@@ -72,6 +72,8 @@ type LangConfig = {
 
 // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
 export default class LanguageLoader {
+    // These are the default values
+    // When language loading fails or a language file has missing translations these values will be loaded.
     public static LangConfig: LangConfig = {
         APPLICATION_LETTER: 'Sollicitatiebrief',
         APPLICATION_SENT: 'Je sollicitatie is verzonden!',
