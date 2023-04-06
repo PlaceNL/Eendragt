@@ -90,7 +90,7 @@ export default class SuggestionHandler {
     public static async OnValidateArt(messageInfo: IMessageInfo, resultInfo: IResultInfo, attachment: Attachment) {
         try {
             if (!this.IsLegitArtSubmitter(messageInfo)) {
-                const text = LanguageLoader.LangConfig.SUGGESTIONS_REQUEST_ARTIST.replace('{channel}', `<#${SettingsConstants.CHANNELS.REQUEST_ARTIST_ID}>`);
+                const text = LanguageLoader.LangConfig.SUGGESTIONS_REQUEST_ARTIST.replace('{channel}', `<#${SettingsConstants.CHANNELS.MORE_ROLES_ID}>`);
                 MessageService.ReplyMessage(messageInfo, text, false, true);
                 LogService.Log(LogType.ValidateArtIllegitimate, messageInfo.user.id, 'Thread', messageInfo.interaction.channelId);
                 return;
