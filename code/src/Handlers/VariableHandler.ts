@@ -5,6 +5,7 @@ import { VariableKey } from '../Enums/VariableKey';
 import IMessageInfo from '../Interfaces/IMessageInfo';
 import VariableManager from '../Managers/VariableManager';
 import LogService from '../Services/LogService';
+import LanguageLoader from '../Utils/LanguageLoader';
 
 export default class VariableHandler {
 
@@ -72,7 +73,10 @@ export default class VariableHandler {
 
             const value = await VariableManager.Get(name as VariableKey);
 
-            await interaction.reply(`De waarde van \`${name}\` is \`${value}\``);
+            const text = LanguageLoader.LangConfig.VARIABLES_THE_VALUE_OF_VAR_IS
+                .replace('{name}', name)
+                .replace('{value}', `${value}`);
+            await interaction.reply(text);
 
             LogService.Log(LogType.VariableSet, messageInfo.user.id);
         } catch (error) {

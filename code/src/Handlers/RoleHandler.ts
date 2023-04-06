@@ -74,7 +74,7 @@ export default class RoleHandler {
 
             if (!messageInfo.member.roles.cache.has(modRoleId)) {
                 await interaction.reply({
-                    content: LanguageLoader.LangConfig.ROLES_UNAUTHORISED_COMMAND_EXEC,
+                    content: LanguageLoader.LangConfig.UNAUTHORISED_COMMAND_EXEC,
                     ephemeral: true
                 });
 

@@ -58,7 +58,7 @@ type LangConfig = {
     ONBOARDING_OBSERVE: string,
     ONBOARDING_ROLES_GIVEN: string,
     ROLES_CANT_MODIFY_OWN_ROLE: string,
-    ROLES_UNAUTHORISED_COMMAND_EXEC: string,
+    UNAUTHORISED_COMMAND_EXEC: string,
     ROLES_USER_ALREADY_HAS_ROLE: string,
     ROLES_USER_ROLE_REMOVED: string,
     ROLES_USER_DOES_NOT_HAVE_ROLE: string,
@@ -67,7 +67,17 @@ type LangConfig = {
     ROLES_TAKEN_FROM: string,
     ROLES_LOGGING: string,
     SUGGESTIONS_REQUEST_ARTIST: string,
-    SUGGESTIONS_ADD_ONE_TAG: string
+    SUGGESTIONS_ADD_ONE_TAG: string,
+    THREADS_TAG_COUNT: string,
+    THREADS_TAGS_HAVE_CHANGED: string,
+    THREADS_COMMAND_CAN_ONLY_BE_USED_IN: string,
+    THREADS_ALREADY_ARCHIVED: string,
+    THREADS_ARCHIVED: string,
+    THREADS_LOCK_STATE: string,
+    REOPENED: string,
+    FORUMS_COMMAND_CAN_ONLY_BE_USED_IN: string,
+    THREADS_SELECT_TAGS_FOR_THREAD: string,
+    VARIABLES_THE_VALUE_OF_VAR_IS: string
 };
 
 // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
@@ -132,7 +142,7 @@ export default class LanguageLoader {
         ONBOARDING_OBSERVE: 'Kijk gerust even rond.',
         ONBOARDING_ROLES_GIVEN: 'Ik heb je de rol{plural} {roles} gegeven.',
         ROLES_CANT_MODIFY_OWN_ROLE: 'Je kunt deze rol niet aan jezelf geven/afpakken',
-        ROLES_UNAUTHORISED_COMMAND_EXEC: 'Je hebt geen toegang tot dit commando.',
+        UNAUTHORISED_COMMAND_EXEC: 'Je hebt geen toegang tot dit commando.',
         ROLES_USER_ALREADY_HAS_ROLE: '{targetMember} heeft deze rol al',
         ROLES_USER_ROLE_REMOVED: 'Ik heb de rol {roleName} **afgepakt** van {targetMember}',
         ROLES_USER_DOES_NOT_HAVE_ROLE: '{targetMember} heeft deze rol niet',
@@ -141,7 +151,17 @@ export default class LanguageLoader {
         ROLES_TAKEN_FROM: 'afgepakt van',
         ROLES_LOGGING: '{executingMember} heeft de rol {roleName} {givenOrTaken} {targetMember}\n    Reden: {reason}',
         SUGGESTIONS_REQUEST_ARTIST: 'Je mag dit commando alleen in je eigen thread gebruiken, of wanneer je de Artist rol hebt.\n    Vraag een Artist rol aan in {channel}.',
-        SUGGESTIONS_ADD_ONE_TAG: 'Zorg dat je exact één van de volgende tags toevoegt aan je post: {tags}'
+        SUGGESTIONS_ADD_ONE_TAG: 'Zorg dat je exact één van de volgende tags toevoegt aan je post: {tags}',
+        THREADS_TAG_COUNT: 'Je kan maximaal {tagCount} tags selecteren',
+        THREADS_TAGS_HAVE_CHANGED: 'Tags zijn aangepast',
+        THREADS_COMMAND_CAN_ONLY_BE_USED_IN: 'Dit commando kan alleen in een thread worden gebruikt',
+        THREADS_ALREADY_ARCHIVED: 'Deze thread is al gearchiveerd.',
+        THREADS_ARCHIVED: 'Thread gearchiveerd',
+        THREADS_LOCK_STATE: 'Thread {state}',
+        REOPENED: 'heropend',
+        FORUMS_COMMAND_CAN_ONLY_BE_USED_IN: 'Dit commando kan alleen in een forum post worden gebruikt',
+        THREADS_SELECT_TAGS_FOR_THREAD: 'Selecteer de tags die deze thread moet hebben',
+        VARIABLES_THE_VALUE_OF_VAR_IS: 'De waarde van `{name}` is `{value}`'
     };
     public static LoadLanguageConfig(languageCode: string) {
         try {
