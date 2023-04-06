@@ -54,7 +54,9 @@ type LangConfig = {
     NOMINATION_CONFIRMATION_INCORRECT: string,
     NOMINATION_TYPE_TITLE_TO_CONFIRM: string,
     NOMINATION_OPTIONAL_EXPLANATION: string,
-    NOMINATION_EXPLANATION_REQUIRED: string
+    NOMINATION_EXPLANATION_REQUIRED: string,
+    ONBOARDING_OBSERVE: string,
+    ONBOARDING_ROLES_GIVEN: string
 };
 
 // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
@@ -113,7 +115,9 @@ export default class LanguageLoader {
         NOMINATION_CONFIRMATION_INCORRECT: 'Bevestiging incorrect.',
         NOMINATION_TYPE_TITLE_TO_CONFIRM: 'Typ {title} om je keuze te bevestigen',
         NOMINATION_OPTIONAL_EXPLANATION: 'Optionele toelichting',
-        NOMINATION_EXPLANATION_REQUIRED: 'Licht je keuze toe'
+        NOMINATION_EXPLANATION_REQUIRED: 'Licht je keuze toe',
+        ONBOARDING_OBSERVE: 'Kijk gerust even rond.',
+        ONBOARDING_ROLES_GIVEN: 'Ik heb je de rol{plural} {roles} gegeven.'
     };
     public static LoadLanguageConfig(languageCode: string) {
         try {
