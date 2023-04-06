@@ -9,6 +9,7 @@ export default class SettingsConstants {
         LOG_ID: process.env.LOG_CHANNEL_ID || '',
         SUGGESTIONS_ID: process.env.SUGGESTIONS_CHANNEL_ID || '',
         NOMINATION_ID: process.env.NOMINATION_CHANNEL_ID || '',
+        REQUEST_ARTIST_ID: process.env.REQUEST_ARTIST_CHANNEL_ID || '',
         DIPLOMACY_THREADS_ID: process.env.DIPLOMACY_THREADS_CHANNEL_ID || '',
         DIPLOMACY_DISPATCH_ID: process.env.DIPLOMACY_DISPATCH_CHANNEL_ID || '',
         DIPLOMACY_REPORTS_ID: process.env.DIPLOMACY_REPORTS_CHANNEL_ID || '',

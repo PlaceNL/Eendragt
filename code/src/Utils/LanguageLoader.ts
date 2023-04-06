@@ -65,7 +65,9 @@ type LangConfig = {
     ROLES_USER_ROLE_GIVEN: string,
     ROLES_GIVEN_TO: string,
     ROLES_TAKEN_FROM: string,
-    ROLES_LOGGING: string
+    ROLES_LOGGING: string,
+    SUGGESTIONS_REQUEST_ARTIST: string,
+    SUGGESTIONS_ADD_ONE_TAG: string
 };
 
 // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
@@ -135,7 +137,9 @@ export default class LanguageLoader {
         ROLES_USER_ROLE_GIVEN: 'Ik heb de rol {roleName} **gegeven** aan {targetMember}',
         ROLES_GIVEN_TO: 'gegeven aan',
         ROLES_TAKEN_FROM: 'afgepakt van',
-        ROLES_LOGGING: '{executingMember} heeft de rol {roleName} {givenOrTaken} {targetMember}\n    Reden: {reason}'
+        ROLES_LOGGING: '{executingMember} heeft de rol {roleName} {givenOrTaken} {targetMember}\n    Reden: {reason}',
+        SUGGESTIONS_REQUEST_ARTIST: 'Je mag dit commando alleen in je eigen thread gebruiken, of wanneer je de Artist rol hebt.\n    Vraag een Artist rol aan in {channel}.',
+        SUGGESTIONS_ADD_ONE_TAG: 'Zorg dat je exact één van de volgende tags toevoegt aan je post: {tags}'
     };
     public static LoadLanguageConfig(languageCode: string) {
         try {
