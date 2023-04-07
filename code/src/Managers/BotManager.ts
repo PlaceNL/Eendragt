@@ -20,6 +20,7 @@ import ApplicationHandler from '../Handlers/ApplicationHandler';
 import VoteHandler from '../Handlers/VoteHandler';
 import VoteManager from './VoteManager';
 import AutoplacerManager from './AutoplacerManager';
+import LanguageLoader from '../Utils/LanguageLoader';
 
 export default class BotManager {
 
@@ -46,7 +47,7 @@ export default class BotManager {
         if (interaction.commandName == 'update') {
             CommandManager.UpdateCommands();
             interaction.reply({
-                content: 'Done!',
+                content: LanguageLoader.LangConfig.DONE,
                 ephemeral: true
             });
 
