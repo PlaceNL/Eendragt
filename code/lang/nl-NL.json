@@ -104,5 +104,9 @@
   "OKAY": "Oké",
   "VOTING_VOTE": "Stemming",
   "VOTING_WHAT_IS_THE_DESCRIPTION": "Wat is de beschrijving van de stemming?",
-  "VOTING_GIVE_OPTIONS_INSTRUCTIONS": "Optie per regel | Max {optionsMax} | Context na ::"
+  "VOTING_GIVE_OPTIONS_INSTRUCTIONS": "Optie per regel | Max {optionsMax} | Context na ::",
+  "EXTRA_ROLES": "Extra rollen",
+  "WHICH_ROLE_FITS_YOU": "Welke rol past het beste bij jou?",
+  "APPLICATIONS": "Sollicitaties",
+  "WE_ARE_LOOKING_FOR_PEOPLE": "Bij {server} zijn we op zoek naar talent! Voel jij je aangesproken bij een van de volgende rollen? Solliciteer met een korte beschrijving waarom je geschikt bent."
 }
