@@ -6,6 +6,7 @@ import { LogType } from '../Enums/LogType';
 import IMessageInfo from '../Interfaces/IMessageInfo';
 import VoteManager from '../Managers/VoteManager';
 import LogService from '../Services/LogService';
+import LanguageLoader from '../Utils/LanguageLoader';
 
 export default class VoteHandler {
 
@@ -32,7 +33,7 @@ export default class VoteHandler {
 
             if (data == null) {
                 interaction.reply({
-                    content: 'Je kan hier niet meer op stemmen!',
+                    content: LanguageLoader.LangConfig.VOTING_CANT_VOTE_FOR_THIS_ANYMORE,
                     ephemeral: true,
                 });
 
@@ -45,16 +46,20 @@ export default class VoteHandler {
 
             if (choices.length > 1) {
                 const sentence = `${choices.slice(0, -1).map(v => data.options[v])
-                    .join(', ')} en ${data.options[choices[choices.length - 1]]}`;
+                    .join(', ')} ${LanguageLoader.LangConfig.AND} ${data.options[choices[choices.length - 1]]}`;
 
                 interaction.reply({
-                    content: `${previousChoice == null ? 'Je hebt gestemd op' : 'Je stem is veranderd naar'} **${sentence}**!`,
+                    content: `${previousChoice == null
+                        ? LanguageLoader.LangConfig.VOTING_VOTED_FOR
+                        : LanguageLoader.LangConfig.VOTING_VOTE_CHANGED_TO} **${sentence}**!`,
                     ephemeral: true,
                 });
             } else {
                 interaction.reply({
-                    content: `${previousChoice == null ? 'Je hebt gestemd op' : 'Je stem is veranderd naar'} **${data.options[choices[0]]}**!
-${data.options.length > 2 ? '*Tip: Gebruik het menu onder de knoppen om op meerdere opties te stemmen.*' : ''}`,
+                    content: `${previousChoice == null
+                        ? LanguageLoader.LangConfig.VOTING_VOTED_FOR
+                        : LanguageLoader.LangConfig.VOTING_VOTE_CHANGED_TO} **${data.options[choices[0]]}**!
+${data.options.length > 2 ? `*${LanguageLoader.LangConfig.VOTING_YOU_CAN_VOTE_ON_MULTIPLE}*` : ''}`,
                     ephemeral: true,
                 });
             }
@@ -79,7 +84,7 @@ ${data.options.length > 2 ? '*Tip: Gebruik het menu onder de knoppen om op meerd
             const max = SettingsConstants.VOTE_OPTIONS_MAX;
             if (options.length > max) {
                 interaction.reply({
-                    content: `Je kan maximaal ${max} opties toevoegen!`,
+                    content: LanguageLoader.LangConfig.VOTING_CAN_ONLY_ADD_MAX_OPTION.replace('{max}', `${max}`),
                     ephemeral: true,
                 });
 
@@ -88,8 +93,8 @@ ${data.options.length > 2 ? '*Tip: Gebruik het menu onder de knoppen om op meerd
 
             if (!description?.isFilled()) {
                 description = options.length > 1
-                    ? 'Stem op je favoriete suggestie voor op het canvas!'
-                    : 'Wil jij deze suggestie op het canvas zien?';
+                    ? LanguageLoader.LangConfig.VOTING_VOTE_FOR_YOUR_FAVOURITE
+                    : LanguageLoader.LangConfig.VOTING_WHICH_SUGGESTION_WOULD_YOU_LIKE;
             }
 
             const buttonComponents = new Array<ButtonBuilder>();
@@ -117,15 +122,15 @@ ${data.options.length > 2 ? '*Tip: Gebruik het menu onder de knoppen om op meerd
                 }
             } else {
                 // No options added. This is a yes/no vote.
-                onlyOptions.push('Ja');
-                onlyOptions.push('Nee');
+                onlyOptions.push(LanguageLoader.LangConfig.YES);
+                onlyOptions.push(LanguageLoader.LangConfig.NO);
                 buttonComponents.push(new ButtonBuilder()
                     .setCustomId(`vote_choose_0_${id}`)
-                    .setLabel('Ja')
+                    .setLabel(LanguageLoader.LangConfig.YES)
                     .setStyle(ButtonStyle.Success),
                 new ButtonBuilder()
                     .setCustomId(`vote_choose_1_${id}`)
-                    .setLabel('Nee')
+                    .setLabel(LanguageLoader.LangConfig.NO)
                     .setStyle(ButtonStyle.Danger),
                 );
             }
@@ -148,7 +153,7 @@ ${data.options.length > 2 ? '*Tip: Gebruik het menu onder de knoppen om op meerd
                 const actionSelectRow = new ActionRowBuilder<StringSelectMenuBuilder>()
                     .addComponents(new StringSelectMenuBuilder()
                         .setCustomId(`vote_choose_${id}`)
-                        .setPlaceholder('Of stem op meerdere opties')
+                        .setPlaceholder(LanguageLoader.LangConfig.VOTING_OR_VOTE_FOR_MULTIPLE)
                         .setMinValues(1)
                         .setMaxValues(onlyOptions.length - 1)
                         .addOptions(menuOptions));
@@ -160,18 +165,18 @@ ${data.options.length > 2 ? '*Tip: Gebruik het menu onder de knoppen om op meerd
 
             const confirmRow = new ActionRowBuilder<ButtonBuilder>()
                 .addComponents(new ButtonBuilder()
-                    .setLabel('Ja, stuur het')
+                    .setLabel(LanguageLoader.LangConfig.VOTING_YES_SEND_IT)
                     .setStyle(ButtonStyle.Success)
                     .setCustomId(`vote_confirm_${id}`))
                 .addComponents(new ButtonBuilder()
-                    .setLabel('Nee, opnieuw!')
+                    .setLabel(LanguageLoader.LangConfig.VOTING_NO_TRY_AGAIN)
                     .setStyle(ButtonStyle.Danger)
                     .setCustomId(`vote_destroy_${id}`));
 
             components.push(confirmRow);
 
             const reply = await interaction.reply({
-                content: '**__DIT IS EEN PREVIEW__**\n\nZiet dit er goed uit zo?',
+                content: `**__${LanguageLoader.LangConfig.VOTING_THIS_IS_A_PREVIEW}__**\n\n${LanguageLoader.LangConfig.VOTING_DOES_IT_LOOK_GOOD}`,
                 embeds: [VoteEmbeds.GetVotingEmbed(description, optionString, data.image, parseInt(data.time))],
                 components: components,
                 ephemeral: true,
@@ -203,7 +208,7 @@ ${data.options.length > 2 ? '*Tip: Gebruik het menu onder de knoppen om op meerd
 
             if (cachedMessage == null) {
                 interaction.reply({
-                    content: 'Er is iets fout gegaan. Maak de stemming opnieuw aan.',
+                    content: LanguageLoader.LangConfig.VOTING_CREATION_FAILED_TRY_AGAIN,
                     ephemeral: true,
                 });
 
@@ -239,7 +244,7 @@ ${data.options.length > 2 ? '*Tip: Gebruik het menu onder de knoppen om op meerd
             VoteManager.CreateInterval(id);
 
             interaction.reply({
-                content: 'Done!',
+                content: LanguageLoader.LangConfig.DONE,
                 ephemeral: true,
             });
 
@@ -257,7 +262,7 @@ ${data.options.length > 2 ? '*Tip: Gebruik het menu onder de knoppen om op meerd
             VoteManager.DestroyVote(id);
 
             interaction.reply({
-                content: 'Oké',
+                content: LanguageLoader.LangConfig.OKAY,
                 ephemeral: true,
             });
             LogService.Log(LogType.VoteCreateDestroy, interaction.user.id, 'Vote ID', id);
@@ -291,11 +296,11 @@ ${data.options.length > 2 ? '*Tip: Gebruik het menu onder de knoppen om op meerd
 
             const modal = new ModalBuilder()
                 .setCustomId(`vote_create_${interaction.id}`)
-                .setTitle('Stemming');
+                .setTitle(LanguageLoader.LangConfig.VOTING_VOTE);
 
             const inputName = new TextInputBuilder()
                 .setCustomId('description')
-                .setLabel('Wat is de beschrijving van de stemming?')
+                .setLabel(LanguageLoader.LangConfig.VOTING_WHAT_IS_THE_DESCRIPTION)
                 .setStyle(TextInputStyle.Paragraph)
                 .setRequired(false)
                 .setMinLength(0)
@@ -303,7 +308,8 @@ ${data.options.length > 2 ? '*Tip: Gebruik het menu onder de knoppen om op meerd
 
             const inputSize = new TextInputBuilder()
                 .setCustomId('options')
-                .setLabel(`Optie per regel | Max ${SettingsConstants.VOTE_OPTIONS_MAX} | Context na ::`)
+                .setLabel(LanguageLoader.LangConfig.VOTING_GIVE_OPTIONS_INSTRUCTIONS
+                    .replace('{optionsMax}', `${SettingsConstants.VOTE_OPTIONS_MAX}`))
                 .setStyle(TextInputStyle.Paragraph)
                 .setRequired(false)
                 .setMaxLength(2500);

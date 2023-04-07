@@ -78,7 +78,27 @@ type LangConfig = {
     FORUMS_COMMAND_CAN_ONLY_BE_USED_IN: string,
     THREADS_SELECT_TAGS_FOR_THREAD: string,
     VARIABLES_THE_VALUE_OF_VAR_IS: string,
-    JOIN_NIGHTWATCH: string
+    JOIN_NIGHTWATCH: string,
+    VOTING_CANT_VOTE_FOR_THIS_ANYMORE: string,
+    VOTING_VOTED_FOR: string,
+    VOTING_VOTE_CHANGED_TO: string,
+    VOTING_YOU_CAN_VOTE_ON_MULTIPLE: string,
+    VOTING_CAN_ONLY_ADD_MAX_OPTION: string,
+    VOTING_VOTE_FOR_YOUR_FAVOURITE: string,
+    VOTING_WHICH_SUGGESTION_WOULD_YOU_LIKE: string,
+    YES: string,
+    NO: string,
+    VOTING_OR_VOTE_FOR_MULTIPLE: string,
+    VOTING_YES_SEND_IT: string,
+    VOTING_NO_TRY_AGAIN: string,
+    VOTING_THIS_IS_A_PREVIEW: string,
+    VOTING_DOES_IT_LOOK_GOOD: string,
+    VOTING_CREATION_FAILED_TRY_AGAIN: string,
+    DONE: string,
+    OKAY: string,
+    VOTING_VOTE: string,
+    VOTING_WHAT_IS_THE_DESCRIPTION: string,
+    VOTING_GIVE_OPTIONS_INSTRUCTIONS: string
 };
 
 // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
@@ -163,7 +183,27 @@ export default class LanguageLoader {
         FORUMS_COMMAND_CAN_ONLY_BE_USED_IN: 'Dit commando kan alleen in een forum post worden gebruikt',
         THREADS_SELECT_TAGS_FOR_THREAD: 'Selecteer de tags die deze thread moet hebben',
         VARIABLES_THE_VALUE_OF_VAR_IS: 'De waarde van `{name}` is `{value}`',
-        JOIN_NIGHTWATCH: 'Word beschermer van de nacht'
+        JOIN_NIGHTWATCH: 'Word beschermer van de nacht',
+        VOTING_CANT_VOTE_FOR_THIS_ANYMORE: 'Je kan hier niet meer op stemmen!',
+        VOTING_VOTED_FOR: 'Je hebt gestemd op',
+        VOTING_VOTE_CHANGED_TO: 'Je stem is veranderd naar',
+        VOTING_YOU_CAN_VOTE_ON_MULTIPLE: 'Tip: Gebruik het menu onder de knoppen om op meerdere opties te stemmen.',
+        VOTING_CAN_ONLY_ADD_MAX_OPTION: 'Je kan maximaal {max} opties toevoegen!',
+        VOTING_VOTE_FOR_YOUR_FAVOURITE: 'Stem op je favoriete suggestie voor op het canvas!',
+        VOTING_WHICH_SUGGESTION_WOULD_YOU_LIKE: 'Wil jij deze suggestie op het canvas zien?',
+        YES: 'Ja',
+        NO: 'Nee',
+        VOTING_OR_VOTE_FOR_MULTIPLE: 'Of stem op meerdere opties',
+        VOTING_YES_SEND_IT: 'Ja, stuur het',
+        VOTING_NO_TRY_AGAIN: 'Nee, opnieuw!',
+        VOTING_THIS_IS_A_PREVIEW: 'DIT IS EEN PREVIEW',
+        VOTING_DOES_IT_LOOK_GOOD: 'Ziet dit er goed uit zo?',
+        VOTING_CREATION_FAILED_TRY_AGAIN: 'Er is iets fout gegaan. Maak de stemming opnieuw aan.',
+        DONE: 'Done!',
+        OKAY: 'Oké',
+        VOTING_VOTE: 'Stemming',
+        VOTING_WHAT_IS_THE_DESCRIPTION: 'Wat is de beschrijving van de stemming?',
+        VOTING_GIVE_OPTIONS_INSTRUCTIONS: 'Optie per regel | Max {optionsMax} | Context na ::'
     };
     public static LoadLanguageConfig(languageCode: string) {
         try {

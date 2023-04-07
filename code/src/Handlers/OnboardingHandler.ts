@@ -209,7 +209,7 @@ ${roles.length > 1 ? 'en ' : ''}\`${roles[roles.length - 1].toTitleCase()}\``;
             });
 
             interaction.reply({
-                content: 'Done!',
+                content: LanguageLoader.LangConfig.DONE,
                 ephemeral: true
             });
         } catch (error) {

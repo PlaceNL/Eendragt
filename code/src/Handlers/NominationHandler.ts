@@ -65,7 +65,7 @@ export default class NominationHandler {
 
         message.edit({ embeds: [NominationEmbeds.GetActionEmbed(embed.title, embed.author.name, embed.description, action, addition)] });
 
-        interaction.reply({ content: 'Done!', ephemeral: true });
+        interaction.reply({ content: LanguageLoader.LangConfig.DONE, ephemeral: true });
     }
 
     private static OnApprove(messageInfo: IMessageInfo) {

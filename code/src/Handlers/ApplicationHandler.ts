@@ -246,7 +246,7 @@ export default class ApplicationHandler {
             });
 
             interaction.reply({
-                content: 'Done!',
+                content: LanguageLoader.LangConfig.DONE,
                 ephemeral: true
             });
         } catch (error) {
