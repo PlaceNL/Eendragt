@@ -2,15 +2,17 @@ import { EmbedBuilder, User } from 'discord.js';
 import RolesConstants from '../Constants/RolesConstants';
 import SettingsConstants from '../Constants/SettingsConstants';
 import { RoleType } from '../Enums/RoleType';
+import LanguageLoader from '../Utils/LanguageLoader';
 
 export default class ApplicationEmbeds {
 
     public static GetRolesEmbed() {
+        const server = SettingsConstants.SERVER_NAME;
         const embed = new EmbedBuilder()
             .setColor(SettingsConstants.COLORS.DEFAULT)
-            .setTitle('Extra rollen')
+            .setTitle(LanguageLoader.LangConfig.EXTRA_ROLES)
             .setDescription(`
-Welke rol past het beste bij jou?
+${LanguageLoader.LangConfig.WHICH_ROLE_FITS_YOU}
 
 **${RolesConstants.ROLES[RoleType.Builder].name}**
 ${RolesConstants.ROLES[RoleType.Builder].description}
@@ -18,9 +20,9 @@ ${RolesConstants.ROLES[RoleType.Builder].description}
 **${RolesConstants.ROLES[RoleType.Soldier].name}**
 ${RolesConstants.ROLES[RoleType.Soldier].description}
 
-**Sollicitaties**
+**${LanguageLoader.LangConfig.APPLICATIONS}**
 
-Bij PlaceNL zijn we op zoek naar talent! Voel jij je aangesproken bij een van de volgende rollen? Solliciteer met een korte beschrijving waarom je geschikt bent.
+${LanguageLoader.LangConfig.WE_ARE_LOOKING_FOR_PEOPLE.replace('{server}', server)}
 
 **${RolesConstants.ROLES[RoleType.Support].name}**
 ${RolesConstants.ROLES[RoleType.Support].description}
@@ -39,17 +41,17 @@ ${RolesConstants.ROLES[RoleType.Reporter].description}`);
     public static GetApplicationEmbed(user: User, description: string, data?: any) {
         const embed = new EmbedBuilder()
             .setColor(SettingsConstants.COLORS.DEFAULT)
-            .setTitle('Sollicitatie')
-            .setDescription(`${user} heeft gesolliciteerd.`);
+            .setTitle(LanguageLoader.LangConfig.APPLICATION)
+            .setDescription(LanguageLoader.LangConfig.USER_APPLIED.replace('{user}', `${user}`));
 
         embed.addFields({
-            name: 'Sollicitatiebrief',
+            name: LanguageLoader.LangConfig.APPLICATION_LETTER,
             value: description,
         });
 
         if (data != null) {
             embed.addFields({
-                name: 'Rollen 2022',
+                name: LanguageLoader.LangConfig.ROLES_2022,
                 value: data.roles.join(', ')
             });
         }

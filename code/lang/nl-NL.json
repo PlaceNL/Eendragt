@@ -108,5 +108,8 @@
   "EXTRA_ROLES": "Extra rollen",
   "WHICH_ROLE_FITS_YOU": "Welke rol past het beste bij jou?",
   "APPLICATIONS": "Sollicitaties",
-  "WE_ARE_LOOKING_FOR_PEOPLE": "Bij {server} zijn we op zoek naar talent! Voel jij je aangesproken bij een van de volgende rollen? Solliciteer met een korte beschrijving waarom je geschikt bent."
+  "APPLICATION": "Sollicitatie",
+  "WE_ARE_LOOKING_FOR_PEOPLE": "Bij {server} zijn we op zoek naar talent! Voel jij je aangesproken bij een van de volgende rollen? Solliciteer met een korte beschrijving waarom je geschikt bent.",
+  "USER_APPLIED": "{user} heeft gesolliciteerd.",
+  "ROLES_2022": "Rollen 2022"
 }

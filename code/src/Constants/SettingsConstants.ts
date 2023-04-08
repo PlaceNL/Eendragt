@@ -4,6 +4,7 @@ export default class SettingsConstants {
     public static readonly BOT_ID = (process.env.BOT_ID || '');
     public static readonly MASTER_ID = process.env.MASTER_ID || '';
     public static readonly SERVER_ID = process.env.SERVER_ID || '';
+    public static readonly SERVER_NAME = process.env.SERVER_NAME || '';
 
     public static readonly CHANNELS = {
         LOG_ID: process.env.LOG_CHANNEL_ID || '',

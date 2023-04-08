@@ -98,7 +98,14 @@ type LangConfig = {
     OKAY: string,
     VOTING_VOTE: string,
     VOTING_WHAT_IS_THE_DESCRIPTION: string,
-    VOTING_GIVE_OPTIONS_INSTRUCTIONS: string
+    VOTING_GIVE_OPTIONS_INSTRUCTIONS: string,
+    EXTRA_ROLES: string,
+    WHICH_ROLE_FITS_YOU: string,
+    APPLICATIONS: string,
+    APPLICATION: string,
+    WE_ARE_LOOKING_FOR_PEOPLE: string,
+    USER_APPLIED: string,
+    ROLES_2022: string
 };
 
 // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
@@ -203,7 +210,14 @@ export default class LanguageLoader {
         OKAY: 'Oké',
         VOTING_VOTE: 'Stemming',
         VOTING_WHAT_IS_THE_DESCRIPTION: 'Wat is de beschrijving van de stemming?',
-        VOTING_GIVE_OPTIONS_INSTRUCTIONS: 'Optie per regel | Max {optionsMax} | Context na ::'
+        VOTING_GIVE_OPTIONS_INSTRUCTIONS: 'Optie per regel | Max {optionsMax} | Context na ::',
+        EXTRA_ROLES: 'Extra rollen',
+        WHICH_ROLE_FITS_YOU: 'Welke rol past het beste bij jou?',
+        APPLICATIONS: 'Sollicitaties',
+        APPLICATION: 'Sollicitatie',
+        WE_ARE_LOOKING_FOR_PEOPLE: 'Bij {server} zijn we op zoek naar talent! Voel jij je aangesproken bij een van de volgende rollen? Solliciteer met een korte beschrijving waarom je geschikt bent.',
+        USER_APPLIED: '{user} heeft gesolliciteerd.',
+        ROLES_2022: 'Rollen 2022'
     };
     public static LoadLanguageConfig(languageCode: string) {
         try {
