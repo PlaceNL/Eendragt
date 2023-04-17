@@ -11,8 +11,9 @@ export default class NightsWatchHandler {
         try {
             const member = messageInfo.member;
             if (member.roles.cache.has(SettingsConstants.ROLES.NIGHTS_WATCH_ID)) {
+                await member.roles.remove(SettingsConstants.ROLES.NIGHTS_WATCH_ID);
                 (<ButtonInteraction>messageInfo.interaction).reply({
-                    content: 'Je hebt de rol al.',
+                    content: 'Je hebt de rol nu niet meer.',
                     ephemeral: true
                 });
                 return;
