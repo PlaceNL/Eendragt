@@ -105,7 +105,18 @@ type LangConfig = {
     APPLICATION: string,
     WE_ARE_LOOKING_FOR_PEOPLE: string,
     USER_APPLIED: string,
-    ROLES_2022: string
+    ROLES_2022: string,
+    ART_REJECTED_ART: string,
+    ART_REASON_FOR_REJECTION: string,
+    ART_FILE_FORMAT: string,
+    ART_VALID_ART: string,
+    ART_ARTWORK_REQUIREMENTS: string,
+    ART_PLACING_COORDINATED_PIXELS: string,
+    ART_PRESS_BUTTON_TO_CLAIM_PIXEL: string,
+    ART_PLACE_PIXEL_RIGHT_AWAY: string,
+    ART_WAIT_UNTIL_TIME_TO_PLACE_PIXEL: string,
+    ART_AMOUNT_OF_CLAIMED_PIXELS: string,
+    ART_DO_NOT_DISMISS_OR_REMEMBER_COLOUR: string
 };
 
 // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
@@ -217,7 +228,18 @@ export default class LanguageLoader {
         APPLICATION: 'Sollicitatie',
         WE_ARE_LOOKING_FOR_PEOPLE: 'Bij {server} zijn we op zoek naar talent! Voel jij je aangesproken bij een van de volgende rollen? Solliciteer met een korte beschrijving waarom je geschikt bent.',
         USER_APPLIED: '{user} heeft gesolliciteerd.',
-        ROLES_2022: 'Rollen 2022'
+        ROLES_2022: 'Rollen 2022',
+        ART_REJECTED_ART: 'Afgekeurde art',
+        ART_REASON_FOR_REJECTION: 'Reden voor afkeuring: {reason}',
+        ART_FILE_FORMAT: 'formaat',
+        ART_VALID_ART: 'Valide art',
+        ART_ARTWORK_REQUIREMENTS: 'Je art moet aan de volgende eisen voldoen:\n- PNG {format}\n- {scale} scaling\n- Transparante achtergrond\n- Alleen de beschikbare kleuren',
+        ART_PLACING_COORDINATED_PIXELS: 'Gecoördineerd pixels plaatsen',
+        ART_PRESS_BUTTON_TO_CLAIM_PIXEL: 'Klik op de knop hieronder om een pixel te claimen voor deze afbeelding.',
+        ART_PLACE_PIXEL_RIGHT_AWAY: 'Deze mag je __direct__ plaatsen!',
+        ART_WAIT_UNTIL_TIME_TO_PLACE_PIXEL: '__Wacht__ tot **{shortTime}** ({relativeTime}) met het plaatsen van je pixel!',
+        ART_AMOUNT_OF_CLAIMED_PIXELS: 'Aantal geclaimde pixels',
+        ART_DO_NOT_DISMISS_OR_REMEMBER_COLOUR: '__Klik dit bericht niet weg__, of onthoud de coördinaten en kleur!'
     };
     public static LoadLanguageConfig(languageCode: string) {
         try {
