@@ -118,7 +118,7 @@ Na het uitvoeren van het commando wordt het originele bericht geupdate met de ni
 
 ### Coördinatie
 
-Met het `/coordinate` commando kan het plaatsen van kunswerken op het canvas worden gecoördineerd, zonder dat daarvoor een autoplacer nodig is. Bij het uitvoeren van het commando moet je een afbeelding meegeven, een x en y positie, en optioneel een tijd wanneer men de pixels moeten plaatsen.
+Met het `/coordinate` commando kan het plaatsen van kunstwerken op het canvas worden gecoördineerd, zonder dat daarvoor een autoplacer nodig is. Bij het uitvoeren van het commando moet je een afbeelding meegeven, een x en y positie, en optioneel een tijd wanneer men de pixels moeten plaatsen.
 
 ![](images/guide/coordination/command.png)
 
@@ -128,7 +128,7 @@ Na het commando te hebben gebruikt verschijnt er een bericht met daarin de ingev
 
 ![](images/guide/coordination/claim.png)
 
-Het lid wordt vertelt waar en wanneer ze een pixel moeten plaatsen, en van welke kleur. Wanneer alle leden dit tegelijkertijd doen zou er in no-time het kunstwerk op het canvas moeten staan.
+Het lid wordt verteld waar en wanneer ze een pixel moeten plaatsen, en van welke kleur. Wanneer alle leden dit tegelijkertijd doen zou er in no-time het kunstwerk op het canvas moeten staan.
 
 ### Grid
 
