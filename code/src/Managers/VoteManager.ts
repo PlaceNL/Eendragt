@@ -5,7 +5,7 @@ import VoteEmbeds from '../Embeds/VoteEmbeds';
 import { Redis } from '../Providers/Redis';
 import DiscordService from '../Services/DiscordService';
 import { Utils } from '../Utils/Utils';
-import LanguageLoader from "../Utils/LanguageLoader";
+import LanguageLoader from '../Utils/LanguageLoader';
 
 export default class VoteManager {
 
