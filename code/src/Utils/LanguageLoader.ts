@@ -174,6 +174,7 @@ type LangConfig = {
     COMMANDS_CHANGE_VALUE_OF_VARIABLE: string,
     COMMANDS_GET_VARIABLE_VALUE: string,
     COMMANDS_GET_LIST_OF_VALUES_FOR_ALL_VARIABLES: string,
+    LINK_TO_THREAD: string,
 };
 
 // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
@@ -353,7 +354,8 @@ export default class LanguageLoader {
         COMMANDS_VALUE_OF_VARIABLE: 'De waarde van de variabele',
         COMMANDS_CHANGE_VALUE_OF_VARIABLE: 'Verander de waarde van een variabele. Splits arrays met een komma.',
         COMMANDS_GET_VARIABLE_VALUE: 'Krijg de waarde van een variabele',
-        COMMANDS_GET_LIST_OF_VALUES_FOR_ALL_VARIABLES: 'Krijg een lijst van de waardes van alle variabelen'
+        COMMANDS_GET_LIST_OF_VALUES_FOR_ALL_VARIABLES: 'Krijg een lijst van de waardes van alle variabelen',
+        LINK_TO_THREAD: 'Link naar de thread'
     };
     public static LoadLanguageConfig(languageCode: string) {
         try {

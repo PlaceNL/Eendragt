@@ -3,6 +3,7 @@ import { EmbedBuilder } from 'discord.js';
 import NominationConstants from '../Constants/NominationConstants';
 import SettingsConstants from '../Constants/SettingsConstants';
 import { NominationAction } from '../Enums/NominationAction';
+import LanguageLoader from "../Utils/LanguageLoader";
 
 export default class NominationEmbeds {
 
@@ -11,7 +12,7 @@ export default class NominationEmbeds {
             .setColor(SettingsConstants.COLORS.DEFAULT)
             .setAuthor({ name: category })
             .setTitle(title)
-            .setDescription(`[Link naar de thread](${url})`);
+            .setDescription(`[${LanguageLoader.LangConfig.LINK_TO_THREAD}](${url})`);
 
         return embed;
     }
