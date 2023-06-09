@@ -116,7 +116,9 @@ type LangConfig = {
     ART_PLACE_PIXEL_RIGHT_AWAY: string,
     ART_WAIT_UNTIL_TIME_TO_PLACE_PIXEL: string,
     ART_AMOUNT_OF_CLAIMED_PIXELS: string,
-    ART_DO_NOT_DISMISS_OR_REMEMBER_COLOUR: string
+    ART_DO_NOT_DISMISS_OR_REMEMBER_COLOUR: string,
+    VOTING_MULTIPLE_VOTES: string,
+    VOTING_SINGLE_VOTE: string,
 };
 
 // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
@@ -239,7 +241,9 @@ export default class LanguageLoader {
         ART_PLACE_PIXEL_RIGHT_AWAY: 'Deze mag je __direct__ plaatsen!',
         ART_WAIT_UNTIL_TIME_TO_PLACE_PIXEL: '__Wacht__ tot **{shortTime}** ({relativeTime}) met het plaatsen van je pixel!',
         ART_AMOUNT_OF_CLAIMED_PIXELS: 'Aantal geclaimde pixels',
-        ART_DO_NOT_DISMISS_OR_REMEMBER_COLOUR: '__Klik dit bericht niet weg__, of onthoud de coördinaten en kleur!'
+        ART_DO_NOT_DISMISS_OR_REMEMBER_COLOUR: '__Klik dit bericht niet weg__, of onthoud de coördinaten en kleur!',
+        VOTING_MULTIPLE_VOTES: 'stemmen',
+        VOTING_SINGLE_VOTE: 'stem'
     };
     public static LoadLanguageConfig(languageCode: string) {
         try {

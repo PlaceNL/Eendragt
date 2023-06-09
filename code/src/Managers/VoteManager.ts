@@ -5,6 +5,7 @@ import VoteEmbeds from '../Embeds/VoteEmbeds';
 import { Redis } from '../Providers/Redis';
 import DiscordService from '../Services/DiscordService';
 import { Utils } from '../Utils/Utils';
+import LanguageLoader from "../Utils/LanguageLoader";
 
 export default class VoteManager {
 
@@ -161,11 +162,11 @@ export default class VoteManager {
             resultString = options.map((option: string, index: number) => {
                 const split = option.split('::');
                 const votes = resultData[index].votes;
-                return `**${split[0]}** - ${votes} stem${votes == 1 ? '' : 'men'}${split[1] == null ? '' : `\n*${split[1]}*`}\n`;
+                return `**${split[0]}** - ${votes} ${votes == 1 ? LanguageLoader.LangConfig.VOTING_SINGLE_VOTE : LanguageLoader.LangConfig.VOTING_MULTIPLE_VOTES}${split[1] == null ? '' : `\n*${split[1]}*`}\n`;
             }).join('\n');
         } else {
             for (const value of resultData) {
-                resultString += `**${value.name}** - ${value.votes} stem${value.votes == 1 ? '' : 'men'}\n\n`;
+                resultString += `**${value.name}** - ${value.votes} ${value.votes == 1 ? LanguageLoader.LangConfig.VOTING_SINGLE_VOTE : LanguageLoader.LangConfig.VOTING_MULTIPLE_VOTES}\n\n`;
             }
         }
 

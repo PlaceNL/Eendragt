@@ -123,5 +123,6 @@
   "ART_WAIT_UNTIL_TIME_TO_PLACE_PIXEL": "__Wacht__ tot **{shortTime}** ({relativeTime}) met het plaatsen van je pixel!",
   "ART_AMOUNT_OF_CLAIMED_PIXELS": "Aantal geclaimde pixels",
   "ART_DO_NOT_DISMISS_OR_REMEMBER_COLOUR": "__Klik dit bericht niet weg__, of onthoud de coördinaten en kleur!",
-  "TEMP_TO_SQUASH_COMMIT": ""
+  "VOTING_SINGLE_VOTE": "stem",
+  "VOTING_MULTIPLE_VOTES": "stemmen"
 }
