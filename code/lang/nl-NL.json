@@ -184,5 +184,11 @@
   "DIPLOMACY_MESSAGE": "Bericht",
   "DIPLOMACY_SIMILAR_DIPLOMATS": "⚠\uFE0F Vergelijkbare {singleOrPlural}",
   "DIPLOMAT_SINGLE": "diplomaat",
-  "DIPLOMAT_PLURAL": "diplomaten"
+  "DIPLOMAT_PLURAL": "diplomaten",
+  "ONBOARDING_WELCOME": "Welkom",
+  "ONBOARDING_WHAT_BRINGS_YOU_TO_THE_SERVER": "Waarvoor ben je in de server?",
+  "ONBOARDING_NICE_OF_YOU_TO_COME_HELP": "Fijn dat je komt meehelpen!",
+  "ONBOARDING_YOU_CAN_HELP_IN_THE_FOLLOWING_WAYS": "Meehelpen kan op de volgende manieren",
+  "ONBOARDING_MORE_ROLES": "Nog meer rollen",
+  "ONBOARDING_LOOKING_FOR_TALENT": "Bij {server} zijn we op zoek naar talent! Bekijk {rolesChannel} voor nog meer rollen!"
 }

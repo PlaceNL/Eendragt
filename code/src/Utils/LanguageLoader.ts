@@ -180,6 +180,12 @@ type LangConfig = {
     DIPLOMACY_SIMILAR_DIPLOMATS: string,
     DIPLOMAT_SINGLE: string,
     DIPLOMAT_PLURAL: string,
+    ONBOARDING_WELCOME: string,
+    ONBOARDING_WHAT_BRINGS_YOU_TO_THE_SERVER: string,
+    ONBOARDING_NICE_OF_YOU_TO_COME_HELP: string,
+    ONBOARDING_YOU_CAN_HELP_IN_THE_FOLLOWING_WAYS: string,
+    ONBOARDING_MORE_ROLES: string,
+    ONBOARDING_LOOKING_FOR_TALENT: string,
 };
 
 // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
@@ -365,13 +371,21 @@ export default class LanguageLoader {
         DIPLOMACY_MESSAGE: 'Bericht',
         DIPLOMACY_SIMILAR_DIPLOMATS: '⚠\uFE0F Vergelijkbare {singleOrPlural}',
         DIPLOMAT_SINGLE: 'diplomaat',
-        DIPLOMAT_PLURAL: 'diplomaten'
+        DIPLOMAT_PLURAL: 'diplomaten',
+        ONBOARDING_WELCOME: 'Welkom',
+        ONBOARDING_WHAT_BRINGS_YOU_TO_THE_SERVER: 'Waarvoor ben je in de server?',
+        ONBOARDING_NICE_OF_YOU_TO_COME_HELP: 'Fijn dat je komt meehelpen!',
+        ONBOARDING_YOU_CAN_HELP_IN_THE_FOLLOWING_WAYS: 'Meehelpen kan op de volgende manieren',
+        ONBOARDING_MORE_ROLES: 'Nog meer rollen',
+        ONBOARDING_LOOKING_FOR_TALENT: 'Bij {server} zijn we op zoek naar talent! Bekijk {rolesChannel} voor nog meer rollen!'
     };
+    public static LanguageSetting: string = 'nl-NL';
     public static LoadLanguageConfig(languageCode: string) {
         try {
             const json = fs.readFileSync(`lang/${languageCode}.json`, 'utf8');
             const parsedObject: Partial<LangConfig> = JSON.parse(json);
             this.LangConfig = Object.assign(this.LangConfig, parsedObject);
+            this.LanguageSetting = languageCode;
         } catch (e) {
             if (e instanceof Error) {
                 console.log(`Error Message: ${e.message}\nAn error occurred while loading the language configuration, settings default values...`);
