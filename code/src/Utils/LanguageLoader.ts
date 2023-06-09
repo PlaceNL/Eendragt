@@ -175,6 +175,11 @@ type LangConfig = {
     COMMANDS_GET_VARIABLE_VALUE: string,
     COMMANDS_GET_LIST_OF_VALUES_FOR_ALL_VARIABLES: string,
     LINK_TO_THREAD: string,
+    DIPLOMACY_COMMUNITY_SIZE: string,
+    DIPLOMACY_MESSAGE: string,
+    DIPLOMACY_SIMILAR_DIPLOMATS: string,
+    DIPLOMAT_SINGLE: string,
+    DIPLOMAT_PLURAL: string,
 };
 
 // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
@@ -355,7 +360,12 @@ export default class LanguageLoader {
         COMMANDS_CHANGE_VALUE_OF_VARIABLE: 'Verander de waarde van een variabele. Splits arrays met een komma.',
         COMMANDS_GET_VARIABLE_VALUE: 'Krijg de waarde van een variabele',
         COMMANDS_GET_LIST_OF_VALUES_FOR_ALL_VARIABLES: 'Krijg een lijst van de waardes van alle variabelen',
-        LINK_TO_THREAD: 'Link naar de thread'
+        LINK_TO_THREAD: 'Link naar de thread',
+        DIPLOMACY_COMMUNITY_SIZE: 'Community grootte',
+        DIPLOMACY_MESSAGE: 'Bericht',
+        DIPLOMACY_SIMILAR_DIPLOMATS: '⚠\uFE0F Vergelijkbare {singleOrPlural}',
+        DIPLOMAT_SINGLE: 'diplomaat',
+        DIPLOMAT_PLURAL: 'diplomaten'
     };
     public static LoadLanguageConfig(languageCode: string) {
         try {

@@ -3,7 +3,7 @@ import { EmbedBuilder } from 'discord.js';
 import NominationConstants from '../Constants/NominationConstants';
 import SettingsConstants from '../Constants/SettingsConstants';
 import { NominationAction } from '../Enums/NominationAction';
-import LanguageLoader from "../Utils/LanguageLoader";
+import LanguageLoader from '../Utils/LanguageLoader';
 
 export default class NominationEmbeds {
 

@@ -3,6 +3,7 @@ import CommandConstants from '../Constants/CommandConstants';
 import SettingsConstants from '../Constants/SettingsConstants';
 import IResultInfo from '../Interfaces/IResultInfo';
 import CommandService from '../Services/CommandService';
+import LanguageLoader from '../Utils/LanguageLoader';
 
 export default class DiplomacyEmbeds {
 
@@ -37,13 +38,13 @@ so make sure you add both at once (if needed). If you don't have any associates,
             .setColor(SettingsConstants.COLORS.DEFAULT)
             .setTitle(communityName)
             .setDescription(`
-**Community grootte**
+**${LanguageLoader.LangConfig.DIPLOMACY_COMMUNITY_SIZE}**
 ${size}
             
-**Bericht**
+**${LanguageLoader.LangConfig.DIPLOMACY_MESSAGE}**
 ${description}
 
-[Link naar de thread](${threadUrl})
+[${LanguageLoader.LangConfig.LINK_TO_THREAD}](${threadUrl})
 
 ${similarities.result ? this.GetSimilaritiesString(similarities.data.list) : ''}`);
 
@@ -71,13 +72,14 @@ __Do not abuse this.__ The diplomat disagreeing with you is not reason enough to
             .setTitle(communityName)
             .setDescription(`${description}
             
-[Link naar de thread](${threadUrl})`);
+[${LanguageLoader.LangConfig.LINK_TO_THREAD}](${threadUrl})`);
 
         return embed;
     }
 
     private static GetSimilaritiesString(similarities: Array<any>) {
-        let str = `**⚠️ Vergelijkbare ${similarities.length > 1 ? 'diplomaten' : 'diplomaat'}**\n`;
+        let str = `**${LanguageLoader.LangConfig.DIPLOMACY_SIMILAR_DIPLOMATS
+            .replace('{singleOrPlural}', `${similarities.length > 1 ? LanguageLoader.LangConfig.DIPLOMAT_PLURAL : LanguageLoader.LangConfig.DIPLOMAT_SINGLE}`)}**\n`;
 
         for (const similarity of similarities) {
             str += `[${similarity.name}](${similarity.url})\n`;
