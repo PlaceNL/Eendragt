@@ -3,6 +3,7 @@ import CommandConstants from '../Constants/CommandConstants';
 import { VariableKey } from '../Enums/VariableKey';
 import Discord from '../Providers/Discord';
 import VariableManager from './VariableManager';
+import LanguageLoader from '../Utils/LanguageLoader';
 
 export default class CommandManager {
 
@@ -13,65 +14,65 @@ export default class CommandManager {
             new SlashCommandBuilder()
                 .setName(CommandConstants.SLASH.UDPATE)
                 .setDMPermission(false)
-                .setDescription('Update de slash commands')
+                .setDescription(LanguageLoader.LangConfig.COMMANDS_UPDATE_SLASH_COMMAND)
                 .setDefaultMemberPermissions(this.adminFlag),
             new SlashCommandBuilder()
                 .setName(CommandConstants.SLASH.APPLICATIONS)
                 .setDMPermission(false)
-                .setDescription('Zet de sollicitaties open of dicht')
+                .setDescription(LanguageLoader.LangConfig.COMMANDS_OPEN_OR_CLOSE_APPLICATIONS)
                 .setDefaultMemberPermissions(this.adminFlag)
                 .addStringOption(option => option
                     .setName('categorie')
-                    .setDescription('Voor welke rol je de sollicitaties wilt openen of sluiten')
+                    .setDescription(LanguageLoader.LangConfig.COMMANDS_FOR_WHICH_ROLE_TO_CLOSE_APPLICATIONS)
                     .setRequired(true)
                     .addChoices({
-                        name: 'Diplomaten',
+                        name: LanguageLoader.LangConfig.ROLES_DIPLOMATS,
                         value: 'diplomat'
                     },
                     {
-                        name: 'Pixel Artists',
+                        name: LanguageLoader.LangConfig.ROLES_PIXEL_ARTISTS,
                         value: 'artist'
                     },
                     {
-                        name: 'Community Support',
+                        name: LanguageLoader.LangConfig.ROLES_COMMUNITY_SUPPORT,
                         value: 'support'
                     },
                     {
-                        name: 'Redacteur',
+                        name: LanguageLoader.LangConfig.ROLES_EDITOR,
                         value: 'reporter'
                     }
                     ))
                 .addStringOption(option => option
                     .setName('actie')
-                    .setDescription('Wil je de sollicitaties openen of sluiten?')
+                    .setDescription(LanguageLoader.LangConfig.COMMANDS_APPLICATIONS_OPEN_OR_CLOSED)
                     .setRequired(true)
                     .addChoices({
-                        name: 'Openen',
+                        name: LanguageLoader.LangConfig.COMMANDS_OPEN_IT,
                         value: 'open'
                     },
                     {
-                        name: 'Sluiten',
+                        name: LanguageLoader.LangConfig.COMMANDS_CLOSE_IT,
                         value: 'take'
                     })),
             new SlashCommandBuilder()
                 .setName(CommandConstants.SLASH.VOTE)
-                .setDescription('Creëer een stemming')
+                .setDescription(LanguageLoader.LangConfig.COMMANDS_CREATE_A_VOTE)
                 .setDMPermission(false)
                 .setDefaultMemberPermissions(this.adminFlag)
                 .addAttachmentOption(option => option
                     .setName('image')
-                    .setDescription('De afbeelding die bij de stemming hoort')
+                    .setDescription(LanguageLoader.LangConfig.COMMANDS_THE_IMAGE_THAT_BELONGS_TO_THE_VOTE)
                     .setRequired(true))
                 .addNumberOption(option => option
                     .setName('duration')
-                    .setDescription('Optioneel: Hoe lang de stemming moet duren in minuten. Standaard 5 minuten.')
+                    .setDescription(LanguageLoader.LangConfig.COMMANDS_HOW_LONG_SHOULD_THE_VOTE_TAKE)
                     .setMinValue(1)
                     .setMaxValue(60)
                     .setRequired(false)),
             new SlashCommandBuilder()
                 .setName(CommandConstants.SLASH.BILLY)
                 .setDMPermission(false)
-                .setDescription('Kijk hoe laat het bij Billy is')
+                .setDescription(LanguageLoader.LangConfig.COMMANDS_CHECK_BILLY_TIME)
                 .addBooleanOption(option => option
                     .setName('foto')
                     .setDescription(':)')),
@@ -86,54 +87,54 @@ export default class CommandManager {
             new SlashCommandBuilder()
                 .setName(CommandConstants.SLASH.ROLE.COMMAND)
                 .setDMPermission(false)
-                .setDescription('Geef iemand een rol, of pak een rol af')
+                .setDescription(LanguageLoader.LangConfig.COMMANDS_GIVE_OR_TAKE_ROLE)
                 .addSubcommand(subcommand => subcommand
                     .setName(CommandConstants.SLASH.ROLE.ARTIST)
-                    .setDescription('Geef iemand de rol van pixelaar, of pak deze af')
+                    .setDescription(LanguageLoader.LangConfig.COMMANDS_MODIFY_PIXEL_ARTIST_ROLE)
                     .addUserOption(option => option
                         .setName('wie')
-                        .setDescription('Wie die je de rol wilt geven/afpakken')
+                        .setDescription(LanguageLoader.LangConfig.COMMANDS_WHO_TO_GIVE_ROLE_OR_TAKE_ROLE)
                         .setRequired(true))
                     .addStringOption(option => option
                         .setName('actie')
                         .setRequired(true)
-                        .setDescription('Wil je de rol geven of afpakken?')
+                        .setDescription(LanguageLoader.LangConfig.COMMANDS_DO_YOU_WANT_TO_TAKE_OR_GIVE_ROLE)
                         .addChoices({
-                            name: 'Geven',
+                            name: LanguageLoader.LangConfig.COMMANDS_GIVE,
                             value: 'give'
                         },
                         {
-                            name: 'Afpakken',
+                            name: LanguageLoader.LangConfig.COMMANDS_TAKE,
                             value: 'take'
                         }))
                     .addStringOption(option => option
                         .setName('reden')
-                        .setDescription('De reden waarom je de rol geeft/afpakt')
+                        .setDescription(LanguageLoader.LangConfig.COMMANDS_REASON_FOR_MODIFYING_ROLE)
                         .setMinLength(10)
                         .setMaxLength(500)
                         .setRequired(true)))
                 .addSubcommand(subcommand => subcommand
                     .setName(CommandConstants.SLASH.ROLE.DIPLOMAT)
-                    .setDescription('Geef iemand de rol van diplomaat, of pak deze af')
+                    .setDescription(LanguageLoader.LangConfig.COMMANDS_MODIFY_DIPLOMAT_ROLE)
                     .addUserOption(option => option
                         .setName('wie')
-                        .setDescription('Wie je de rol wilt geven/afpakken')
+                        .setDescription(LanguageLoader.LangConfig.COMMANDS_WHO_TO_GIVE_ROLE_OR_TAKE_ROLE)
                         .setRequired(true))
                     .addStringOption(option => option
                         .setName('actie')
                         .setRequired(true)
-                        .setDescription('Wil je de rol geven of afpakken?')
+                        .setDescription(LanguageLoader.LangConfig.COMMANDS_DO_YOU_WANT_TO_TAKE_OR_GIVE_ROLE)
                         .addChoices({
-                            name: 'Geven',
+                            name: LanguageLoader.LangConfig.COMMANDS_GIVE,
                             value: 'give'
                         },
                         {
-                            name: 'Afpakken',
+                            name: LanguageLoader.LangConfig.COMMANDS_TAKE,
                             value: 'take'
                         }))
                     .addStringOption(option => option
                         .setName('reden')
-                        .setDescription('De reden waarom je de rol geeft/afpakt')
+                        .setDescription(LanguageLoader.LangConfig.COMMANDS_REASON_FOR_MODIFYING_ROLE)
                         .setMinLength(10)
                         .setMaxLength(500)
                         .setRequired(true))),
