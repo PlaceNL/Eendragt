@@ -141,39 +141,39 @@ export default class CommandManager {
             new SlashCommandBuilder()
                 .setName(CommandConstants.SLASH.THREAD.COMMAND)
                 .setDMPermission(false)
-                .setDescription('Beheer threads')
+                .setDescription(LanguageLoader.LangConfig.COMMANDS_MANAGE_THREADS)
                 .addSubcommand(subcommand => subcommand
                     .setName(CommandConstants.SLASH.THREAD.CLOSE)
-                    .setDescription('Archiveer een thread, wordt automatisch geopend als iemand weer praat')
+                    .setDescription(LanguageLoader.LangConfig.COMMANDS_ARCHIVE_THREAD)
                     .addStringOption(option => option
                         .setName('reden')
-                        .setDescription('Optioneel: Waarom je deze thread sluit')
+                        .setDescription(LanguageLoader.LangConfig.COMMANDS_REASON_FOR_ARCHIVING)
                         .setMinLength(10)
                         .setMaxLength(500)
                         .setRequired(false)))
                 .addSubcommand(subcommand => subcommand
                     .setName(CommandConstants.SLASH.THREAD.LOCK)
-                    .setDescription('Sluit een thread, niemand kan meer praten')
+                    .setDescription(LanguageLoader.LangConfig.COMMANDS_CLOSE_THREAD)
                     .addStringOption(option => option
                         .setName('reden')
-                        .setDescription('Optioneel: De reden waarom je de thread sluit')
+                        .setDescription(LanguageLoader.LangConfig.COMMANDS_REASON_FOR_CLOSING)
                         .setMinLength(10)
                         .setMaxLength(500)
                         .setRequired(true)))
                 .addSubcommand(subcommand => subcommand
                     .setName(CommandConstants.SLASH.THREAD.TAGS)
-                    .setDescription('Pas de tags aan van een forum post')),
+                    .setDescription(LanguageLoader.LangConfig.COMMANDS_MODIFY_TAGS_FOR_FORUM_POST)),
             new SlashCommandBuilder()
                 .setName(CommandConstants.SLASH.VOICE)
                 .setDMPermission(false)
-                .setDescription('Diplomaten: Maak een tijdelijk voicekanaal aan'),
+                .setDescription(LanguageLoader.LangConfig.COMMANDS_MAKE_TEMPORARY_DIPLOMACY_VOICE_CHAT),
             new SlashCommandBuilder()
                 .setName(CommandConstants.SLASH.TREATY)
                 .setDMPermission(false)
-                .setDescription('Maak een verdrag dat beide partijen moeten ondertekenen')
+                .setDescription(LanguageLoader.LangConfig.COMMANDS_MAKE_DIPLOMACY_TREATY)
                 .addStringOption(option => option
                     .setName('type')
-                    .setDescription('Het type verdrag')
+                    .setDescription(LanguageLoader.LangConfig.COMMANDS_TREATY_TYPE)
                     .setRequired(true)
                     .addChoices(
                         {
@@ -205,112 +205,112 @@ export default class CommandManager {
                 .addStringOption(option => option
                     .setName('hoelang')
                     .setRequired(false)
-                    .setDescription('Optioneel: Hoelang het verdrag geldig is, in het Engels (bijv: 3 hours, 1 day, etc.)')),
+                    .setDescription(LanguageLoader.LangConfig.COMMANDS_TREATY_DURATION)),
             new SlashCommandBuilder()
                 .setName(CommandConstants.SLASH.COORDINATE)
                 .setDMPermission(false)
-                .setDescription('Start een gecoördineerde plaatsing van pixel art op het canvas')
+                .setDescription(LanguageLoader.LangConfig.COMMANDS_START_COORDINATED_ART_PLACEMENT)
                 .setDefaultMemberPermissions(this.adminFlag)
                 .addAttachmentOption(option => option
                     .setName('art')
-                    .setDescription('De pixel art')
+                    .setDescription(LanguageLoader.LangConfig.COMMANDS_THE_PIXEL_ART)
                     .setRequired(true))
                 .addNumberOption(option => option
                     .setName('x')
-                    .setDescription('De x-coördinaat van de linkerbovenhoek van de pixel art')
+                    .setDescription(LanguageLoader.LangConfig.COMMANDS_X_COORD_TOP_LEFT)
                     .setMinValue(0)
                     .setMaxValue(VariableManager.Get(VariableKey.CanvasWidth))
                     .setRequired(true))
                 .addNumberOption(option => option
                     .setName('y')
-                    .setDescription('De y-coördinaat van de linkerbovenhoek van de pixel art')
+                    .setDescription(LanguageLoader.LangConfig.COMMANDS_Y_COORD_TOP_LEFT)
                     .setMinValue(0)
                     .setMaxValue(VariableManager.Get(VariableKey.CanvasHeight))
                     .setRequired(true))
                 .addStringOption(option => option
                     .setName('tijd')
-                    .setDescription('Optioneel: Hoe laat de pixel art moet worden geplaatst in HH:MM format (bijv: 14:15)')
+                    .setDescription(LanguageLoader.LangConfig.COMMANDS_AT_WHAT_TIME_TO_PLACE_ARTWORK)
                     .setMinLength(5)
                     .setMaxLength(5)
                     .setRequired(false)),
             new SlashCommandBuilder()
                 .setName(CommandConstants.SLASH.TEMPLATE)
                 .setDMPermission(false)
-                .setDescription('Maak een template afbeelding voor je pixel art')
+                .setDescription(LanguageLoader.LangConfig.COMMANDS_CREATE_PIXEL_ART_TEMPLATE)
                 .addAttachmentOption(option => option
                     .setName('art')
-                    .setDescription('De pixel art die je wilt toevoegen aan de template')
+                    .setDescription(LanguageLoader.LangConfig.COMMANDS_ADD_PIXEL_ART_TO_TEMPLATE)
                     .setRequired(true))
                 .addNumberOption(option => option
                     .setName('x')
-                    .setDescription('De x-coördinaat van de linkerbovenhoek van de pixel art')
+                    .setDescription(LanguageLoader.LangConfig.COMMANDS_X_COORD_TOP_LEFT)
                     .setMinValue(0)
                     .setMaxValue(VariableManager.Get(VariableKey.CanvasWidth))
                     .setRequired(true))
                 .addNumberOption(option => option
                     .setName('y')
-                    .setDescription('De y-coördinaat van de linkerbovenhoek van de pixel art')
+                    .setDescription(LanguageLoader.LangConfig.COMMANDS_Y_COORD_TOP_LEFT)
                     .setMinValue(0)
                     .setMaxValue(VariableManager.Get(VariableKey.CanvasHeight))
                     .setRequired(true)),
             new SlashCommandBuilder()
                 .setName(CommandConstants.SLASH.GRID)
-                .setDescription('Creëer een grid voor je pixel art')
+                .setDescription(LanguageLoader.LangConfig.COMMANDS_CREATE_GRID_FOR_PIXEL_ART)
                 .setDMPermission(false)
                 .addAttachmentOption(option => option
                     .setName('art')
-                    .setDescription('De pixel art waar je een grid van wilt hebben')
+                    .setDescription(LanguageLoader.LangConfig.COMMANDS_PIXEL_ART_TO_CREATE_GRID_FOR)
                     .setRequired(true))
                 .addNumberOption(option => option
                     .setName('x')
-                    .setDescription('De x-coördinaat van de linkerbovenhoek van de pixel art')
+                    .setDescription(LanguageLoader.LangConfig.COMMANDS_X_COORD_TOP_LEFT)
                     .setMinValue(0)
                     .setMaxValue(VariableManager.Get(VariableKey.CanvasWidth))
                     .setRequired(true))
                 .addNumberOption(option => option
                     .setName('y')
-                    .setDescription('De y-coördinaat van de linkerbovenhoek van de pixel art')
+                    .setDescription(LanguageLoader.LangConfig.COMMANDS_Y_COORD_TOP_LEFT)
                     .setMinValue(0)
                     .setMaxValue(VariableManager.Get(VariableKey.CanvasHeight))
                     .setRequired(true)),
             new SlashCommandBuilder()
                 .setName(CommandConstants.SLASH.ONBOARDING)
                 .setDMPermission(false)
-                .setDescription('Plaats het onboarding bericht in dit kanaal')
+                .setDescription(LanguageLoader.LangConfig.COMMANDS_PLACE_ONBOARDING_MESSAGE)
                 .setDefaultMemberPermissions(this.adminFlag),
             new SlashCommandBuilder()
                 .setName(CommandConstants.SLASH.ROLES)
                 .setDMPermission(false)
-                .setDescription('Plaats het rollen bericht in dit kanaal')
+                .setDescription(LanguageLoader.LangConfig.COMMANDS_PLACE_ROLES_MESSAGE)
                 .setDefaultMemberPermissions(this.adminFlag),
             new SlashCommandBuilder()
                 .setName(CommandConstants.SLASH.VARIABLE.COMMAND)
-                .setDescription('Variabelen')
+                .setDescription(LanguageLoader.LangConfig.COMMANDS_VARIABLES)
                 .setDMPermission(false)
                 .setDefaultMemberPermissions(this.adminFlag)
                 .addSubcommand(subcommand => subcommand
                     .setName(CommandConstants.SLASH.VARIABLE.SET)
-                    .setDescription('Verander de waarde van een variabele. Splits arrays met een komma.')
+                    .setDescription(LanguageLoader.LangConfig.COMMANDS_CHANGE_VALUE_OF_VARIABLE)
                     .addStringOption(option => option
                         .setName('naam')
-                        .setDescription('De naam van de variabele')
+                        .setDescription(LanguageLoader.LangConfig.COMMANDS_NAME_OF_VARIABLE)
                         .setRequired(true)
                         .addChoices(...VariableManager.GetChoices()))
                     .addStringOption(option => option
                         .setName('waarde')
-                        .setDescription('De waarde van de variabele')
+                        .setDescription(LanguageLoader.LangConfig.COMMANDS_VALUE_OF_VARIABLE)
                         .setRequired(true)))
                 .addSubcommand(subcommand => subcommand
                     .setName(CommandConstants.SLASH.VARIABLE.GET)
-                    .setDescription('Krijg de waarde van een variabele')
+                    .setDescription(LanguageLoader.LangConfig.COMMANDS_GET_VARIABLE_VALUE)
                     .addStringOption(option => option
                         .setName('naam')
-                        .setDescription('De naam van de variabele')
+                        .setDescription(LanguageLoader.LangConfig.COMMANDS_NAME_OF_VARIABLE)
                         .setRequired(true)
                         .addChoices(...VariableManager.GetChoices())))
                 .addSubcommand(subcommand => subcommand
                     .setName(CommandConstants.SLASH.VARIABLE.GETALL)
-                    .setDescription('Krijg een lijst van de waardes van alle variabelen')),
+                    .setDescription(LanguageLoader.LangConfig.COMMANDS_GET_LIST_OF_VALUES_FOR_ALL_VARIABLES)),
             new ContextMenuCommandBuilder()
                 .setName(CommandConstants.MENU.VOTE)
                 .setType(ApplicationCommandType.Message)
