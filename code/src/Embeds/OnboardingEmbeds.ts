@@ -49,7 +49,7 @@ export default class OnboardingEmbeds {
         }
 
         return [{
-            name: LanguageLoader.LangConfig.ONBOARDING_WELCOME,
+            name: LanguageLoader.LangConfig.WELCOME,
             value: LanguageLoader.LangConfig.ONBOARDING_WHAT_BRINGS_YOU_TO_THE_SERVER
         },
         {

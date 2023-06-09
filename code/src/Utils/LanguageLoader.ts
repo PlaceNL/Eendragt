@@ -180,12 +180,16 @@ type LangConfig = {
     DIPLOMACY_SIMILAR_DIPLOMATS: string,
     DIPLOMAT_SINGLE: string,
     DIPLOMAT_PLURAL: string,
-    ONBOARDING_WELCOME: string,
+    WELCOME: string,
     ONBOARDING_WHAT_BRINGS_YOU_TO_THE_SERVER: string,
     ONBOARDING_NICE_OF_YOU_TO_COME_HELP: string,
     ONBOARDING_YOU_CAN_HELP_IN_THE_FOLLOWING_WAYS: string,
     ONBOARDING_MORE_ROLES: string,
     ONBOARDING_LOOKING_FOR_TALENT: string,
+    NIGHTWATCH: string,
+    NIGHTWATCH_MESSAGE: string,
+    NIGHTWATCH_WELCOME: string,
+    NIGHTWATCH_OPENING_TIMES: string,
 };
 
 // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
@@ -372,12 +376,19 @@ export default class LanguageLoader {
         DIPLOMACY_SIMILAR_DIPLOMATS: '⚠\uFE0F Vergelijkbare {singleOrPlural}',
         DIPLOMAT_SINGLE: 'diplomaat',
         DIPLOMAT_PLURAL: 'diplomaten',
-        ONBOARDING_WELCOME: 'Welkom',
+        WELCOME: 'Welkom',
         ONBOARDING_WHAT_BRINGS_YOU_TO_THE_SERVER: 'Waarvoor ben je in de server?',
         ONBOARDING_NICE_OF_YOU_TO_COME_HELP: 'Fijn dat je komt meehelpen!',
         ONBOARDING_YOU_CAN_HELP_IN_THE_FOLLOWING_WAYS: 'Meehelpen kan op de volgende manieren',
         ONBOARDING_MORE_ROLES: 'Nog meer rollen',
-        ONBOARDING_LOOKING_FOR_TALENT: 'Bij {server} zijn we op zoek naar talent! Bekijk {rolesChannel} voor nog meer rollen!'
+        ONBOARDING_LOOKING_FOR_TALENT: 'Bij {server} zijn we op zoek naar talent! Bekijk {rolesChannel} voor nog meer rollen!',
+        NIGHTWATCH: '',
+        NIGHTWATCH_MESSAGE: 'De nacht breekt aan, en nu begint mijn wacht. Het zal niet eindigen tot 0{timeEnd}:00. ' +
+            'Ik zal scherp blijven, geen dutje doen, en niet knikkebollen. Ik zal me focussen op mijn taak en me niet laten afleiden. Ik zal leven op mijn ' +
+            'post. Ik ben het zwaard in de duisternis. Ik ben de wachter op het canvas. Ik ben het schild dat het rijk der pixels bewaakt. Ik beloof mijn' +
+            'leven en eer aan de Nachtwacht, voor deze nacht en alle komende nachten.',
+        NIGHTWATCH_WELCOME: 'Welkom bij de Nachtwacht',
+        NIGHTWATCH_OPENING_TIMES: 'Dit kanaal is alleen open tussen 0{timeStart}:00 en 0{timeEnd}:00, bedoeld voor hen met ~~een slecht slaapritme~~ de passie om ons land te beschermen in de nacht. Klik op de knop hieronder om lid te worden van de Nachtwacht, en daarmee ook overdag dit kanaal te kunnen lezen.'
     };
     public static LanguageSetting: string = 'nl-NL';
     public static LoadLanguageConfig(languageCode: string) {
