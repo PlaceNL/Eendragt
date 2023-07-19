@@ -60,7 +60,7 @@ Deze post wordt om die reden gesloten. Neem contact op met een moderator als dit
         const embed = new EmbedBuilder()
             .setColor(SettingsConstants.COLORS.GOOD)
             .setTitle(TagConstants.TAGS.APPRECIATED);
-        embed.setDescription(`Deze suggestie heeft veel ${EmojiConstants.STATUS.GOOD} stemmen ontvangen, maar heeft nog valide art nodig om genomineerd te worden.`);
+        embed.setDescription(`Deze suggestie heeft veel ${EmojiConstants.VOTE.UPVOTE} ontvangen, maar heeft nog valide art nodig om genomineerd te worden.`);
 
         return embed;
     }
@@ -69,7 +69,7 @@ Deze post wordt om die reden gesloten. Neem contact op met een moderator als dit
         const embed = new EmbedBuilder()
             .setColor(SettingsConstants.COLORS.BAD)
             .setTitle(TagConstants.TAGS.DENIED);
-        embed.setDescription(`Deze suggestie heeft veel ${EmojiConstants.STATUS.BAD} stemmen ontvangen, en daarom wordt deze thread nu gesloten.`);
+        embed.setDescription(`Deze suggestie heeft veel ${EmojiConstants.VOTE.DOWNVOTE} ontvangen, en daarom wordt deze thread nu gesloten.`);
 
         return embed;
     }
