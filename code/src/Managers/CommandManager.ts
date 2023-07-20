@@ -218,13 +218,13 @@ export default class CommandManager {
                 .addNumberOption(option => option
                     .setName('x')
                     .setDescription(LanguageLoader.LangConfig.COMMANDS_X_COORD_TOP_LEFT)
-                    .setMinValue(0)
+                    .setMinValue(-2000)
                     .setMaxValue(VariableManager.Get(VariableKey.CanvasWidth))
                     .setRequired(true))
                 .addNumberOption(option => option
                     .setName('y')
                     .setDescription(LanguageLoader.LangConfig.COMMANDS_Y_COORD_TOP_LEFT)
-                    .setMinValue(0)
+                    .setMinValue(-2000)
                     .setMaxValue(VariableManager.Get(VariableKey.CanvasHeight))
                     .setRequired(true))
                 .addStringOption(option => option
@@ -264,13 +264,13 @@ export default class CommandManager {
                 .addNumberOption(option => option
                     .setName('x')
                     .setDescription(LanguageLoader.LangConfig.COMMANDS_X_COORD_TOP_LEFT)
-                    .setMinValue(0)
+                    .setMinValue(-2000)
                     .setMaxValue(VariableManager.Get(VariableKey.CanvasWidth))
                     .setRequired(true))
                 .addNumberOption(option => option
                     .setName('y')
                     .setDescription(LanguageLoader.LangConfig.COMMANDS_Y_COORD_TOP_LEFT)
-                    .setMinValue(0)
+                    .setMinValue(-2000)
                     .setMaxValue(VariableManager.Get(VariableKey.CanvasHeight))
                     .setRequired(true)),
             new SlashCommandBuilder()
