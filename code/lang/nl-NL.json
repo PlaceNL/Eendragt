@@ -36,7 +36,7 @@
     "Het is heel simpel. Je pakt de huidige Nederlandse tijd, telt daar 5 bij op, haalt er 2 vanaf, deelt het door 3, draai het een kwartslag, zing een liedje, en dan zou je ongeveer op {time} uitkomen.",
     "Billy is wat in het verleden blijven hangen. Om precies te zijn is hij blijven hangen op exact {time}."
   ],
-  "YOU_ALREADY_HAVE_THIS_ROLE": "Je hebt de rol al.",
+  "YOU_DONT_HAVE_THIS_ROLE_ANYMORE": "Je hebt de rol niet meer.",
   "ILL_PICK_THIS_UP": "Ik pak dit op!",
   "YOU_DONT_HAVE_ACCESS_TO_THIS_COMMAND": "Je hebt geen toegang tot dit commando.",
   "COMMAND_CAN_ONLY_BE_USED_IN_DIPLOMACY_THREAD": "Je kan dit commando alleen in de diplomatieke threads gebruiken.",
