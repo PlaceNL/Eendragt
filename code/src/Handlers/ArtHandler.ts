@@ -258,9 +258,10 @@ export default class ArtHandler {
                 return;
             }
 
-            const bytesIn = await fetch(art.url)
-                .then((res: any) => res.arrayBuffer())
-                .then((arrayBuffer: any) => new Uint8Array(arrayBuffer));
+            const imageResponse = await fetch(art.url);
+            const imageArrayBuffer = await imageResponse.arrayBuffer();
+            const imageBuffer = Buffer.from(imageArrayBuffer);
+            const bytesIn = new Uint8Array(imageArrayBuffer);
 
             const pixels = await getPixels(bytesIn, 'image/png');
 
@@ -319,8 +320,9 @@ export default class ArtHandler {
                 );
 
             const reply = await interaction.reply({
-                embeds: [ArtEmbeds.GetCoordinateEmbed(art.url, xCanvas, yCanvas, epoch / 1000, time != null ? total : null, 0)],
-                components: [actionRow]
+                embeds: [ArtEmbeds.GetCoordinateEmbed('attachment://image.png', xCanvas, yCanvas, epoch / 1000, time != null ? total : null, 0)],
+                components: [actionRow],
+                files: [{ attachment: imageBuffer, name: 'image.png' }],
             });
 
             const message = await reply.fetch();
@@ -348,6 +350,7 @@ export default class ArtHandler {
                     message.embeds[0].fields[0].value = `${total - Object.keys(data).length} / ${total}`;
                     message.edit({
                         embeds: [message.embeds[0]],
+                        files: [],
                     });
 
                 };
