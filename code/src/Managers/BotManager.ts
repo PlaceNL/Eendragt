@@ -63,7 +63,11 @@ export default class BotManager {
         if (interaction.customId == 'onboarding_help') {
             OnboardingHandler.OnPlacer(messageInfo);
         } else if (interaction.customId == 'onboarding_diplomacy') {
+            OnboardingHandler.OnConfirmNewDiplomacyOnboarding(messageInfo);
+        } else if (interaction.customId == 'onboarding_diplomacy_new') {
             OnboardingHandler.OnStartDiplomacyOnboarding(messageInfo);
+        } else if (interaction.customId == 'onboarding_diplomacy_exist' || interaction.customId == 'onboarding_diplomacy_unsure') {
+            OnboardingHandler.OnRequestDiplomacyCommunityName(messageInfo);
         } else if (interaction.customId == 'onboarding_observe') {
             OnboardingHandler.OnObserver(messageInfo);
         } else if (interaction.customId == 'onboarding_development') {
@@ -100,6 +104,8 @@ export default class BotManager {
         const messageInfo: IMessageInfo = await DiscordUtils.ParseInteractionToInfo(interaction);
         if (interaction.customId == 'onboarding_diplomacy') {
             OnboardingHandler.OnFinishDiplomacyOnboarding(messageInfo);
+        } else if (interaction.customId == 'onboarding_diplomacy_check') {
+            OnboardingHandler.OnFinishDiplomacyOnboardingCheck(messageInfo);
         } else if (interaction.customId == 'treaty_custom') {
             DiplomacyHandler.OnTreaty(messageInfo, interaction.fields.getTextInputValue('text'));
         } else if (interaction.customId == 'diplomacy_report') {

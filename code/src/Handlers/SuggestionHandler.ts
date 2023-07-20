@@ -48,7 +48,7 @@ export default class SuggestionHandler {
                 return;
             }
 
-            const similarities = await SimilarityService.FindSimiliarThreads(thread, this.keyThreads, tags.data.tag == SettingsConstants.TAGS.UPGRADE_ART_ID,
+            const similarities = await SimilarityService.FindSimiliarThreads(thread.name, this.keyThreads, tags.data.tag == SettingsConstants.TAGS.UPGRADE_ART_ID,
                 VariableManager.Get(VariableKey.IdenticalSuggestion), VariableManager.Get(VariableKey.SimilarSuggestion));
 
             if (similarities.result && similarities.data.identical) {

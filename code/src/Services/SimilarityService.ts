@@ -1,4 +1,3 @@
-import { ThreadChannel } from 'discord.js';
 import SettingsConstants from '../Constants/SettingsConstants';
 import IResultInfo from '../Interfaces/IResultInfo';
 import { Redis } from '../Providers/Redis';
@@ -6,7 +5,7 @@ const stringSimilarity = require('string-similarity');
 
 export default class SimilarityService {
 
-    public static async FindSimiliarThreads(thread: ThreadChannel, keyThreads: string, ignoreDuplicate: boolean, identicalRating: number, similarRating: number, ignorePlace: boolean = false) {
+    public static async FindSimiliarThreads(name: string, keyThreads: string, ignoreDuplicate: boolean, identicalRating: number, similarRating: number, ignorePlace: boolean = false) {
         const resultInfo: IResultInfo = {
             result: false
         };
@@ -18,7 +17,7 @@ export default class SimilarityService {
 
         let titles = Object.values(threads);
 
-        let similarities = stringSimilarity.findBestMatch(thread.name, titles);
+        let similarities = stringSimilarity.findBestMatch(name, titles);
         if (similarities.bestMatch.rating < similarRating) {
             return resultInfo;
         }
@@ -32,6 +31,7 @@ export default class SimilarityService {
                 if (value == similarities.bestMatch.target) {
                     resultInfo.data.thread = {
                         name: value,
+                        key: key,
                         url: `${SettingsConstants.SUGGESTION_THREAD_BASE_URL}${key}`
                     };
 
@@ -41,7 +41,7 @@ export default class SimilarityService {
         }
 
         if (ignorePlace) {
-            const threadName = thread.name.replace(/[pP]lace/, '');
+            const threadName = name.replace(/[pP]lace/, '');
             titles = titles.map((x: string) => x.replace(/[pP]lace/, ''));
             similarities = stringSimilarity.findBestMatch(threadName, titles);
             if (similarities.bestMatch.rating < similarRating) {
@@ -58,6 +58,8 @@ export default class SimilarityService {
                     if (value == rating.target) {
                         list.push({
                             name: value,
+                            key: key,
+                            rating: rating,
                             url: `${SettingsConstants.SUGGESTION_THREAD_BASE_URL}${key}`
                         });
                     }

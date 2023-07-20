@@ -69,7 +69,7 @@ export default class DiplomacyHandler {
                 invitable: false
             });
 
-            const similarities = await SimilarityService.FindSimiliarThreads(thread, this.keyThreads, true,
+            const similarities = await SimilarityService.FindSimiliarThreads(thread.name, this.keyThreads, true,
                 0, VariableManager.Get(VariableKey.SimilarDiplomacy), true);
 
             Redis.hset(this.keyThreads, thread.id, thread.name);
@@ -119,6 +119,60 @@ export default class DiplomacyHandler {
         } catch (error) {
             console.error(error);
             LogService.Error(LogType.OnboardingDiplomat, messageInfo.user.id);
+        }
+    }
+
+    public static async OnDiplomacyCheck(messageInfo: IMessageInfo) {
+        try {
+            const interaction = <ModalSubmitInteraction>messageInfo.interaction;
+            const name = interaction.fields.getTextInputValue('name');
+
+            if (!interaction.inCachedGuild()) {
+                return;
+            }
+
+            await Utils.Sleep(.25);
+
+            const similarities = await SimilarityService.FindSimiliarThreads(name, this.keyThreads, true,
+                0, VariableManager.Get(VariableKey.SimilarDiplomacy), true);
+
+            if (similarities.result) {
+                // Find the similarity with the highest rating property
+                const match = similarities.data.list.reduce((prev: any, current: any) => (prev.rating.rating > current.rating.rating) ? prev : current);
+
+                const threadChannel = <ThreadChannel> await DiscordService.FindChannelById(match.key);
+
+                threadChannel.send({
+                    content: `The user ${messageInfo.user} says they are a diplomat of the **${name}** community, which sounds similar if not identical to your community's name.
+
+If you want to add them to this thread, please use the button at the top to do so, if you still can. If not, ask one of our diplomats to help you out. If they are from your community, but you don't want to add them, please resolve this misunderstanding in your own server.
+
+If the similarity in '${name}' and your community's name is a coincidence, please tag one of our diplomats to resolve this.`,
+                    allowedMentions: { users: [] }
+                });
+
+                interaction.reply({
+                    content: 'I have found a diplomat of your community on our server. Please wait to be added to the already existing conversation.',
+                    ephemeral: true
+                });
+
+                await interaction.member.roles.add(SettingsConstants.ROLES.DIPLOMAT_ID);
+
+                LogService.Log(LogType.OnboardingDiplomatCheckExists, messageInfo.user.id, 'Name', name);
+
+                return;
+            } else {
+                interaction.reply({
+                    content: 'I have not found a diplomat of your community on our server. You can restart the onboarding as a first diplomat of your community',
+                    ephemeral: true
+                });
+
+                LogService.Log(LogType.OnboardingDiplomatCheckNew, messageInfo.user.id, 'Name', name);
+            }
+
+        } catch (error) {
+            console.error(error);
+            LogService.Error(LogType.OnboardingDiplomatCheck, messageInfo.user.id);
         }
     }
 

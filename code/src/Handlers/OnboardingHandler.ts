@@ -77,6 +77,50 @@ export default class OnboardingHandler {
         LogService.Log(LogType.OnboardingDevelopment, messageInfo.user.id);
     }
 
+    public static OnConfirmNewDiplomacyOnboarding(messageInfo: IMessageInfo) {
+        const interaction = <ButtonInteraction> messageInfo.interaction;
+        if (!interaction.inCachedGuild()) {
+            return;
+        }
+
+        try {
+            if (interaction.member.roles.cache.has(SettingsConstants.ROLES.DIPLOMAT_ID)) {
+                interaction.reply({
+                    content: 'Your community already has a diplomacy thread here.',
+                    ephemeral: true,
+                });
+
+                return;
+            }
+
+            const actionRowButtons = new ActionRowBuilder<ButtonBuilder>()
+                .addComponents(
+                    new ButtonBuilder()
+                        .setCustomId('onboarding_diplomacy_new')
+                        .setLabel('Yes, I am the first')
+                        .setStyle(ButtonStyle.Success),
+                    new ButtonBuilder()
+                        .setCustomId('onboarding_diplomacy_exist')
+                        .setLabel('No, I want to join the conversation')
+                        .setStyle(ButtonStyle.Primary),
+                    new ButtonBuilder()
+                        .setCustomId('onboarding_diplomacy_unsure')
+                        .setLabel('I\'m not sure...')
+                        .setStyle(ButtonStyle.Secondary),
+                );
+
+            interaction.reply({
+                content: 'Are you the first diplomat here of your community?',
+                components: [actionRowButtons],
+                ephemeral: true
+            });
+        } catch (error) {
+            console.error(error);
+            LogService.Error(LogType.OnboardingDiplomatInit, messageInfo.user.id);
+            return;
+        }
+    }
+
     public static OnStartDiplomacyOnboarding(messageInfo: IMessageInfo) {
         const interaction = <ButtonInteraction> messageInfo.interaction;
         if (!interaction.inCachedGuild()) {
@@ -86,15 +130,6 @@ export default class OnboardingHandler {
         try {
             const interaction = <ButtonInteraction> messageInfo.interaction;
             if (!interaction.inCachedGuild()) {
-                return;
-            }
-
-            if (interaction.member.roles.cache.has(SettingsConstants.ROLES.DIPLOMAT_ID)) {
-                interaction.reply({
-                    content: 'You already have a diplomacy thread here.',
-                    ephemeral: true,
-                });
-
                 return;
             }
 
@@ -142,8 +177,48 @@ export default class OnboardingHandler {
         }
     }
 
+    public static OnRequestDiplomacyCommunityName(messageInfo: IMessageInfo) {
+        const interaction = <ButtonInteraction> messageInfo.interaction;
+        if (!interaction.inCachedGuild()) {
+            return;
+        }
+
+        try {
+            const interaction = <ButtonInteraction> messageInfo.interaction;
+            if (!interaction.inCachedGuild()) {
+                return;
+            }
+
+            const modal = new ModalBuilder()
+                .setCustomId('onboarding_diplomacy_check')
+                .setTitle('Diplomacy');
+
+            const inputName = new TextInputBuilder()
+                .setCustomId('name')
+                .setLabel('What is the name of your community?')
+                .setStyle(TextInputStyle.Short)
+                .setRequired(true)
+                .setMinLength(3)
+                .setMaxLength(100);
+
+            const components = [new ActionRowBuilder<TextInputBuilder>().addComponents(inputName)];
+
+            modal.addComponents(...components);
+
+            interaction.showModal(modal);
+        } catch (error) {
+            console.error(error);
+            LogService.Error(LogType.OnboardingDiplomatStart, messageInfo.user.id);
+            return;
+        }
+    }
+
     public static OnFinishDiplomacyOnboarding(messageInfo: IMessageInfo) {
         DiplomacyHandler.OnStartDiplomacy(messageInfo);
+    }
+
+    public static OnFinishDiplomacyOnboardingCheck(messageInfo: IMessageInfo) {
+        DiplomacyHandler.OnDiplomacyCheck(messageInfo);
     }
 
     public static OnRoleSelect(messageInfo: IMessageInfo) {
