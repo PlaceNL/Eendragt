@@ -657,6 +657,14 @@ to lend their assistance in the relocation of ${name} to new land.`;
             }
 
             const threadChannel = <ThreadChannel> await DiscordService.FindChannelById(match[1]);
+            if (threadChannel == null) {
+                interaction.reply({
+                    content: LanguageLoader.LangConfig.SOMETHING_WENT_WRONG,
+                    ephemeral: true
+                });
+                return;
+            }
+
             const starterMessage = await threadChannel.messages.fetch(match[2]);
 
             if (starterMessage == null) {
