@@ -1,7 +1,6 @@
 import { Attachment, Channel, ChannelType, GuildMember, Message, MessageReaction, PublicThreadChannel, ThreadChannel } from 'discord.js';
 import SettingsConstants from '../Constants/SettingsConstants';
 import IMessageInfo from '../Interfaces/IMessageInfo';
-import DiscordService from '../Services/DiscordService';
 import MessageService from '../Services/MessageService';
 import { Utils } from '../Utils/Utils';
 import IResultInfo from '../Interfaces/IResultInfo';
@@ -89,7 +88,7 @@ export default class SuggestionHandler {
 
     public static async OnValidateArt(messageInfo: IMessageInfo, resultInfo: IResultInfo, attachment: Attachment) {
         try {
-            if (!this.IsLegitArtSubmitter(messageInfo)) {
+            if (!this.IsLegitArtSubmitter()) {
                 const text = LanguageLoader.LangConfig.SUGGESTIONS_REQUEST_ARTIST.replace('{channel}', `<#${SettingsConstants.CHANNELS.MORE_ROLES_ID}>`);
                 MessageService.ReplyMessage(messageInfo, text, false, true);
                 LogService.Log(LogType.ValidateArtIllegitimate, messageInfo.user.id, 'Thread', messageInfo.interaction.channelId);
@@ -204,21 +203,22 @@ export default class SuggestionHandler {
         }
     }
 
-    private static IsLegitArtSubmitter(messageInfo: IMessageInfo) {
-        const member = messageInfo.member;
-        if (DiscordService.IsMemberMod(member)) {
-            return true;
-        }
+    private static IsLegitArtSubmitter() {
+        return true;
+        // const member = messageInfo.member;
+        // if (DiscordService.IsMemberMod(member)) {
+        //     return true;
+        // }
 
-        if (this.IsPixelArtist(member)) {
-            return true;
-        }
+        // if (this.IsPixelArtist(member)) {
+        //     return true;
+        // }
 
-        if (messageInfo.message.channel.type == ChannelType.PublicThread) {
-            return messageInfo.message.channel.ownerId == member.id;
-        }
+        // if (messageInfo.message.channel.type == ChannelType.PublicThread) {
+        //     return messageInfo.message.channel.ownerId == member.id;
+        // }
 
-        return false;
+        // return false;
     }
 
     private static IsPixelArtist(member: GuildMember) {
