@@ -382,7 +382,7 @@ export default class LanguageLoader {
         ONBOARDING_YOU_CAN_HELP_IN_THE_FOLLOWING_WAYS: 'Meehelpen kan op de volgende manieren',
         ONBOARDING_MORE_ROLES: 'Nog meer rollen',
         ONBOARDING_LOOKING_FOR_TALENT: 'Bij {server} zijn we op zoek naar talent! Bekijk {rolesChannel} voor nog meer rollen!',
-        NIGHTWATCH: '',
+        NIGHTWATCH: 'De Nachtwacht',
         NIGHTWATCH_MESSAGE: 'De nacht breekt aan, en nu begint mijn wacht. Het zal niet eindigen tot 0{timeEnd}:00. ' +
             'Ik zal scherp blijven, geen dutje doen, en niet knikkebollen. Ik zal me focussen op mijn taak en me niet laten afleiden. Ik zal leven op mijn ' +
             'post. Ik ben het zwaard in de duisternis. Ik ben de wachter op het canvas. Ik ben het schild dat het rijk der pixels bewaakt. Ik beloof mijn' +

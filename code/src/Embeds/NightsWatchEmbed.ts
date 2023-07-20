@@ -1,7 +1,7 @@
 
 import { EmbedBuilder } from 'discord.js';
 import SettingsConstants from '../Constants/SettingsConstants';
-import LanguageLoader from "../Utils/LanguageLoader";
+import LanguageLoader from '../Utils/LanguageLoader';
 
 export default class NightsWatchEmbeds {
 

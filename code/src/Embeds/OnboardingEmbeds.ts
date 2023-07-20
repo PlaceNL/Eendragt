@@ -18,7 +18,7 @@ export default class OnboardingEmbeds {
         const embed = new EmbedBuilder()
             .setColor(SettingsConstants.COLORS.DEFAULT)
             .setTitle(LanguageLoader.LangConfig.ONBOARDING_NICE_OF_YOU_TO_COME_HELP)
-            .setDescription(`${LanguageLoader.LangConfig.ONBOARDING_YOU_CAN_HELP_IN_THE_FOLLOWING_WAYS}:`)
+            .setDescription(`Ga naar <#1131336871373451304> om een uitleg te krijgen over over hoe je onze Autoplacer installeert. Hiermee plaats je automatisch pixels op de juiste plek!\n${LanguageLoader.LangConfig.ONBOARDING_YOU_CAN_HELP_IN_THE_FOLLOWING_WAYS}:`)
             .addFields(
                 {
                     name: RolesConstants.ROLES[RoleType.Soldier].name,
