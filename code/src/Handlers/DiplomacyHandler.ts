@@ -142,6 +142,21 @@ export default class DiplomacyHandler {
 
                 const threadChannel = <ThreadChannel> await DiscordService.FindChannelById(match.key);
 
+                if (threadChannel.locked || (threadChannel.archived && threadChannel.unarchivable)) {
+                    interaction.reply({
+                        content: 'I have found a thread, but were not able to add you. Please contact a moderator using Modmail.',
+                        ephemeral: true
+                    });
+
+                    LogService.Log(LogType.OnboardingDiplomatCheckExistsLocked, messageInfo.user.id, 'Name', name);
+
+                    return;
+                }
+
+                if (threadChannel.archived && threadChannel.unarchivable) {
+                    threadChannel.setArchived(false);
+                }
+
                 threadChannel.send({
                     content: `The user ${messageInfo.user} says they are a diplomat of the **${name}** community, which sounds similar if not identical to your community's name.
 

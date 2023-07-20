@@ -9,6 +9,7 @@ export enum LogType {
     OnboardingDiplomatStart = '👋🤝⚠️ Onboarding Diplomat Start',
     OnboardingDiplomatCheck = '👋❓⚠️ Onboarding Diplomat Check',
     OnboardingDiplomatCheckExists = '👋❓✔️ Onboarding Diplomat Check Exist',
+    OnboardingDiplomatCheckExistsLocked = '👋❓✔️🔒 Onboarding Diplomat Check Exist Locked',
     OnboardingDiplomatCheckNew = '👋❓🆕 Onboarding Diplomat Check New',
     OnboardingDiplomat = '👋🤝 Onboarding Diplomat',
     OnboardingObserver = '👋👀 Onboarding Observer',
