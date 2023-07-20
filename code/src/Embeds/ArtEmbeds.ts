@@ -1,20 +1,20 @@
 
 import { EmbedBuilder, HexColorString } from 'discord.js';
 import SettingsConstants from '../Constants/SettingsConstants';
+import LanguageLoader from '../Utils/LanguageLoader';
 
 export default class ArtEmbeds {
 
     public static GetInvalidArtEmbed(reason: string) {
         const embed = new EmbedBuilder()
             .setColor(SettingsConstants.COLORS.BAD)
-            .setTitle('Afgekeurde art')
-            .setDescription(`Reden voor afkeuring: ${reason}
+            .setTitle(LanguageLoader.LangConfig.ART_REJECTED_ART)
+            .setDescription(`${LanguageLoader.LangConfig.ART_REASON_FOR_REJECTION.replace('{reason}', reason)}
 
-Je art moet aan de volgende eisen voldoen:
-- PNG formaat
-- 1:1 scaling
-- Transparante achtergrond
-- Alleen de beschikbare kleuren`
+${LanguageLoader.LangConfig.ART_ARTWORK_REQUIREMENTS
+        .replace('{format}', LanguageLoader.LangConfig.ART_FILE_FORMAT)
+        .replace('{scale}', '1:1')
+}`
             );
         return embed;
     }
@@ -37,7 +37,7 @@ Your art must meet the following requirements:
     public static GetValidArtEmbed(url: string, english: boolean = false) {
         const embed = new EmbedBuilder()
             .setColor(SettingsConstants.COLORS.GOOD)
-            .setTitle(english ? 'Valid art' : 'Valide art')
+            .setTitle(english ? 'Valid art' : LanguageLoader.LangConfig.ART_VALID_ART)
             .setImage(url);
         return embed;
     }
@@ -46,15 +46,18 @@ Your art must meet the following requirements:
         const embed = new EmbedBuilder()
             .setColor(SettingsConstants.COLORS.DEFAULT)
             .setAuthor({name: `(${x}, ${y})`})
-            .setTitle('Gecoördineerd pixels plaatsen')
-            .setDescription(`Klik op de knop hieronder om een pixel te claimen voor deze afbeelding.
+            .setTitle(LanguageLoader.LangConfig.ART_PLACING_COORDINATED_PIXELS)
+            .setDescription(`${LanguageLoader.LangConfig.ART_PRESS_BUTTON_TO_CLAIM_PIXEL}
 
-${time == 0 ? 'Deze mag je __direct__ plaatsen!' : `__Wacht__ tot **<t:${time}:t>** (<t:${time}:R>) met het plaatsen van je pixel!`}`)
+${time == 0 ? LanguageLoader.LangConfig.ART_PLACE_PIXEL_RIGHT_AWAY : LanguageLoader.LangConfig.ART_WAIT_UNTIL_TIME_TO_PLACE_PIXEL
+        .replace('{shortTime}', `<t:${time}:t>`)
+        .replace('{relativeTime}', `<t:${time}:R>`)}`
+            )
             .setImage(url);
 
         if (total != null) {
             embed.addFields({
-                name: 'Aantal geclaimde pixels',
+                name: LanguageLoader.LangConfig.ART_AMOUNT_OF_CLAIMED_PIXELS,
                 value: `${claimed} / ${total}`,
             });
         }
@@ -66,10 +69,12 @@ ${time == 0 ? 'Deze mag je __direct__ plaatsen!' : `__Wacht__ tot **<t:${time}:t
             .setColor(color)
             .setTitle('Pixel')
             .setDescription(`**x=${x}, y=${y}**${ time == 0
-                ? '\nJe mag deze pixel __direct__ plaatsen'
-                : `\nWacht tot __<t:${time}:t>__ (<t:${time}:R>) met het plaatsen van deze pixel.
+                ? `\n${LanguageLoader.LangConfig.ART_PLACE_PIXEL_RIGHT_AWAY}`
+                : `\n${LanguageLoader.LangConfig.ART_WAIT_UNTIL_TIME_TO_PLACE_PIXEL
+                    .replace('{shortTime}', `<t:${time}:t>`)
+                    .replace('{relativeTime}', `<t:${time}:R>`)}
                 
-__Klik dit bericht niet weg__, of onthoud de coördinaten en kleur!`}`)
+${LanguageLoader.LangConfig.ART_DO_NOT_DISMISS_OR_REMEMBER_COLOUR}`}`)
             .setImage(colorImageUrl);
         return embed;
     }

@@ -18,6 +18,7 @@ import VariableManager from '../Managers/VariableManager';
 import { VariableKey } from '../Enums/VariableKey';
 import NominationManager from '../Managers/NominationManager';
 import SimilarityService from '../Services/SimilarityService';
+import LanguageLoader from '../Utils/LanguageLoader';
 
 export default class SuggestionHandler {
 
@@ -89,8 +90,8 @@ export default class SuggestionHandler {
     public static async OnValidateArt(messageInfo: IMessageInfo, resultInfo: IResultInfo, attachment: Attachment) {
         try {
             if (!this.IsLegitArtSubmitter(messageInfo)) {
-                MessageService.ReplyMessage(messageInfo, `Je mag dit commando alleen in je eigen thread gebruiken, of wanneer je de Artist rol hebt.
-    Vraag een Artist rol aan in #kanaal.`, false, true);
+                const text = LanguageLoader.LangConfig.SUGGESTIONS_REQUEST_ARTIST.replace('{channel}', `<#${SettingsConstants.CHANNELS.MORE_ROLES_ID}>`);
+                MessageService.ReplyMessage(messageInfo, text, false, true);
                 LogService.Log(LogType.ValidateArtIllegitimate, messageInfo.user.id, 'Thread', messageInfo.interaction.channelId);
                 return;
             }
@@ -261,11 +262,12 @@ export default class SuggestionHandler {
                 resultInfo.data = { tag: foundTag };
                 resultInfo.result = true;
             } else {
-                resultInfo.reason = `Zorg dat je exact één van de volgende tags toevoegt aan je post:
+                const tags = `
     ${TagConstants.TAGS.NEW_ART}
     ${TagConstants.TAGS.UPGRADE_ART}
     ${TagConstants.TAGS.LAYOUT}
     ${TagConstants.TAGS.OTHER}`;
+                resultInfo.reason = LanguageLoader.LangConfig.SUGGESTIONS_ADD_ONE_TAG.replace('{tags}', tags);
                 return resultInfo;
             }
         } else {

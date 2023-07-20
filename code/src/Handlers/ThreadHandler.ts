@@ -5,6 +5,7 @@ import { LogType } from '../Enums/LogType';
 import IMessageInfo from '../Interfaces/IMessageInfo';
 import LogService from '../Services/LogService';
 import SuggestionHandler from './SuggestionHandler';
+import LanguageLoader from '../Utils/LanguageLoader';
 
 export default class ThreadHandler {
 
@@ -59,8 +60,9 @@ export default class ThreadHandler {
             }
 
             if (desiredTags.length > 5) {
+                const tagCount = 5 - counter;
                 interaction.reply({
-                    content: `Je kan maximaal ${5 - counter} tags selecteren`,
+                    content: LanguageLoader.LangConfig.THREADS_TAG_COUNT.replace('{tagCount}', `${tagCount}`),
                     ephemeral: true,
                 });
 
@@ -70,7 +72,7 @@ export default class ThreadHandler {
             await thread.setAppliedTags(desiredTags);
 
             interaction.reply({
-                content: 'Tags zijn aangepast',
+                content: LanguageLoader.LangConfig.THREADS_TAGS_HAVE_CHANGED,
                 ephemeral: true,
             });
 
@@ -113,7 +115,7 @@ export default class ThreadHandler {
             const thread = interaction.channel;
             if (!thread.isThread()) {
                 interaction.reply({
-                    content: 'Dit commando kan alleen in een thread worden gebruikt',
+                    content: LanguageLoader.LangConfig.THREADS_COMMAND_CAN_ONLY_BE_USED_IN,
                     ephemeral: true,
                 });
                 return;
@@ -127,7 +129,7 @@ export default class ThreadHandler {
                     if (!interaction.member.roles.cache.has(SettingsConstants.ROLES.DIPLOMAT_ID) &&
                         !interaction.member.roles.cache.has(SettingsConstants.ROLES.DIPLOMOD_ID)) {
                         interaction.reply({
-                            content: 'Je hebt geen toegang tot dit commando.',
+                            content: LanguageLoader.LangConfig.UNAUTHORISED_COMMAND_EXEC,
                             ephemeral: true
                         });
                         return;
@@ -135,7 +137,7 @@ export default class ThreadHandler {
                 } else if (parentId == SettingsConstants.CHANNELS.SUGGESTIONS_ID) {
                     if (!interaction.member.roles.cache.has(SettingsConstants.ROLES.ART_DIRECTOR_ID)) {
                         interaction.reply({
-                            content: 'Je hebt geen toegang tot dit commando.',
+                            content: LanguageLoader.LangConfig.UNAUTHORISED_COMMAND_EXEC,
                             ephemeral: true
                         });
 
@@ -143,7 +145,7 @@ export default class ThreadHandler {
                     }
                 } else {
                     interaction.reply({
-                        content: 'Je hebt geen toegang tot dit commando.',
+                        content: LanguageLoader.LangConfig.UNAUTHORISED_COMMAND_EXEC,
                         ephemeral: true
                     });
                     return;
@@ -152,7 +154,7 @@ export default class ThreadHandler {
 
             if (thread.archived) {
                 interaction.reply({
-                    content: 'Deze thread is al gearchiveerd.',
+                    content: LanguageLoader.LangConfig.THREADS_ALREADY_ARCHIVED,
                     ephemeral: true
                 });
 
@@ -162,7 +164,7 @@ export default class ThreadHandler {
             thread.setArchived(true);
 
             interaction.reply({
-                content: 'Thread gearchiveerd',
+                content: LanguageLoader.LangConfig.THREADS_ARCHIVED,
                 ephemeral: true
             });
 
@@ -184,7 +186,7 @@ export default class ThreadHandler {
 
             const thread = interaction.channel;
             if (!thread.isThread()) {
-                interaction.channel.send('Dit commando kan alleen in een thread worden gebruikt');
+                interaction.channel.send(LanguageLoader.LangConfig.THREADS_COMMAND_CAN_ONLY_BE_USED_IN);
                 return;
             }
 
@@ -194,7 +196,7 @@ export default class ThreadHandler {
                 if (parentId == SettingsConstants.CHANNELS.DIPLOMACY_THREADS_ID) {
                     if (!interaction.member.roles.cache.has(SettingsConstants.ROLES.DIPLOMOD_ID)) {
                         interaction.reply({
-                            content: 'Je hebt geen toegang tot dit commando.',
+                            content: LanguageLoader.LangConfig.UNAUTHORISED_COMMAND_EXEC,
                             ephemeral: true
                         });
                         return;
@@ -202,7 +204,7 @@ export default class ThreadHandler {
                 } else {
                     if (!interaction.member.roles.cache.has(SettingsConstants.ROLES.COMMUNITY_SUPPORT_ID)) {
                         interaction.reply({
-                            content: 'Je hebt geen toegang tot dit commando.',
+                            content: LanguageLoader.LangConfig.UNAUTHORISED_COMMAND_EXEC,
                             ephemeral: true,
                         });
                         return;
@@ -216,7 +218,8 @@ export default class ThreadHandler {
             thread.setArchived(!locked);
 
             interaction.reply({
-                content: `Thread ${locked ? 'heropend' : 'gesloten'}`,
+                content: LanguageLoader.LangConfig.THREADS_LOCK_STATE
+                    .replace('{state}', `${locked ? LanguageLoader.LangConfig.REOPENED : LanguageLoader.LangConfig.CLOSED}`),
                 ephemeral: true,
             });
 
@@ -237,12 +240,12 @@ export default class ThreadHandler {
 
             const thread = interaction.channel;
             if (!thread.isThread()) {
-                interaction.channel.send('Dit commando kan alleen in een thread worden gebruikt');
+                interaction.channel.send(LanguageLoader.LangConfig.THREADS_COMMAND_CAN_ONLY_BE_USED_IN);
                 return;
             }
 
             if (thread.parent.type != ChannelType.GuildForum) {
-                interaction.channel.send('Dit commando kan alleen in een forum post worden gebruikt');
+                interaction.channel.send(LanguageLoader.LangConfig.FORUMS_COMMAND_CAN_ONLY_BE_USED_IN);
                 return;
             }
 
@@ -251,7 +254,7 @@ export default class ThreadHandler {
                 if (thread.parentId == SettingsConstants.CHANNELS.SUGGESTIONS_ID) {
                     if (!interaction.member.roles.cache.has(SettingsConstants.ROLES.ART_DIRECTOR_ID)) {
                         interaction.reply({
-                            content: 'Je hebt geen toegang tot dit commando.',
+                            content: LanguageLoader.LangConfig.UNAUTHORISED_COMMAND_EXEC,
                             ephemeral: true
                         });
                         return;
@@ -260,14 +263,14 @@ export default class ThreadHandler {
                     if (!interaction.member.roles.cache.has(SettingsConstants.ROLES.DIPLONL_ID) &&
                         !interaction.member.roles.cache.has(SettingsConstants.ROLES.DIPLOMOD_ID) ) {
                         interaction.reply({
-                            content: 'Je hebt geen toegang tot dit commando.',
+                            content: LanguageLoader.LangConfig.UNAUTHORISED_COMMAND_EXEC,
                             ephemeral: true
                         });
                         return;
                     }
                 } else {
                     interaction.reply({
-                        content: 'Je hebt geen toegang tot dit commando.',
+                        content: LanguageLoader.LangConfig.UNAUTHORISED_COMMAND_EXEC,
                         ephemeral: true
                     });
                     return;
@@ -282,7 +285,7 @@ export default class ThreadHandler {
                 .addComponents(
                     new StringSelectMenuBuilder().
                         setCustomId('thread_tags').
-                        setPlaceholder('Selecteer de tags die deze thread moet hebben')
+                        setPlaceholder(LanguageLoader.LangConfig.THREADS_SELECT_TAGS_FOR_THREAD)
                         .setMinValues(1)
                         .setMaxValues(Math.min(5, tags.length))
                         .addOptions(
@@ -291,7 +294,7 @@ export default class ThreadHandler {
                 );
 
             interaction.reply({
-                content: 'Selecteer de tags die deze thread moet hebben',
+                content: LanguageLoader.LangConfig.THREADS_SELECT_TAGS_FOR_THREAD,
                 components: [actionRow],
                 ephemeral: true,
             });

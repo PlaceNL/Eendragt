@@ -5,6 +5,7 @@ import { LogType } from '../Enums/LogType';
 import IMessageInfo from '../Interfaces/IMessageInfo';
 import DiscordService from '../Services/DiscordService';
 import LogService from '../Services/LogService';
+import LanguageLoader from '../Utils/LanguageLoader';
 
 export default class RoleHandler {
 
@@ -62,7 +63,7 @@ export default class RoleHandler {
 
             if (user.id == messageInfo.user.id) {
                 await interaction.reply({
-                    content: 'Je kunt deze rol niet aan jezelf geven/afpakken',
+                    content: LanguageLoader.LangConfig.ROLES_CANT_MODIFY_OWN_ROLE,
                     ephemeral: true
                 });
 
@@ -73,7 +74,7 @@ export default class RoleHandler {
 
             if (!messageInfo.member.roles.cache.has(modRoleId)) {
                 await interaction.reply({
-                    content: 'Je hebt geen toegang tot dit commando.',
+                    content: LanguageLoader.LangConfig.UNAUTHORISED_COMMAND_EXEC,
                     ephemeral: true
                 });
 
@@ -83,7 +84,7 @@ export default class RoleHandler {
             if (targetMember.roles.cache.has(roleId)) {
                 if (!take) {
                     await interaction.reply({
-                        content: `${targetMember} heeft deze rol al`,
+                        content: LanguageLoader.LangConfig.ROLES_USER_ALREADY_HAS_ROLE.replace('{targetMember}', `${targetMember}`),
                         ephemeral: true
                     });
 
@@ -92,14 +93,17 @@ export default class RoleHandler {
                     targetMember.roles.remove(roleId);
 
                     await interaction.reply({
-                        content: `Ik heb de rol ${roleName} **afgepakt** van ${targetMember}`,
+                        content: LanguageLoader.LangConfig.ROLES_USER_ROLE_REMOVED
+                            .replace('{roleName}', `${roleName}`)
+                            .replace('{targetMember}', `${targetMember}`),
                         ephemeral: true
                     });
                 }
             } else {
                 if (take) {
                     await interaction.reply({
-                        content: `${targetMember} heeft deze rol niet`,
+                        content: LanguageLoader.LangConfig.ROLES_USER_DOES_NOT_HAVE_ROLE
+                            .replace('{targetMember}', `${targetMember}`),
                         ephemeral: true
                     });
 
@@ -108,7 +112,9 @@ export default class RoleHandler {
                     targetMember.roles.add(roleId);
 
                     await interaction.reply({
-                        content: `Ik heb de rol ${roleName} **gegeven** aan ${targetMember}`,
+                        content: LanguageLoader.LangConfig.ROLES_USER_ROLE_GIVEN
+                            .replace('{roleName}', `${roleName}`)
+                            .replace('{targetMember}', `${targetMember}`),
                         ephemeral: true
                     });
                 }
@@ -117,9 +123,14 @@ export default class RoleHandler {
             const logChannel = <TextChannel> await DiscordService.FindChannelById(logChannelId);
 
             if (logChannel) {
+                const log = LanguageLoader.LangConfig.ROLES_LOGGING
+                    .replace('{executingMember}', `${messageInfo.member}`)
+                    .replace('{roleName}', `${roleName}`)
+                    .replace('{givenOrTaken}', take ? LanguageLoader.LangConfig.ROLES_TAKEN_FROM : LanguageLoader.LangConfig.ROLES_GIVEN_TO)
+                    .replace('{targetMember}', `${targetMember}`)
+                    .replace('{reason}', `${reason}`);
                 logChannel.send({
-                    content: `${messageInfo.member} heeft de rol ${roleName} ${take ? 'afgepakt van' : 'gegeven aan'} ${targetMember}
-    Reden: ${reason}`,
+                    content: log,
                     allowedMentions: { users: [] }
                 });
             }

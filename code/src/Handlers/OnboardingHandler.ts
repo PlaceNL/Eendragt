@@ -6,6 +6,7 @@ import { LogType } from '../Enums/LogType';
 import IMessageInfo from '../Interfaces/IMessageInfo';
 import LogService from '../Services/LogService';
 import DiplomacyHandler from './DiplomacyHandler';
+import LanguageLoader from '../Utils/LanguageLoader';
 
 export default class OnboardingHandler {
 
@@ -29,11 +30,12 @@ export default class OnboardingHandler {
             .addComponents(
                 new StringSelectMenuBuilder()
                     .setCustomId('onboarding_roles')
-                    .setPlaceholder('Selecteer een rol')
+                    .setPlaceholder(LanguageLoader.LangConfig.ROLE_SELECTOR_PLACEHOLDER)
                     .setMinValues(1)
                     .setMaxValues(2)
                     .addOptions(
                         {
+                            // TODO: Introduce constants for roles
                             label: 'Soldaat',
                             value: 'soldaat'
                         },
@@ -57,7 +59,7 @@ export default class OnboardingHandler {
     public static OnObserver(messageInfo: IMessageInfo) {
         messageInfo.member.roles.add(SettingsConstants.ROLES.OBSERVER_ID);
         (<ChatInputCommandInteraction>messageInfo.interaction).reply({
-            content: 'Kijk gerust even rond.\nFeel free to look around.',
+            content: `${LanguageLoader.LangConfig.ONBOARDING_OBSERVE}\nFeel free to look around.`,
             ephemeral: true
         });
 
@@ -160,11 +162,13 @@ export default class OnboardingHandler {
                         break;
                 }
             }
-
+            const rolesString = `${roles.slice(0, -1).map(r => `\`${r.toTitleCase()}\``).join(', ')} \
+${roles.length > 1 ? 'en ' : ''}\`${roles[roles.length - 1].toTitleCase()}\``;
+            const content = LanguageLoader.LangConfig.ONBOARDING_ROLES_GIVEN
+                .replace('{plural}', roles.length > 1 ? 'len' : '')
+                .replace('{roles}', rolesString);
             interaction.reply({
-                content: `Ik heb je de rol${roles.length > 1 ? 'len' : ''} \
-${roles.slice(0, -1).map(r => `\`${r.toTitleCase()}\``).join(', ')} \
-${roles.length > 1 ? 'en ' : ''}\`${roles[roles.length - 1].toTitleCase()}\` gegeven.`,
+                content: content,
                 ephemeral: true,
             });
 
@@ -181,7 +185,7 @@ ${roles.length > 1 ? 'en ' : ''}\`${roles[roles.length - 1].toTitleCase()}\` geg
                 .addComponents(
                     new ButtonBuilder()
                         .setCustomId('onboarding_help')
-                        .setLabel('🌷 Ik wil meehelpen!')
+                        .setLabel(LanguageLoader.LangConfig.I_WANT_TO_HELP)
                         .setStyle(ButtonStyle.Primary),
                     new ButtonBuilder()
                         .setCustomId('onboarding_diplomacy')
@@ -205,7 +209,7 @@ ${roles.length > 1 ? 'en ' : ''}\`${roles[roles.length - 1].toTitleCase()}\` geg
             });
 
             interaction.reply({
-                content: 'Done!',
+                content: LanguageLoader.LangConfig.DONE,
                 ephemeral: true
             });
         } catch (error) {

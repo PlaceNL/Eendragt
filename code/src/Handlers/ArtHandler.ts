@@ -1,20 +1,30 @@
-import { ActionRowBuilder, Attachment, AttachmentBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, ChatInputCommandInteraction } from 'discord.js';
+import {
+    ActionRowBuilder,
+    Attachment,
+    AttachmentBuilder,
+    ButtonBuilder,
+    ButtonInteraction,
+    ButtonStyle,
+    ChatInputCommandInteraction
+} from 'discord.js';
 import CommandConstants from '../Constants/CommandConstants';
 import SettingsConstants from '../Constants/SettingsConstants';
 import IMessageInfo from '../Interfaces/IMessageInfo';
 import IResultInfo from '../Interfaces/IResultInfo';
 import MessageService from '../Services/MessageService';
-import { getPixels } from 'ndarray-pixels';
+import {getPixels} from 'ndarray-pixels';
 import ArtEmbeds from '../Embeds/ArtEmbeds';
-import { Utils } from '../Utils/Utils';
+import {Utils} from '../Utils/Utils';
 import SuggestionHandler from './SuggestionHandler';
 import DiplomacyHandler from './DiplomacyHandler';
 import LogService from '../Services/LogService';
-import { LogType } from '../Enums/LogType';
+import {LogType} from '../Enums/LogType';
 import VariableManager from '../Managers/VariableManager';
-import { VariableKey } from '../Enums/VariableKey';
-import { Redis } from '../Providers/Redis';
+import {VariableKey} from '../Enums/VariableKey';
+import {Redis} from '../Providers/Redis';
 import RedisConstants from '../Constants/RedisConstants';
+import LanguageLoader from '../Utils/LanguageLoader';
+
 const { createCanvas, loadImage } = require('canvas');
 
 const fetch = require('cross-fetch');
@@ -58,9 +68,12 @@ export default class ArtHandler {
                 const minutes = Math.floor(expire / 60);
                 const seconds = expire - minutes * 60;
 
+                const content = LanguageLoader.LangConfig.WAIT_BEFORE_CLAIMING_ANOTHER_PIXEL
+                    .replace('{minutes}', minutes <= 0 ? '' : `${minutes} ${LanguageLoader.LangConfig.MINUTES}`)
+                    .replace('{and}', minutes <= 0 || seconds <= 0 ? '' : ` ${LanguageLoader.LangConfig.AND} `)
+                    .replace('{seconds}', seconds <= 0 ? '' : `${seconds} ${LanguageLoader.LangConfig.SECONDS}`);
                 await (<ButtonInteraction> messageInfo.interaction).reply({
-                    content: `Je moet ${minutes <= 0 ? '' : `${minutes} minuten`}` + `${minutes <= 0 || seconds <= 0 ? '' : ' en '}`
-                    + `${seconds <= 0 ? '' : `${seconds} seconden`} wachten voordat je weer een pixel kan claimen.`,
+                    content: content,
                     ephemeral: true,
                 });
 
@@ -78,7 +91,7 @@ export default class ArtHandler {
                 keys = this.pixelDataCache[id];
                 if (keys == null) {
                     (<ButtonInteraction> messageInfo.interaction).reply({
-                        content: 'Er zijn momenteel geen pixels meer beschikbaar. Probeer het later nog eens.',
+                        content: LanguageLoader.LangConfig.CURRENTLY_NO_PIXEL_AVAILABLE,
                         ephemeral: true,
                     });
                     return;
@@ -165,7 +178,7 @@ export default class ArtHandler {
                     SuggestionHandler.OnValidateArt(messageInfo, resultInfo, attachment);
                     return;
                 } else if (messageInfo.channel.parentId == SettingsConstants.CHANNELS.DIPLOMACY_THREADS_ID) {
-                    const resultInfo = await this.IsLegitArt(attachment, true);
+                    const resultInfo = await this.IsLegitArt(attachment);
                     DiplomacyHandler.OnValidateArt(messageInfo, resultInfo, attachment);
                     return;
                 }
@@ -209,7 +222,7 @@ export default class ArtHandler {
             ctx.drawImage(image, x, y);
 
             interaction.followUp({
-                content: `Alsjeblieft :)\n\`x=${x}, y=${y}\``,
+                content: `${LanguageLoader.LangConfig.HERE_YOU_GO}\n\`x=${x}, y=${y}\``,
                 files: [{ attachment: canvas.toBuffer(), name: `template_${art.name}`}]
             });
 
@@ -231,7 +244,7 @@ export default class ArtHandler {
             // Check if time is of the format HH:MM
             if (time != null && !time.match(/^[0-9]{2}:[0-9]{2}$/)) {
                 interaction.reply({
-                    content: 'De tijd moet in het formaat `HH:MM` zijn.',
+                    content: LanguageLoader.LangConfig.TIME_FORMAT,
                     ephemeral: true,
                 });
 
@@ -301,7 +314,7 @@ export default class ArtHandler {
                 .addComponents(
                     new ButtonBuilder()
                         .setCustomId(`coordinate_claim_${art.id}`)
-                        .setLabel('Claim een pixel!')
+                        .setLabel(LanguageLoader.LangConfig.CLAIM_A_PIXEL)
                         .setStyle(ButtonStyle.Primary),
                 );
 
@@ -374,7 +387,7 @@ export default class ArtHandler {
             if (startX + image.width > VariableManager.Get(VariableKey.CanvasHeight)
             || startY + image.height > VariableManager.Get(VariableKey.CanvasWidth)) {
                 interaction.followUp({
-                    content: 'Deze pixel art past niet op de meegegven locatie.',
+                    content: LanguageLoader.LangConfig.PIXEL_ART_DOES_NOT_FIT_LOCATION,
                     ephemeral: true,
                 });
 
@@ -427,7 +440,7 @@ export default class ArtHandler {
             }
 
             interaction.followUp({
-                content: 'Alsjeblieft :)',
+                content: LanguageLoader.LangConfig.HERE_YOU_GO,
                 files: [{ attachment: canvas.toBuffer(), name: `grid_${art.name}`}]
             });
 
@@ -438,13 +451,13 @@ export default class ArtHandler {
         }
     }
 
-    private static async IsLegitArt(attachment: Attachment, english: boolean = false) {
+    private static async IsLegitArt(attachment: Attachment) {
         const resultInfo: IResultInfo = {
             result : false
         };
 
         if (!attachment.url.toLowerCase().endsWith('.png')) {
-            resultInfo.reason = english ? 'It\'s not in PNG format' : 'Het is geen PNG formaat';
+            resultInfo.reason = LanguageLoader.LangConfig.FILE_FORMAT_NOT_CORRECT.replace('{format}', 'PNG');
             return resultInfo;
         }
 
@@ -454,9 +467,9 @@ export default class ArtHandler {
 
         if (pixels.shape[0] > SettingsConstants.MAX_IMAGE_SIZE
             || pixels.shape[1] > SettingsConstants.MAX_IMAGE_SIZE) {
-            resultInfo.reason = english
-                ? `The image is too large.\nMax width: ${SettingsConstants.MAX_IMAGE_SIZE}, max height: ${SettingsConstants.MAX_IMAGE_SIZE}`
-                : `De afbeelding is te groot.\nMax breedte: ${SettingsConstants.MAX_IMAGE_SIZE}, max hoogte: ${SettingsConstants.MAX_IMAGE_SIZE}`;
+            resultInfo.reason = LanguageLoader.LangConfig.FILE_SIZE_INCORRECT
+                .replace('{width}', `${SettingsConstants.MAX_IMAGE_SIZE}`)
+                .replace('{height}', `${SettingsConstants.MAX_IMAGE_SIZE}`);
             return resultInfo;
         }
 
@@ -493,9 +506,10 @@ export default class ArtHandler {
                     const hex = Utils.RGBAToHex(r, g, b);
 
                     if (!VariableManager.Get(VariableKey.ValidColors).includes(hex)) {
-                        resultInfo.reason = english
-                            ? `The color ${hex} at position (${x}, ${y}) is not allowed.`
-                            : `De kleur ${hex} op positie (${x}, ${y}) is niet toegestaan.`;
+                        resultInfo.reason = LanguageLoader.LangConfig.COLOUR_AT_POSITION_NOT_ALLOWED
+                            .replace('{hex}', `${hex}`)
+                            .replace('{x}', `${x}`)
+                            .replace('{y}', `${y}`);
                         return resultInfo;
                     }
                 }
@@ -503,23 +517,17 @@ export default class ArtHandler {
         }
 
         if (!singlePixel) {
-            resultInfo.reason = english
-                ? 'Your pixel art doesn\'t have 1:1 scaling. If it does have 1:1 scaling, add a transparent border to the right.'
-                : 'Je pixel art lijkt geen 1:1 scaling te hebben. Als het wel 1:1 scaling heeft, voeg rechts dan een transparante rand toe.';
+            resultInfo.reason = LanguageLoader.LangConfig.SCALE_INCORRECT;
             return resultInfo;
         }
 
         if (!transparent) {
-            resultInfo.reason = english
-                ? 'You don\'t have a transparent background. Is your art square? Give it a transparent border around it.'
-                : 'Je hebt geen transparante achtergrond. Is je art rechthoekig? Voeg rechts dan een transparante rand toe.';
+            resultInfo.reason = LanguageLoader.LangConfig.ARTWORK_NOT_TRANSPARENT;
             return resultInfo;
         }
 
         if (!colors) {
-            resultInfo.reason = english
-                ? 'This image is completely transparent.'
-                : 'Deze afbeelding is volledig transparant.';
+            resultInfo.reason = LanguageLoader.LangConfig.ARTWORK_HAS_NO_COLOURS;
             return resultInfo;
         }
 

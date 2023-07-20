@@ -4,6 +4,7 @@ import NightsWatchEmbeds from '../Embeds/NightsWatchEmbed';
 import { LogType } from '../Enums/LogType';
 import IMessageInfo from '../Interfaces/IMessageInfo';
 import LogService from '../Services/LogService';
+import LanguageLoader from '../Utils/LanguageLoader';
 
 export default class NightsWatchHandler {
 
@@ -13,7 +14,7 @@ export default class NightsWatchHandler {
             if (member.roles.cache.has(SettingsConstants.ROLES.NIGHTS_WATCH_ID)) {
                 await member.roles.remove(SettingsConstants.ROLES.NIGHTS_WATCH_ID);
                 (<ButtonInteraction>messageInfo.interaction).reply({
-                    content: 'Je hebt de rol nu niet meer.',
+                    content: LanguageLoader.LangConfig.YOU_ALREADY_HAVE_THIS_ROLE,
                     ephemeral: true
                 });
                 return;
