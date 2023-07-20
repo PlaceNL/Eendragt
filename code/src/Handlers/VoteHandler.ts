@@ -7,6 +7,8 @@ import IMessageInfo from '../Interfaces/IMessageInfo';
 import VoteManager from '../Managers/VoteManager';
 import LogService from '../Services/LogService';
 
+const fetch = require('cross-fetch');
+
 export default class VoteHandler {
 
     private static readonly messageCache: Map<string, Message> = new Map();
@@ -158,6 +160,10 @@ ${data.options.length > 2 ? '*Tip: Gebruik het menu onder de knoppen om op meerd
 
             const data = await VoteManager.GetData(id);
 
+            const imageResponse = await fetch(data.image);
+            const imageArrayBuffer = await imageResponse.arrayBuffer();
+            const imageBuffer = Buffer.from(imageArrayBuffer);
+
             const confirmRow = new ActionRowBuilder<ButtonBuilder>()
                 .addComponents(new ButtonBuilder()
                     .setLabel('Ja, stuur het')
@@ -172,9 +178,10 @@ ${data.options.length > 2 ? '*Tip: Gebruik het menu onder de knoppen om op meerd
 
             const reply = await interaction.reply({
                 content: '**__DIT IS EEN PREVIEW__**\n\nZiet dit er goed uit zo?',
-                embeds: [VoteEmbeds.GetVotingEmbed(description, optionString, data.image, parseInt(data.time))],
+                embeds: [VoteEmbeds.GetVotingEmbed(description, optionString, 'attachment://image.png', parseInt(data.time))],
                 components: components,
                 ephemeral: true,
+                files: [{ attachment: imageBuffer, name: 'image.png' }],
             });
 
             const message = await reply.fetch();
