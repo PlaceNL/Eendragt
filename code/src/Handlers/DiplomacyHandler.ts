@@ -136,7 +136,7 @@ export default class DiplomacyHandler {
             const similarities = await SimilarityService.FindSimiliarThreads(name, this.keyThreads, true,
                 0, VariableManager.Get(VariableKey.SimilarDiplomacy), true);
 
-            if (similarities.result) {
+            if (similarities.result && similarities.data.list > 0) {
                 // Find the similarity with the highest rating property
                 const match = similarities.data.list.reduce((prev: any, current: any) => (prev.rating.rating > current.rating.rating) ? prev : current);
 
