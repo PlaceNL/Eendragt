@@ -14,7 +14,7 @@ export default class NightsWatchHandler {
             if (member.roles.cache.has(SettingsConstants.ROLES.NIGHTS_WATCH_ID)) {
                 await member.roles.remove(SettingsConstants.ROLES.NIGHTS_WATCH_ID);
                 (<ButtonInteraction>messageInfo.interaction).reply({
-                    content: LanguageLoader.LangConfig.YOU_ALREADY_HAVE_THIS_ROLE,
+                    content: LanguageLoader.LangConfig.YOU_DONT_HAVE_THIS_ROLE_ANYMORE,
                     ephemeral: true
                 });
                 return;
