@@ -25,7 +25,7 @@ export default class SuggestionHandler {
     private static readonly keyThreads: string = `${RedisConstants.KEYS.PLACENL}${RedisConstants.KEYS.SUGGESTION}${RedisConstants.KEYS.THREADS}`;
 
     public static OnReaction(reaction: MessageReaction, channel: Channel) {
-        if (reaction.emoji.name == EmojiConstants.VOTE.UPVOTE || reaction.emoji.name == EmojiConstants.VOTE.DOWNVOTE) {
+        if (reaction.emoji.id == EmojiConstants.VOTE.UPVOTE || reaction.emoji.id == EmojiConstants.VOTE.DOWNVOTE) {
             this.OnVote(reaction, channel);
         }
     }
