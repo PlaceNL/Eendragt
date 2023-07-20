@@ -53,7 +53,7 @@ export default class OnboardingHandler {
             components: [actionRow]
         });
 
-        LogService.Log(LogType.OnboardingPlacer, messageInfo.user.id);
+        // LogService.Log(LogType.OnboardingPlacer, messageInfo.user.id);
     }
 
     public static OnObserver(messageInfo: IMessageInfo) {
@@ -63,7 +63,7 @@ export default class OnboardingHandler {
             ephemeral: true
         });
 
-        LogService.Log(LogType.OnboardingObserver, messageInfo.user.id);
+        // LogService.Log(LogType.OnboardingObserver, messageInfo.user.id);
     }
 
     public static OnDevelopment(messageInfo: IMessageInfo) {
@@ -247,7 +247,7 @@ ${roles.length > 1 ? 'en ' : ''}\`${roles[roles.length - 1].toTitleCase()}\``;
                 ephemeral: true,
             });
 
-            LogService.Log(LogType.OnboardingRoles, messageInfo.user.id, 'Roles', interaction.values.join(', '));
+            // LogService.Log(LogType.OnboardingRoles, messageInfo.user.id, 'Roles', interaction.values.join(', '));
         } catch (error) {
             console.error(error);
             LogService.Error(LogType.OnboardingRoles, messageInfo.user.id, 'Roles', interaction.values.join(', '));
