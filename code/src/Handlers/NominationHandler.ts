@@ -137,7 +137,7 @@ export default class NominationHandler {
             .setCustomId('addition')
             .setLabel(additionOptional ? LanguageLoader.LangConfig.NOMINATION_OPTIONAL_EXPLANATION : LanguageLoader.LangConfig.NOMINATION_EXPLANATION_REQUIRED)
             .setStyle(TextInputStyle.Paragraph)
-            .setRequired(additionOptional)
+            .setRequired(!additionOptional)
             .setPlaceholder(this.defaultMessages[action])
             .setMinLength(10)
             .setMaxLength(1000);
