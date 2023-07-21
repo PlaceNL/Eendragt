@@ -6,6 +6,7 @@ export default class AutoplacerEmbeds {
         const embed = new EmbedBuilder()
             .setTitle('Nieuwe template!')
             .setFooter({text: data.createdAt.replace('T', ' ').replace('Z', '')})
+            .setDescription(data.message)
             .setImage(data.images.order)
             .setThumbnail(data.images.priority);
 
