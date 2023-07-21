@@ -111,11 +111,7 @@ export default class VoteManager {
     public static async CreateInterval(id: string) {
         let voteCount = 0;
 
-        let data = await this.GetData(id);
-
-        if (data == null) {
-            data = await this.GetData(id);
-        }
+        const data = await this.GetData(id);
 
         if (data == null) {
             console.log('No data found?');
@@ -136,35 +132,40 @@ export default class VoteManager {
         }
 
         const interval = setInterval(() => {
-            const dataChoice = this.choiceCache.get(id);
+            try {
+                const dataChoice = this.choiceCache.get(id);
 
-            if (dataChoice == null) {
-                clearInterval(interval);
-                return;
+                if (dataChoice == null) {
+                    clearInterval(interval);
+                    return;
+                }
+
+                if (new Date().getTime() / 1000 >= data.time) {
+
+                    this.ShowResults(id, data, messageMain, messageMenu);
+
+                    clearInterval(interval);
+                    return;
+                }
+
+                const votes = Array.from(dataChoice.values()).length;
+
+                if (voteCount == votes) {
+                    return;
+                }
+
+                voteCount = votes;
+
+                // Convert the number of votes to emoji
+                messageMain.embeds[0].fields[0].value = votes.toString().split('')
+                    .map((number) => EmojiConstants.VOTE.NUMBERS[parseInt(number)]).join('');
+
+                messageMain.edit({embeds: messageMain.embeds});
+            } catch (error) {
+                console.log('Error in vote interval:');
+                console.log(error);
             }
-
-            if (new Date().getTime() / 1000 >= data.time) {
-
-                this.ShowResults(id, data, messageMain, messageMenu);
-
-                clearInterval(interval);
-                return;
-            }
-
-            const votes = Array.from(dataChoice.values()).length;
-
-            if (voteCount == votes) {
-                return;
-            }
-
-            voteCount = votes;
-
-            // Convert the number of votes to emoji
-            messageMain.embeds[0].fields[0].value = votes.toString().split('')
-                .map((number) => EmojiConstants.VOTE.NUMBERS[parseInt(number)]).join('');
-
-            messageMain.edit({embeds: messageMain.embeds});
-        }, 1000);
+        }, 1000 * 5);
     }
 
     private static async ShowResults(id: string, data: any, messageMain: Message, messageMenu: Message) {
