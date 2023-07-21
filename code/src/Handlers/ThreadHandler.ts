@@ -135,7 +135,8 @@ export default class ThreadHandler {
                         return;
                     }
                 } else if (parentId == SettingsConstants.CHANNELS.SUGGESTIONS_ID) {
-                    if (!interaction.member.roles.cache.has(SettingsConstants.ROLES.ART_DIRECTOR_ID)) {
+                    if (!interaction.member.roles.cache.has(SettingsConstants.ROLES.ART_DIRECTOR_ID) ||
+                       !interaction.member.roles.cache.has(SettingsConstants.ROLES.COMMUNITY_SUPPORT_ID)) {
                         interaction.reply({
                             content: LanguageLoader.LangConfig.UNAUTHORISED_COMMAND_EXEC,
                             ephemeral: true
