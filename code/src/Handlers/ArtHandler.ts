@@ -513,6 +513,11 @@ export default class ArtHandler {
 
                 if (a == 0) {
                     transparent = true;
+                } else if (a < 255) {
+                    resultInfo.reason = LanguageLoader.LangConfig.PIXEL_IS_TRANSLUCENT
+                        .replace('{x}', `${x}`)
+                        .replace('{y}', `${y}`);
+                    return resultInfo;
                 } else {
                     colors = true;
 
