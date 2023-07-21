@@ -1,3 +1,4 @@
+import { ChatInputCommandInteraction } from 'discord.js';
 import CommandConstants from '../Constants/CommandConstants';
 import IMessageInfo from '../Interfaces/IMessageInfo';
 import AutoplacerManager from '../Managers/AutoplacerManager';
@@ -9,7 +10,7 @@ export default class BillyHandler {
 
         switch (messageInfo.commandInfo.command) {
             case commands.ORDER:
-                this.OnOrder();
+                this.OnOrder(messageInfo);
                 break;
             default: return false;
         }
@@ -17,7 +18,8 @@ export default class BillyHandler {
         return true;
     }
 
-    public static OnOrder() {
+    public static OnOrder(messageInfo: IMessageInfo) {
         AutoplacerManager.GetLatestOrder();
+        (<ChatInputCommandInteraction>messageInfo.interaction).reply('Done.');
     }
 }
