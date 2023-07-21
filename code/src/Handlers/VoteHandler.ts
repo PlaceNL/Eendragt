@@ -7,6 +7,7 @@ import IMessageInfo from '../Interfaces/IMessageInfo';
 import VoteManager from '../Managers/VoteManager';
 import LogService from '../Services/LogService';
 import LanguageLoader from '../Utils/LanguageLoader';
+import { Utils } from '../Utils/Utils';
 
 const fetch = require('cross-fetch');
 
@@ -249,6 +250,7 @@ ${data.options.length > 2 ? `*${LanguageLoader.LangConfig.VOTING_YOU_CAN_VOTE_ON
             }
 
             await VoteManager.SetData(id, data);
+            await Utils.Sleep(.5);
             VoteManager.CreateInterval(id);
 
             interaction.reply({

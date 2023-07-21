@@ -23,6 +23,7 @@ export default class VoteManager {
             if (keys.length > 0) {
                 for (const id of keys) {
                     this.CreateChoiceCache(id);
+                    await Utils.Sleep(.5);
                     this.CreateInterval(id);
                 }
             }
@@ -107,7 +108,12 @@ export default class VoteManager {
     public static async CreateInterval(id: string) {
         let voteCount = 0;
 
-        const data = await this.GetData(id);
+        let data = await this.GetData(id);
+
+        if (data == null) {
+            Utils.Sleep(1);
+            data = await this.GetData(id);
+        }
 
         const channel = await DiscordService.FindChannelById(data.channel) as TextChannel;
         const messageMain = await channel.messages.fetch(data.message);
