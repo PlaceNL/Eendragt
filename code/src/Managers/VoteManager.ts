@@ -92,6 +92,10 @@ export default class VoteManager {
             this.CreateChoiceCache(id);
         }
 
+        if (choiceCache == null) {
+            return null;
+        }
+
         return choiceCache.get(userId);
     }
 
