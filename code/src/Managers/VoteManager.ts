@@ -118,6 +118,7 @@ export default class VoteManager {
         }
 
         if (data == null) {
+            console.log('No data found?');
             return;
         }
 
@@ -127,6 +128,12 @@ export default class VoteManager {
             after: data.message,
             limit: 1,
         })).first();
+
+        if (new Date().getTime() / 1000 >= data.time) {
+
+            this.ShowResults(id, data, messageMain, messageMenu);
+            return;
+        }
 
         const interval = setInterval(() => {
             const dataChoice = this.choiceCache.get(id);
