@@ -381,6 +381,11 @@ export default class ArtHandler {
 
             await interaction.deferReply();
             const pixels = await this.GetPixels(art);
+            interaction.followUp({
+                content: LanguageLoader.LangConfig.FILE_FORMAT_NOT_CORRECT.replace('{format}', 'PNG'),
+                ephemeral: true,
+            });
+
             const size = 35;
 
             const image = await loadImage(art.url);
@@ -465,6 +470,11 @@ export default class ArtHandler {
         }
 
         const pixels = await this.GetPixels(attachment);
+        if (pixels == null) {
+            resultInfo.reason = LanguageLoader.LangConfig.FILE_FORMAT_NOT_CORRECT.replace('{format}', 'PNG');
+            return resultInfo;
+        }
+
         let transparent = false;
         let colors = false;
 
@@ -539,10 +549,14 @@ export default class ArtHandler {
     }
 
     private static async GetPixels(attachment: Attachment) {
-        const bytesIn = await fetch(attachment.url)
-            .then((res: any) => res.arrayBuffer())
-            .then((arrayBuffer: any) => new Uint8Array(arrayBuffer));
+        try {
+            const bytesIn = await fetch(attachment.url)
+                .then((res: any) => res.arrayBuffer())
+                .then((arrayBuffer: any) => new Uint8Array(arrayBuffer));
 
-        return await getPixels(bytesIn, 'image/png');
+            return await getPixels(bytesIn, 'image/png');
+        } catch (error) {
+            return null;
+        }
     }
 }
