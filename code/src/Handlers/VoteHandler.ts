@@ -231,7 +231,7 @@ ${data.options.length > 2 ? `*${LanguageLoader.LangConfig.VOTING_YOU_CAN_VOTE_ON
             await VoteManager.SetData(id, data);
             VoteManager.StartTrackingVote(id);
 
-            cachedMessage.embeds[0].fields[0].value = `Deze stemming einidgt om **<t:${time}:t>** (<t:${time}:R>)`;
+            cachedMessage.embeds[0].fields[0].value = `Deze stemming eindigt om **<t:${time}:t>** (<t:${time}:R>)`;
 
             let messageMenu: Message;
             const messageMain = await interaction.channel.send({
