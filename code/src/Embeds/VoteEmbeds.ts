@@ -1,5 +1,4 @@
 import { EmbedBuilder } from 'discord.js';
-import EmojiConstants from '../Constants/EmojiConstants';
 import SettingsConstants from '../Constants/SettingsConstants';
 import LanguageLoader from '../Utils/LanguageLoader';
 
@@ -13,9 +12,6 @@ export default class VoteEmbeds {
 ${!choices?.isFilled() ? '' : `\n**${LanguageLoader.LangConfig.VOTING_OPTIONS}**\n~~-------------------~~
 ${choices}~~-------------------~~`}`)
             .addFields({
-                name: LanguageLoader.LangConfig.VOTING_VOTES,
-                value: EmojiConstants.VOTE.NUMBERS[0]
-            }, {
                 name: LanguageLoader.LangConfig.VOTING_TIME,
                 value: LanguageLoader.LangConfig.VOTING_VOTE_ENDS_AT
                     .replace('{shortDate}', `<t:${time}:t>`)

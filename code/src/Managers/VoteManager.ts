@@ -1,5 +1,4 @@
 import { Message, TextChannel } from 'discord.js';
-import EmojiConstants from '../Constants/EmojiConstants';
 import RedisConstants from '../Constants/RedisConstants';
 import VoteEmbeds from '../Embeds/VoteEmbeds';
 import { Redis } from '../Providers/Redis';
@@ -109,8 +108,6 @@ export default class VoteManager {
     }
 
     public static async CreateInterval(id: string) {
-        let voteCount = 0;
-
         const data = await this.GetData(id);
 
         if (data == null) {
@@ -145,27 +142,12 @@ export default class VoteManager {
                     this.ShowResults(id, data, messageMain, messageMenu);
 
                     clearInterval(interval);
-                    return;
                 }
-
-                const votes = Array.from(dataChoice.values()).length;
-
-                if (voteCount == votes) {
-                    return;
-                }
-
-                voteCount = votes;
-
-                // Convert the number of votes to emoji
-                messageMain.embeds[0].fields[0].value = votes.toString().split('')
-                    .map((number) => EmojiConstants.VOTE.NUMBERS[parseInt(number)]).join('');
-
-                messageMain.edit({embeds: messageMain.embeds});
             } catch (error) {
                 console.log('Error in vote interval:');
                 console.log(error);
             }
-        }, 1000 * 5);
+        }, 1000);
     }
 
     private static async ShowResults(id: string, data: any, messageMain: Message, messageMenu: Message) {
