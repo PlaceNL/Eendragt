@@ -301,7 +301,7 @@ ${data.options.length > 2 ? `*${LanguageLoader.LangConfig.VOTING_YOU_CAN_VOTE_ON
                 image: image?.url,
                 time: time,
                 duration: duration,
-                channel: '1089519913615507537',
+                channel: interaction.channel.id,
             });
 
             const modal = new ModalBuilder()
