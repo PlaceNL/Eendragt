@@ -1,7 +1,6 @@
-import { ActivityType, TextChannel } from 'discord.js';
+import { ActivityType } from 'discord.js';
 import SettingsConstants from '../Constants/SettingsConstants';
 import Discord from '../Providers/Discord';
-import DiscordService from '../Services/DiscordService';
 
 const WebSocket = require('ws');
 
@@ -47,7 +46,7 @@ export default class AutoplacerManager {
             }));
         };
 
-        ws.onmessage = async (ev: MessageEvent<any>) => {
+        ws.onmessage = (ev: MessageEvent<any>) => {
             const data = JSON.parse(ev.data);
 
             if (data.type == 'hello') {
@@ -62,11 +61,9 @@ export default class AutoplacerManager {
                     this.updateReady = false;
                 }
             } else if (data.type == 'order') {
-                const channel = <TextChannel> await DiscordService.FindChannelById('1082308208250589265');
-                channel.send({
-                    content: data.payload.images.order
-                });
-
+                // const channel = <TextChannel> await DiscordService.FindChannelById('1082308208250589265');
+                // channel.send({
+                //     content: data.payload.images.order
             }
         };
 
