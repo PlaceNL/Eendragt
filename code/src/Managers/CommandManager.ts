@@ -17,6 +17,11 @@ export default class CommandManager {
                 .setDescription(LanguageLoader.LangConfig.COMMANDS_UPDATE_SLASH_COMMAND)
                 .setDefaultMemberPermissions(this.adminFlag),
             new SlashCommandBuilder()
+                .setName(CommandConstants.SLASH.ORDER)
+                .setDMPermission(false)
+                .setDescription('Haal de laatste template op.')
+                .setDefaultMemberPermissions(this.adminFlag),
+            new SlashCommandBuilder()
                 .setName(CommandConstants.SLASH.APPLICATIONS)
                 .setDMPermission(false)
                 .setDescription(LanguageLoader.LangConfig.COMMANDS_OPEN_OR_CLOSE_APPLICATIONS)

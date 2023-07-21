@@ -10,9 +10,11 @@ export default class AutoplacerManager {
 
     private static attempts: number = 0;
     private static updateReady: boolean = true;
+    private static ws: WebSocket;
 
     public static Start() {
         const ws = new WebSocket('wss://chief.placenl.nl/ws');
+        this.ws = ws;
 
         ws.onerror = () => {
             console.error('Could not connect to chief websocket.');
@@ -73,5 +75,11 @@ export default class AutoplacerManager {
         setInterval(() => {
             this.updateReady = true;
         }, SettingsConstants.ACTIVITY_UPDATE_INTERVAL);
+    }
+
+    public static GetLatestOrder() {
+        this.ws.send(JSON.stringify({
+            type: 'getOrder',
+        }));
     }
 }

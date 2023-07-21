@@ -1,6 +1,7 @@
 export default class CommandConstants {
     public static readonly SLASH = {
         UDPATE: 'update',
+        ORDER: 'order',
         BILLY: 'billy',
         APPLICATIONS: 'sollicitaties',
         VALIDATE: 'validate',
