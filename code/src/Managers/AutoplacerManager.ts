@@ -69,7 +69,7 @@ export default class AutoplacerManager {
 
                 const {right, total} = data.payload.completion;
                 const correctPercentage = right/total*100
-                if(correctPercentage < this.lastCorrectPercentage - 5) { //5 should be enough
+                if(correctPercentage < this.lastCorrectPercentage - 20) { //20 should be enough
                     const channel = <TextChannel> await DiscordService.FindChannelById('12345678901234567890');
                     channel.send({
                         embeds: [AutoplacerEmbeds.GetErrorEmbed(this.lastCorrectPercentage, correctPercentage)]
