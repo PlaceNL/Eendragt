@@ -1,4 +1,5 @@
 import { EmbedBuilder } from 'discord.js';
+import SettingsConstants from "../Constants/SettingsConstants";
 
 export default class AutoplacerEmbeds {
 
@@ -15,5 +16,12 @@ export default class AutoplacerEmbeds {
         }
 
         return embed;
+    }
+
+    public static GetErrorEmbed(old: number, current: number) {
+        return new EmbedBuilder()
+            .setColor(SettingsConstants.COLORS.BAD)
+            .setTitle('Teveel verkeerde pixels!')
+            .setDescription(`Op dit moment zijn er ${current}% correcte pixels geplaatst. Dat is veel meer dan de ${old}% die er even geleden nog waren! Dit kan duiden op een verkeerde template!`);
     }
 }
