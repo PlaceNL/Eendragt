@@ -56,7 +56,7 @@
   "NOMINATION_APPROVE_MESSAGE": "We gaan het regelen.",
   "NOMINATION_DECLINE_MESSAGE": "Dit is niet mogelijk.",
   "NOMINATION_DELAY_MESSAGE": "Hier is momenteel nog geen tijd/plek voor.",
-  "NOMINATION_VOTE_MESSAGE": "Deze suggestie wordt meegenomen in de volgende stemronde.",
+  "NOMINATION_VOTE_MESSAGE": "Deze suggestie wordt meegenomen in een toekomstige stemronde.",
   "NOMINATION_CONFIRMATION_INCORRECT": "Bevestiging incorrect.",
   "NOMINATION_TYPE_TITLE_TO_CONFIRM": "Typ {title} om je keuze te bevestigen",
   "NOMINATION_OPTIONAL_EXPLANATION": "Optionele toelichting",
