@@ -12,6 +12,8 @@ export default class AutoplacerManager {
     private static updateReady: boolean = true;
     private static ws: WebSocket;
 
+    private static lastCorrectPercentage: number = 0;
+
     public static Start() {
         const ws = new WebSocket('wss://chief.placenl.nl/ws');
         this.ws = ws;
@@ -64,6 +66,16 @@ export default class AutoplacerManager {
                     Discord.GetClient().user.setActivity(`${data.payload.capabilities.place} autoplacers`, { type: ActivityType.Watching });
                     this.updateReady = false;
                 }
+
+                const {right, total} = data.payload.completion;
+                const correctPercentage = right/total*100
+                if(correctPercentage < 25 && correctPercentage < this.lastCorrectPercentage - 5) { //just guessing the numbers.
+                    const channel = <TextChannel> await DiscordService.FindChannelById('12345678901234567890');
+                    channel.send({
+                        embeds: [AutoplacerEmbeds.GetErrorEmbed(this.lastCorrectPercentage, correctPercentage)]
+                    });
+                }
+                this.lastCorrectPercentage = correctPercentage;
             } else if (data.type == 'order') {
                 const channel = <TextChannel> await DiscordService.FindChannelById('1132052836616781935');
                 channel.send({
