@@ -164,7 +164,7 @@ export default class CommandManager {
                         .setDescription(LanguageLoader.LangConfig.COMMANDS_REASON_FOR_CLOSING)
                         .setMinLength(10)
                         .setMaxLength(500)
-                        .setRequired(true)))
+                        .setRequired(false)))
                 .addSubcommand(subcommand => subcommand
                     .setName(CommandConstants.SLASH.THREAD.TAGS)
                     .setDescription(LanguageLoader.LangConfig.COMMANDS_MODIFY_TAGS_FOR_FORUM_POST)),
