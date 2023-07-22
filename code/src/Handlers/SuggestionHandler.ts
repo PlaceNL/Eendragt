@@ -42,7 +42,8 @@ export default class SuggestionHandler {
                 MessageService.ReplyMessage(DiscordUtils.ParseMessageToInfo(message, message.author),
                     tags.reason);
 
-                thread.setLocked(true);
+                await thread.setLocked(true);
+                await thread.setArchived(true);
                 LogService.Log(LogType.SuggestionNoTags, message.author.id, 'Thread', thread.id);
                 return;
             }
