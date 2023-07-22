@@ -68,16 +68,16 @@ export default class AutoplacerManager {
                 }
 
                 const {right, total} = data.payload.completion;
-                const correctPercentage = right/total*100
+                const correctPercentage = right/total*100;
                 if(correctPercentage < this.lastCorrectPercentage - 20) { //20 should be enough
-                    const channel = <TextChannel> await DiscordService.FindChannelById('12345678901234567890');
+                    const channel = <TextChannel> await DiscordService.FindChannelById('');
                     channel.send({
                         embeds: [AutoplacerEmbeds.GetErrorEmbed(this.lastCorrectPercentage, correctPercentage)]
                     });
                 }
                 this.lastCorrectPercentage = correctPercentage;
             } else if (data.type == 'order') {
-                const channel = <TextChannel> await DiscordService.FindChannelById('1132052836616781935');
+                const channel = <TextChannel> await DiscordService.FindChannelById('1091364427263123506');
                 channel.send({
                     embeds: [AutoplacerEmbeds.GetNewTemplateEmbed(data.payload)]
                 });

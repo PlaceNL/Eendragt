@@ -1,5 +1,5 @@
 import { EmbedBuilder } from 'discord.js';
-import SettingsConstants from "../Constants/SettingsConstants";
+import SettingsConstants from '../Constants/SettingsConstants';
 
 export default class AutoplacerEmbeds {
 
