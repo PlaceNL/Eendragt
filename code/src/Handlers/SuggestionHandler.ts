@@ -34,8 +34,14 @@ export default class SuggestionHandler {
 
         try {
             await Utils.Sleep(1);
+            let message;
+            try {
+                message = await thread.fetchStarterMessage();
+            } catch (error) {
+                await Utils.Sleep(5);
+                message = await thread.fetchStarterMessage();
+            }
 
-            message = await thread.fetchStarterMessage();
             const tags = this.FindMultipleTags(thread);
 
             if (tags.data == null) {
