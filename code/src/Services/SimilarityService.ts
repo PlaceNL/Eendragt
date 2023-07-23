@@ -5,7 +5,7 @@ const stringSimilarity = require('string-similarity');
 
 export default class SimilarityService {
 
-    public static async FindSimiliarThreads(name: string, keyThreads: string, ignoreDuplicate: boolean, identicalRating: number, similarRating: number, ignorePlace: boolean = false) {
+    public static async FindSimiliarThreads(name: string, keyThreads: string, ignoreDuplicate: boolean, identicalRating: number, similarRating: number, ignorePlace: boolean = false, ignoreNetherlands: boolean = false) {
         const resultInfo: IResultInfo = {
             result: false
         };
@@ -43,6 +43,16 @@ export default class SimilarityService {
         if (ignorePlace) {
             const threadName = name.replace(/[pP]lace/, '');
             titles = titles.map((x: string) => x.replace(/[pP]lace/, ''));
+            similarities = stringSimilarity.findBestMatch(threadName, titles);
+            if (similarities.bestMatch.rating < similarRating) {
+                resultInfo.result = false;
+                return resultInfo;
+            }
+        }
+
+        if (ignoreNetherlands) {
+            const threadName = name.replace(/[nN]ederland/, '');
+            titles = titles.map((x: string) => x.replace(/[nN]ederland/, ''));
             similarities = stringSimilarity.findBestMatch(threadName, titles);
             if (similarities.bestMatch.rating < similarRating) {
                 resultInfo.result = false;

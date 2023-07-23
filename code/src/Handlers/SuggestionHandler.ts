@@ -55,7 +55,7 @@ export default class SuggestionHandler {
             }
 
             const similarities = await SimilarityService.FindSimiliarThreads(thread.name, this.keyThreads, tags.data.tag == SettingsConstants.TAGS.UPGRADE_ART_ID,
-                VariableManager.Get(VariableKey.IdenticalSuggestion), VariableManager.Get(VariableKey.SimilarSuggestion));
+                VariableManager.Get(VariableKey.IdenticalSuggestion), VariableManager.Get(VariableKey.SimilarSuggestion), false, true);
 
             if (similarities.result && similarities.data.identical) {
                 await MessageService.ReplyEmbed(DiscordUtils.ParseMessageToInfo(message, message.author), SuggestionEmbeds.GetSuggestionDuplicateEmbed(similarities.data.thread));
