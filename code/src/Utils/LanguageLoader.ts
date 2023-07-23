@@ -387,7 +387,7 @@ export default class LanguageLoader {
         NIGHTWATCH: 'De Nachtwacht',
         NIGHTWATCH_MESSAGE: 'De nacht breekt aan, en nu begint mijn wacht. Het zal niet eindigen tot 0{timeEnd}:00. ' +
             'Ik zal scherp blijven, geen dutje doen, en niet knikkebollen. Ik zal me focussen op mijn taak en me niet laten afleiden. Ik zal leven op mijn ' +
-            'post. Ik ben het zwaard in de duisternis. Ik ben de wachter op het canvas. Ik ben het schild dat het rijk der pixels bewaakt. Ik beloof mijn' +
+            'post. Ik ben het zwaard in de duisternis. Ik ben de wachter op het canvas. Ik ben het schild dat het rijk der pixels bewaakt. Ik beloof mijn ' +
             'leven en eer aan de Nachtwacht, voor deze nacht en alle komende nachten.',
         NIGHTWATCH_WELCOME: 'Welkom bij de Nachtwacht',
         NIGHTWATCH_OPENING_TIMES: 'Dit kanaal is alleen open tussen 0{timeStart}:00 en 0{timeEnd}:00, bedoeld voor hen met ~~een slecht slaapritme~~ de passie om ons land te beschermen in de nacht. Klik op de knop hieronder om lid te worden van de Nachtwacht, en daarmee ook overdag dit kanaal te kunnen lezen.'
