@@ -25,6 +25,7 @@ BOT_ID=
 MASTER_ID=
 SERVER_ID=
 SERVER_NAME=
+LANGUAGE= (Examples: nl-NL or en-GB, see code/lang for options)
 
 LOG_CHANNEL_ID=
 SUGGESTIONS_CHANNEL_ID=
