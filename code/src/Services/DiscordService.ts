@@ -71,7 +71,7 @@ export default class DiscordService {
                     }
                 }
             } else {
-                foundChannel = this.client.channels.cache.get(id as Snowflake);
+                foundChannel = await this.client.channels.fetch(id as Snowflake);
             }
 
             if (foundChannel != null) {

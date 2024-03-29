@@ -142,48 +142,51 @@ export default class DiplomacyHandler {
 
                 const threadChannel = <ThreadChannel> await DiscordService.FindChannelById(match.key);
 
-                if (threadChannel.locked || (threadChannel.archived && threadChannel.unarchivable)) {
+                if (threadChannel != null) {
+
+                    if (threadChannel.locked || (threadChannel.archived && threadChannel.unarchivable)) {
+                        interaction.reply({
+                            content: 'I found a thread, but was not able to add you. Please contact a moderator using Modmail.',
+                            ephemeral: true
+                        });
+
+                        LogService.Log(LogType.OnboardingDiplomatCheckExistsLocked, messageInfo.user.id, 'Name', name);
+
+                        return;
+                    }
+
+                    if (threadChannel.archived && threadChannel.unarchivable) {
+                        threadChannel.setArchived(false);
+                    }
+
+                    threadChannel.send({
+                        content: `The user ${messageInfo.user} says they are a diplomat of the **${name}** community, which sounds similar if not identical to your community's name.
+
+    If you want to add them to this thread, please use the button at the top to do so, if you still can. If not, ask one of our diplomats to help you out. If they are from your community, but you don't want to add them, please resolve this misunderstanding in your own server.
+
+    If the similarity in '${name}' and your community's name is a coincidence, please tag one of our diplomats to resolve this.`,
+                        allowedMentions: { users: [] }
+                    });
+
                     interaction.reply({
-                        content: 'I found a thread, but was not able to add you. Please contact a moderator using Modmail.',
+                        content: 'I have found a diplomat of your community on our server. Please wait to be added to the already existing conversation.',
                         ephemeral: true
                     });
 
-                    LogService.Log(LogType.OnboardingDiplomatCheckExistsLocked, messageInfo.user.id, 'Name', name);
+                    await interaction.member.roles.add(SettingsConstants.ROLES.DIPLOMAT_ID);
+
+                    LogService.Log(LogType.OnboardingDiplomatCheckExists, messageInfo.user.id, 'Name', name);
 
                     return;
                 }
-
-                if (threadChannel.archived && threadChannel.unarchivable) {
-                    threadChannel.setArchived(false);
-                }
-
-                threadChannel.send({
-                    content: `The user ${messageInfo.user} says they are a diplomat of the **${name}** community, which sounds similar if not identical to your community's name.
-
-If you want to add them to this thread, please use the button at the top to do so, if you still can. If not, ask one of our diplomats to help you out. If they are from your community, but you don't want to add them, please resolve this misunderstanding in your own server.
-
-If the similarity in '${name}' and your community's name is a coincidence, please tag one of our diplomats to resolve this.`,
-                    allowedMentions: { users: [] }
-                });
-
-                interaction.reply({
-                    content: 'I have found a diplomat of your community on our server. Please wait to be added to the already existing conversation.',
-                    ephemeral: true
-                });
-
-                await interaction.member.roles.add(SettingsConstants.ROLES.DIPLOMAT_ID);
-
-                LogService.Log(LogType.OnboardingDiplomatCheckExists, messageInfo.user.id, 'Name', name);
-
-                return;
-            } else {
-                interaction.reply({
-                    content: 'I have not found a diplomat of your community on our server. You can restart the onboarding as a first diplomat of your community',
-                    ephemeral: true
-                });
-
-                LogService.Log(LogType.OnboardingDiplomatCheckNew, messageInfo.user.id, 'Name', name);
             }
+
+            interaction.reply({
+                content: 'I have not found a diplomat of your community on our server. You can restart the onboarding as a first diplomat of your community',
+                ephemeral: true
+            });
+
+            LogService.Log(LogType.OnboardingDiplomatCheckNew, messageInfo.user.id, 'Name', name);
 
         } catch (error) {
             console.error(error);
