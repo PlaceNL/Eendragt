@@ -178,7 +178,7 @@ export default class ArtHandler {
                     SuggestionHandler.OnValidateArt(messageInfo, resultInfo, attachment);
                     return;
                 } else if (messageInfo.channel.parentId == SettingsConstants.CHANNELS.DIPLOMACY_THREADS_ID) {
-                    const resultInfo = await this.IsLegitArt(attachment);
+                    const resultInfo = await this.IsLegitArt(attachment, true);
                     DiplomacyHandler.OnValidateArt(messageInfo, resultInfo, attachment);
                     return;
                 }
@@ -468,20 +468,20 @@ export default class ArtHandler {
         }
     }
 
-    private static async IsLegitArt(attachment: Attachment) {
+    private static async IsLegitArt(attachment: Attachment, english?: boolean) {
         console.log(attachment.url);
         const resultInfo: IResultInfo = {
             result : false
         };
 
         if (!attachment.url.split('?')[0].toLowerCase().endsWith('.png')) {
-            resultInfo.reason = LanguageLoader.LangConfig.FILE_FORMAT_NOT_CORRECT.replace('{format}', 'PNG');
+            resultInfo.reason = (english ? 'It\'s not in a {format} format' : LanguageLoader.LangConfig.FILE_FORMAT_NOT_CORRECT).replace('{format}', 'PNG');
             return resultInfo;
         }
 
         const pixels = await this.GetPixels(attachment);
         if (pixels == null) {
-            resultInfo.reason = LanguageLoader.LangConfig.FILE_FORMAT_NOT_CORRECT.replace('{format}', 'PNG');
+            resultInfo.reason = (english ? 'It\'s not in a {format} format' : LanguageLoader.LangConfig.FILE_FORMAT_NOT_CORRECT).replace('{format}', 'PNG');
             return resultInfo;
         }
 
@@ -490,7 +490,9 @@ export default class ArtHandler {
 
         if (pixels.shape[0] > SettingsConstants.MAX_IMAGE_SIZE
             || pixels.shape[1] > SettingsConstants.MAX_IMAGE_SIZE) {
-            resultInfo.reason = LanguageLoader.LangConfig.FILE_SIZE_INCORRECT
+            resultInfo.reason = (english
+                ? 'The image is too big.\nMax width: {width}, max height: {height}'
+                : LanguageLoader.LangConfig.FILE_SIZE_INCORRECT)
                 .replace('{width}', `${SettingsConstants.MAX_IMAGE_SIZE}`)
                 .replace('{height}', `${SettingsConstants.MAX_IMAGE_SIZE}`);
             return resultInfo;
@@ -524,7 +526,9 @@ export default class ArtHandler {
                 if (a == 0) {
                     transparent = true;
                 } else if (a < 255) {
-                    resultInfo.reason = LanguageLoader.LangConfig.PIXEL_IS_TRANSLUCENT
+                    resultInfo.reason = (english
+                        ? 'The pixel on position ({x}, {y}) is translucent. This is not allowed.'
+                        : LanguageLoader.LangConfig.PIXEL_IS_TRANSLUCENT)
                         .replace('{x}', `${x}`)
                         .replace('{y}', `${y}`);
                     return resultInfo;
@@ -534,7 +538,9 @@ export default class ArtHandler {
                     const hex = Utils.RGBAToHex(r, g, b);
 
                     if (!VariableManager.Get(VariableKey.ValidColors).includes(hex)) {
-                        resultInfo.reason = LanguageLoader.LangConfig.COLOUR_AT_POSITION_NOT_ALLOWED
+                        resultInfo.reason = (english
+                            ? 'The color {hex} on position ({x}, {y}) is not allowed.'
+                            : LanguageLoader.LangConfig.COLOUR_AT_POSITION_NOT_ALLOWED)
                             .replace('{hex}', `${hex}`)
                             .replace('{x}', `${x}`)
                             .replace('{y}', `${y}`);
@@ -545,17 +551,23 @@ export default class ArtHandler {
         }
 
         if (!singlePixel) {
-            resultInfo.reason = LanguageLoader.LangConfig.SCALE_INCORRECT;
+            resultInfo.reason = english
+                ? 'Your pixel art does not seem to be a 1:1 scaling. If it does have a 1:1 scaling, add a 1 pixel border to one of the four borders.'
+                : LanguageLoader.LangConfig.SCALE_INCORRECT;
             return resultInfo;
         }
 
         if (!transparent) {
-            resultInfo.reason = LanguageLoader.LangConfig.ARTWORK_NOT_TRANSPARENT;
+            resultInfo.reason = english
+                ? 'Your pixel art doesn\'t have a transparent background. Is your art rectangular? In that case add a transparent border.'
+                : LanguageLoader.LangConfig.ARTWORK_NOT_TRANSPARENT;
             return resultInfo;
         }
 
         if (!colors) {
-            resultInfo.reason = LanguageLoader.LangConfig.ARTWORK_HAS_NO_COLOURS;
+            resultInfo.reason = english
+                ? 'This image is completely transparent.'
+                : LanguageLoader.LangConfig.ARTWORK_HAS_NO_COLOURS;
             return resultInfo;
         }
 

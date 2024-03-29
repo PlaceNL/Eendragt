@@ -226,7 +226,7 @@ export default class LanguageLoader {
         COLOUR_AT_POSITION_NOT_ALLOWED: 'De kleur {hex} op positie ({x}, {y}) is niet toegestaan.',
         PIXEL_IS_TRANSLUCENT: 'De pixel op positie ({x}, {y}) is doorzichtig. Dit is niet toegestaan',
         SCALE_INCORRECT: 'Je pixel art lijkt geen 1:1 scaling te hebben. Als het wel 1:1 scaling heeft, voeg rechts dan een transparante rand toe.',
-        ARTWORK_NOT_TRANSPARENT: 'Je hebt geen transparante achtergrond. Is je art rechthoekig? Voeg rechts dan een transparante rand toe.',
+        ARTWORK_NOT_TRANSPARENT: 'Je pixel art heeft geen transparante achtergrond. Is je art rechthoekig? Voeg rechts dan een transparante rand toe.',
         ARTWORK_HAS_NO_COLOURS: 'Deze afbeelding is volledig transparant.',
         BILLY_TIME_JOKES: ['Zeg Billy, hoe laat is het bij jou?\nBilly: {time}'],
         YOU_DONT_HAVE_THIS_ROLE_ANYMORE: 'Je hebt de rol niet meer',
