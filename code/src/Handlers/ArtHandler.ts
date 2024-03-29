@@ -377,6 +377,7 @@ export default class ArtHandler {
             const art = interaction.options.getAttachment('art');
             const startX = interaction.options.getNumber('x');
             const startY = interaction.options.getNumber('y');
+            const name = interaction.options.getString('name');
 
             const resultInfo = await this.IsLegitArt(art);
             if (!resultInfo.result) {
@@ -387,10 +388,12 @@ export default class ArtHandler {
 
             await interaction.deferReply();
             const pixels = await this.GetPixels(art);
-            interaction.followUp({
-                content: LanguageLoader.LangConfig.FILE_FORMAT_NOT_CORRECT.replace('{format}', 'PNG'),
-                ephemeral: true,
-            });
+            if (pixels == null) {
+                interaction.followUp({
+                    content: LanguageLoader.LangConfig.FILE_FORMAT_NOT_CORRECT.replace('{format}', 'PNG'),
+                    ephemeral: true,
+                });
+            }
 
             const size = 35;
 
@@ -454,7 +457,7 @@ export default class ArtHandler {
             }
 
             interaction.followUp({
-                content: LanguageLoader.LangConfig.HERE_YOU_GO,
+                content: name?.isFilled() ? `${LanguageLoader.LangConfig.HERE_YOU_GO}, een grid voor **${name}**` : LanguageLoader.LangConfig.HERE_YOU_GO,
                 files: [{ attachment: canvas.toBuffer(), name: `grid_${art.name}`}]
             });
 

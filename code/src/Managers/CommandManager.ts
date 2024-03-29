@@ -277,7 +277,11 @@ export default class CommandManager {
                     .setDescription(LanguageLoader.LangConfig.COMMANDS_Y_COORD_TOP_LEFT)
                     .setMinValue(-2000)
                     .setMaxValue(VariableManager.Get(VariableKey.CanvasHeight))
-                    .setRequired(true)),
+                    .setRequired(true))
+                .addStringOption(option => option
+                    .setName('name')
+                    .setDescription(LanguageLoader.LangConfig.COMMANDS_NAME_OF_THE_PIXEL_ART)
+                    .setRequired(false)),
             new SlashCommandBuilder()
                 .setName(CommandConstants.SLASH.ONBOARDING)
                 .setDMPermission(false)
