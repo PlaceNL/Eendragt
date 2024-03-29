@@ -136,7 +136,7 @@ export default class DiplomacyHandler {
             const similarities = await SimilarityService.FindSimiliarThreads(name, this.keyThreads, true,
                 0, VariableManager.Get(VariableKey.SimilarDiplomacy), true);
 
-            if (similarities.result && similarities.data.list > 0) {
+            if (similarities.result && similarities.data.list.length > 0) {
                 // Find the similarity with the highest rating property
                 const match = similarities.data.list.reduce((prev: any, current: any) => (prev.rating.rating > current.rating.rating) ? prev : current);
 
@@ -144,7 +144,7 @@ export default class DiplomacyHandler {
 
                 if (threadChannel.locked || (threadChannel.archived && threadChannel.unarchivable)) {
                     interaction.reply({
-                        content: 'I have found a thread, but were not able to add you. Please contact a moderator using Modmail.',
+                        content: 'I found a thread, but was not able to add you. Please contact a moderator using Modmail.',
                         ephemeral: true
                     });
 
