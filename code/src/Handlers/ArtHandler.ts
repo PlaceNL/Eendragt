@@ -191,7 +191,13 @@ export default class ArtHandler {
                 return;
             }
 
-            await MessageService.ReplyEmbed(messageInfo, ArtEmbeds.GetValidArtEmbed(attachment.url));
+            const nonEphemeralAttachment  = new AttachmentBuilder(attachment.url, {name: attachment.name});
+
+            (<ChatInputCommandInteraction>messageInfo.interaction).reply({
+                embeds: [ArtEmbeds.GetValidArtEmbed(attachment.name)],
+                files: [nonEphemeralAttachment],
+            });
+
             LogService.Log(LogType.ValidateArtGood, messageInfo.member.id, 'Channel', messageInfo.channel.id);
         } catch (error) {
             console.error(error);
@@ -460,11 +466,12 @@ export default class ArtHandler {
     }
 
     private static async IsLegitArt(attachment: Attachment) {
+        console.log(attachment.url);
         const resultInfo: IResultInfo = {
             result : false
         };
 
-        if (!attachment.url.toLowerCase().endsWith('.png')) {
+        if (!attachment.url.split('?')[0].toLowerCase().endsWith('.png')) {
             resultInfo.reason = LanguageLoader.LangConfig.FILE_FORMAT_NOT_CORRECT.replace('{format}', 'PNG');
             return resultInfo;
         }

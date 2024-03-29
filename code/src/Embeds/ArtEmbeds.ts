@@ -38,7 +38,7 @@ Your art must meet the following requirements:
         const embed = new EmbedBuilder()
             .setColor(SettingsConstants.COLORS.GOOD)
             .setTitle(english ? 'Valid art' : LanguageLoader.LangConfig.ART_VALID_ART)
-            .setImage(url);
+            .setImage(`attachment://${url}`);
         return embed;
     }
 
@@ -53,7 +53,7 @@ ${time == 0 ? LanguageLoader.LangConfig.ART_PLACE_PIXEL_RIGHT_AWAY : LanguageLoa
         .replace('{shortTime}', `<t:${time}:t>`)
         .replace('{relativeTime}', `<t:${time}:R>`)}`
             )
-            .setImage(url);
+            .setImage(`attachment://${url}`);
 
         if (total != null) {
             embed.addFields({

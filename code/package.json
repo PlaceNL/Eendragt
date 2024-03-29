@@ -18,7 +18,7 @@
     "@types/pg": "^8.6.1",
     "@types/ws": "^8.2.0",
     "async-redis": "^2.0.0",
-    "canvas": "^2.11.0",
+    "canvas": "^2.11.2",
     "cross-fetch": "^3.1.5",
     "discord-api-types": "^0.37.14",
     "discord.js": "^14.8.0",

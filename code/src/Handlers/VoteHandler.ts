@@ -1,4 +1,4 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, ChatInputCommandInteraction, Message, ModalBuilder, ModalSubmitInteraction, StringSelectMenuBuilder, TextInputBuilder, TextInputStyle } from 'discord.js';
+import { ActionRowBuilder, AttachmentBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, ChatInputCommandInteraction, EmbedBuilder, Message, ModalBuilder, ModalSubmitInteraction, StringSelectMenuBuilder, TextInputBuilder, TextInputStyle } from 'discord.js';
 import CommandConstants from '../Constants/CommandConstants';
 import SettingsConstants from '../Constants/SettingsConstants';
 import VoteEmbeds from '../Embeds/VoteEmbeds';
@@ -233,10 +233,15 @@ ${data.options.length > 2 ? `*${LanguageLoader.LangConfig.VOTING_YOU_CAN_VOTE_ON
 
             cachedMessage.embeds[0].fields[0].value = `Deze stemming eindigt om **<t:${time}:t>** (<t:${time}:R>)`;
 
+            const nonEphemeralAttachment  = new AttachmentBuilder(cachedMessage.embeds[0].url, {name: 'image.png'});
+            const embed = new EmbedBuilder(cachedMessage.embeds[0]);
+            embed.setImage('attachment://image.png');
+
             let messageMenu: Message;
             const messageMain = await interaction.channel.send({
                 embeds: cachedMessage.embeds,
-                components: [cachedMessage.components[0]]
+                components: [cachedMessage.components[0]],
+                files: [nonEphemeralAttachment],
             });
 
             data.message = messageMain.id;

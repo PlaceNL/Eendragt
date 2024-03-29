@@ -90,7 +90,9 @@ export default class SuggestionHandler {
             return;
         }
 
-        LogService.Log(LogType.SuggestionCreated, message.author.id, 'Thread', thread.id);
+        if (message != null) {
+            LogService.Log(LogType.SuggestionCreated, message.author.id, 'Thread', thread.id);
+        }
     }
 
     public static async OnValidateArt(messageInfo: IMessageInfo, resultInfo: IResultInfo, attachment: Attachment) {

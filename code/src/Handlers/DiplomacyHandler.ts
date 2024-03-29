@@ -1,4 +1,4 @@
-import { ActionRowBuilder, Attachment, ButtonBuilder, ButtonInteraction, ButtonStyle, ChannelType, ChatInputCommandInteraction, ContextMenuCommandInteraction, ForumChannel, ModalBuilder, ModalSubmitInteraction, OverwriteType, PermissionFlagsBits, TextChannel, TextInputBuilder, TextInputStyle, ThreadChannel, UserSelectMenuBuilder, UserSelectMenuInteraction, VoiceState } from 'discord.js';
+import { ActionRowBuilder, Attachment, AttachmentBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, ChannelType, ChatInputCommandInteraction, ContextMenuCommandInteraction, ForumChannel, ModalBuilder, ModalSubmitInteraction, OverwriteType, PermissionFlagsBits, TextChannel, TextInputBuilder, TextInputStyle, ThreadChannel, UserSelectMenuBuilder, UserSelectMenuInteraction, VoiceState } from 'discord.js';
 import CommandConstants from '../Constants/CommandConstants';
 import RedisConstants from '../Constants/RedisConstants';
 import SettingsConstants from '../Constants/SettingsConstants';
@@ -422,8 +422,15 @@ Only add diplomats who are part of ${messageInfo.channel.name} like you, or igno
                 return;
             }
 
-            const message = await MessageService.ReplyEmbed(messageInfo, ArtEmbeds.GetValidArtEmbed(attachment.url, true));
-            message.pin();
+            const nonEphemeralAttachment = new AttachmentBuilder(attachment.url, {name: attachment.name});
+
+            // const message = await MessageService.ReplyEmbed(messageInfo, ArtEmbeds.GetValidArtEmbed(attachment.name, true));
+            const message = await (<ChatInputCommandInteraction> messageInfo.interaction).reply({
+                embeds: [ArtEmbeds.GetValidArtEmbed(attachment.name, true)],
+                files: [nonEphemeralAttachment]
+            });
+
+            (await message.fetch()).pin();
             LogService.Log(LogType.ValidateArtGood, messageInfo.user.id, 'Thread', messageInfo.channel.id);
         } catch (error) {
             console.error(error);
