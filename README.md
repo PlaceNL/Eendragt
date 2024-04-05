@@ -7,6 +7,8 @@ You are free to fork this bot for your own r/place server. When you do, we ask y
 - Name the bot after a famous old ship.
 - Use [avatar.png](images/avatar.png) as the avatar for the bot
 
+This is not mandatory. You are also free to copy any individual features.
+
 Thanks!
 
 ## Guide
